@@ -4,4 +4,5 @@ import {macos} from 'platform-detect';
 
 if (macos) {
   child_process.execSync('npx pod-install', { stdio: 'inherit' });
+  child_process.execSync('npm run build:ios', { stdio: 'inherit' });
 }

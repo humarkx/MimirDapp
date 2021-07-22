@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "298563546142",
+    "project_id": "mimirquiz-d5793",
+    "storage_bucket": "mimirquiz-d5793.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298563546142:android:9a281f4fb8632dcb99920f",
+        "android_client_info": {
+          "package_name": "com.mimir.quiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298563546142-ebegv56p8h917jq0bqnh2oo0o106chub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdTQx0DMbQ4FWhSD7IAoskpleVlqKfMsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298563546142-ebegv56p8h917jq0bqnh2oo0o106chub.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "298563546142-00amm34m02aknv8c1ian0t6lm5empp7o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mimir.quiz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

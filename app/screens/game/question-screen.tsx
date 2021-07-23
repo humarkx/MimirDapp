@@ -137,6 +137,20 @@ const AMOUNT: TextStyle = {
 }
 
 export const QuestionScreen = () => {
+	const data = {
+		question: "How many potatos does a potato have?",
+		options: [{
+			value: "4",
+			correct: false
+		},{
+			value: "7",
+			correct: true
+		},{
+			value: "33",
+			correct: false
+		}]
+	}
+
 	const [answer, setAnswer] = useState(5)
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
@@ -163,19 +177,18 @@ export const QuestionScreen = () => {
 				<Text style={TITLE} preset="header" text="QUESTION 1 OF 3" />
 
 				<View style={QUESTION_VIEW}>
-					<Text style={QUESTION} text="How many potatos does a potato have?" />
+					<Text style={QUESTION} text={data.question} />
 				</View>
-				<View style={ANSWER_VIEW}>
-					<Text style={ANSWER} text="2" />
-				</View>
-				<View style={answer == 2 ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
-					<TouchableWithoutFeedback onPress={() => setAnswer(2)}>
-						<Text style={answer == 2 ? SELECTED_ANSWER : ANSWER} text="5" />
-					</TouchableWithoutFeedback>
-				</View>
-				<View style={ANSWER_VIEW}>
-					<Text style={ANSWER} text="25" />
-				</View>
+
+				{
+					data.options.map((option, i) =>
+						(<TouchableWithoutFeedback onPress={() => setAnswer(i)}>
+							<View key={i} style={answer == i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
+								<Text style={answer == i ? SELECTED_ANSWER : ANSWER} text={option.value} />
+							</View>
+						</TouchableWithoutFeedback>)
+					)
+				}
 			</Screen>
 		</View>
 	)

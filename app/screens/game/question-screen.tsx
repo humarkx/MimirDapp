@@ -154,11 +154,6 @@ export const QuestionScreen = () => {
 	})
 	console.log('connect')
 
-	const click = () => {
-		console.log('CLICK')
-		socket.emit('join', { id: 'b9e64f45-ba15-40b0-abdf-17e526be5a0b' })
-	}
-
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />

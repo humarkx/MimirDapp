@@ -7,6 +7,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { WelcomeScreen, GameScreen, BetScreen } from '../screens'
+import { DashboardScreen } from '../screens/dashboard/dashboard-screen'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -39,6 +40,7 @@ export function MainNavigator() {
 				headerShown: false,
 			}}>
 			<Stack.Screen name="welcome" component={WelcomeScreen} />
+			<Stack.Screen name="demo" component={DashboardScreen} />
 			<Stack.Screen name="game" component={GameScreen} />
 			<Stack.Screen name="bet" component={BetScreen} />
 		</Stack.Navigator>

@@ -5,4 +5,5 @@ export * from './auth/recover/recover-screen'
 export * from './welcome/welcome-screen'
 export * from './game/game-screen'
 export * from './game/bet-screen'
+export * from './game/question-screen'
 // export other screens here

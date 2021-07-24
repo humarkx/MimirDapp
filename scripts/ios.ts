@@ -11,4 +11,4 @@ chokidar.watch('contracts').on('all', () => {
 });
 
 child_process.execSync('npx kill-port 8545', opts);
-child_process.execSync('npx hardhat node --hostname 0.0.0.0 & react-native run-ios &', opts);
+child_process.execSync('npx hardhat node --hostname 0.0.0.0 & npx react-native run-ios &', opts);

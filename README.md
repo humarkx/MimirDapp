@@ -15,4 +15,9 @@ yarn ios
 yarn android
 ```
 
+```
+M1 Arch
+https://www.jurnalanas.com/node-js-mac-m1
+```
+
 

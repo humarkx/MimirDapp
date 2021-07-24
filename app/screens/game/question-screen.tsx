@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
+import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert } from 'react-native';
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
 import socket from '../../services/sockets'
 import { color, spacing } from '../../theme'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const checked = require('../../../assets/images/tick_gif.png')
+const champions = require('../../../assets/images/champions-leage.jpeg')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -28,7 +30,7 @@ const DEMO_TEXT: TextStyle = {
 }
 const HEADER: TextStyle = {
 	paddingTop: spacing.medium,
-	paddingBottom: spacing.large,
+	paddingBottom: 0,
 	paddingHorizontal: 0,
 }
 const HEADER_TITLE: TextStyle = {
@@ -39,10 +41,10 @@ const HEADER_TITLE: TextStyle = {
 	letterSpacing: 1.5,
 }
 const TITLE: TextStyle = {
-	...BOLD,
-	fontSize: 34,
+	fontSize: 28,
 	lineHeight: 38,
 	textAlign: 'center',
+	marginTop: spacing.large,
 	marginBottom: spacing.large,
 }
 const TAGLINE: TextStyle = {
@@ -51,11 +53,49 @@ const TAGLINE: TextStyle = {
 	lineHeight: 22,
 	marginBottom: spacing.huge,
 }
+const QUESTION: TextStyle = {
+	color: '#FFFFFF',
+	fontSize: 22,
+	fontWeight: "400",
+	textAlign: 'center',
+	lineHeight: 22,
+}
+const ANSWER: TextStyle = {
+	color: "rgb(109, 39, 84)",
+	fontWeight: "400",
+	fontSize: 20,
+	lineHeight: 22,
+}
+const QUESTION_VIEW: ViewStyle = {
+	backgroundColor: '#172347',
+	justifyContent: 'center',
+	alignItems: 'center',
+	borderRadius: 62,
+	padding: spacing.larger,
+	marginTop: spacing.huge,
+	marginBottom: spacing.massive,
+}
+const ANSWER_VIEW: ViewStyle = {
+	backgroundColor: '#F2F2FF',
+	justifyContent: 'center',
+	alignItems: 'center',
+	borderRadius: 50,
+	padding: spacing.medium,
+	marginBottom: spacing.large,
+}
+const SELECTED_ANSWER: TextStyle = {
+	...ANSWER,
+	color: '#FFFFFF',
+}
+const SELECTED_ANSWER_VIEW: ViewStyle = {
+	...ANSWER_VIEW,
+	backgroundColor: "rgb(109, 39, 84)",
+}
 const MIMIR: ImageStyle = {
-	marginVertical: 20,
+	marginVertical: 0,
 	alignSelf: 'center',
-	width: 220,
-	height: 180,
+	width: 120,
+	height: 100,
 }
 const CHECKED: ImageStyle = {
 	alignSelf: 'center',
@@ -96,7 +136,22 @@ const AMOUNT: TextStyle = {
 	marginBottom: spacing.large,
 }
 
-export const BetScreen = () => {
+export const QuestionScreen = () => {
+	const data = {
+		question: "How many potatos does a potato have?",
+		options: [{
+			value: "4",
+			correct: false
+		},{
+			value: "7",
+			correct: true
+		},{
+			value: "33",
+			correct: false
+		}]
+	}
+
+	const [answer, setAnswer] = useState(5)
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
 
@@ -113,29 +168,27 @@ export const BetScreen = () => {
 	})
 	console.log('connect')
 
-	const click = () => {
-		console.log('CLICK')
-		socket.emit('join', { id: 'b9e64f45-ba15-40b0-abdf-17e526be5a0b' })
-	}
-
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.palette.lightGreen}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text="Bet Placed" />
+				<Text style={TITLE} preset="header" text="QUESTION 1 OF 3" />
 
-				<Image source={checked} style={CHECKED} />
-
-				<Text style={ROUND} preset="header" text="Joining round..." />
-				<Text style={PLAYERS} preset="header" text="Players" />
-				<Text style={AMOUNT} preset="header" text="50.2K" />
-				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-					<View>
-						<Button style={JOIN} textStyle={DEMO_TEXT} text="JOIN NOW" onPress={() => navigation.navigate('question')} />
-					</View>
+				<View style={QUESTION_VIEW}>
+					<Text style={QUESTION} text={data.question} />
 				</View>
+
+				{
+					data.options.map((option, i) =>
+						(<TouchableWithoutFeedback onPress={() => setAnswer(i)}>
+							<View key={i} style={answer == i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
+								<Text style={answer == i ? SELECTED_ANSWER : ANSWER} text={option.value} />
+							</View>
+						</TouchableWithoutFeedback>)
+					)
+				}
 			</Screen>
 		</View>
 	)

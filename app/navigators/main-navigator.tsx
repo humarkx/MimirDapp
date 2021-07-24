@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { WelcomeScreen, GameScreen, BetScreen } from '../screens'
+import { WelcomeScreen, GameScreen, BetScreen, QuestionScreen } from '../screens'
 import { DashboardScreen } from '../screens/dashboard/dashboard-screen'
 
 /**
@@ -25,6 +25,7 @@ type MainParamList = {
 	welcome: undefined
 	demo: undefined
 	bet: undefined
+	question: undefined
 	game: undefined
 	demoList: undefined
 }
@@ -35,6 +36,7 @@ const Stack = createStackNavigator<MainParamList>()
 export function MainNavigator() {
 	return (
 		<Stack.Navigator
+			initialRouteName="question"
 			screenOptions={{
 				cardStyle: { backgroundColor: 'transparent' },
 				headerShown: false,
@@ -43,6 +45,7 @@ export function MainNavigator() {
 			<Stack.Screen name="demo" component={DashboardScreen} />
 			<Stack.Screen name="game" component={GameScreen} />
 			<Stack.Screen name="bet" component={BetScreen} />
+			<Stack.Screen name="question" component={QuestionScreen} />
 		</Stack.Navigator>
 	)
 }

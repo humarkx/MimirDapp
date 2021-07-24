@@ -36,7 +36,6 @@ const Stack = createStackNavigator<MainParamList>()
 export function MainNavigator() {
 	return (
 		<Stack.Navigator
-			initialRouteName="question"
 			screenOptions={{
 				cardStyle: { backgroundColor: 'transparent' },
 				headerShown: false,

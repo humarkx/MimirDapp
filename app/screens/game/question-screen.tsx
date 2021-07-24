@@ -40,6 +40,7 @@ const HEADER_TITLE: TextStyle = {
 	textAlign: 'center',
 	letterSpacing: 1.5,
 }
+
 const TITLE: TextStyle = {
 	fontSize: 28,
 	lineHeight: 38,
@@ -136,20 +137,56 @@ const AMOUNT: TextStyle = {
 	marginBottom: spacing.large,
 }
 
+let question_number = 1;
+let question_total = 3;
+let question_tittle = 'QUESTION ' + question_number + ' OF ' + question_total;
+
+function getTittle() {
+	return 'QUESTION ' + question_number + ' OF ' + question_total;
+}
+
 export const QuestionScreen = () => {
-	const data = {
-		question: "How many potatos does a potato have?",
-		options: [{
-			value: "4",
-			correct: false
-		},{
-			value: "7",
-			correct: true
-		},{
-			value: "33",
-			correct: false
-		}]
-	}
+	const data = [
+		{
+			question: "How many potatos does a potato have?",
+			options: [{
+				value: "4",
+				correct: false
+			},{
+				value: "7",
+				correct: true
+			},{
+				value: "33",
+				correct: false
+			}]
+		},
+		{
+			question: "How many apples does an apple have?",
+			options: [{
+				value: "1",
+				correct: false
+			},{
+				value: "2",
+				correct: false
+			},{
+				value: "3",
+				correct: true
+			}]
+		},
+		{
+			question: "How many bananas does a banana have?",
+			options: [{
+				value: "4",
+				correct: false
+			},{
+				value: "7",
+				correct: true
+			},{
+				value: "33",
+				correct: false
+			}]
+		},
+	]
 
 	const [answer, setAnswer] = useState(5)
 	const navigation = useNavigation()
@@ -167,22 +204,25 @@ export const QuestionScreen = () => {
 		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
 	})
 	console.log('connect')
-
+	if (question_number > question_total) {
+		question_number = 1
+		navigation.navigate('demo')
+	}
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.palette.lightGreen}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text="QUESTION 1 OF 3" />
+				<Text style={TITLE} preset="header" text={getTittle()} />
 
 				<View style={QUESTION_VIEW}>
-					<Text style={QUESTION} text={data.question} />
+					<Text style={QUESTION} text={data[question_number - 1].question} />
 				</View>
 
 				{
-					data.options.map((option, i) =>
-						(<TouchableWithoutFeedback onPress={() => setAnswer(i)}>
+					data[question_number - 1].options.map((option, i) =>
+						(<TouchableWithoutFeedback onPress={() => {setAnswer(i); question_number++ }}>
 							<View key={i} style={answer == i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
 								<Text style={answer == i ? SELECTED_ANSWER : ANSWER} text={option.value} />
 							</View>

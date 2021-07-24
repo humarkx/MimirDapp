@@ -1,15 +1,15 @@
-import * as React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import { SharedElement } from "react-navigation-shared-element";
-import TouchableScale from "react-native-touchable-scale";
+import * as React from 'react'
+import { View, StyleSheet, Text, Image } from 'react-native'
+import { SharedElement } from 'react-navigation-shared-element'
+import TouchableScale from 'react-native-touchable-scale'
 const styles = StyleSheet.create({
 	flex: {
 		flex: 1,
 	},
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	text: {
 		fontSize: 40,
@@ -21,17 +21,16 @@ const styles = StyleSheet.create({
 	image: {
 		width: 200,
 		height: 160,
-		resizeMode: "contain",
+		resizeMode: 'contain',
 	},
-});
-
-const ListScreen= ({ modal, navigation }: any) => {
+})
+const ListScreen = ({ modal, navigation }: any) => {
 	const onPress = () => {
-		navigation.navigate("Detail");
-	};
+		navigation.navigate('Detail')
+	}
 	const onPressModal = () => {
-		navigation.navigate("Modal");
-	};
+		navigation.navigate('Modal')
+	}
 	return (
 		<React.Fragment>
 			<TouchableScale
@@ -40,11 +39,10 @@ const ListScreen= ({ modal, navigation }: any) => {
 				tension={50}
 				friction={7}
 				useNativeDriver
-				onPress={modal ? onPressModal : onPress}
-			>
+				onPress={modal ? onPressModal : onPress}>
 				<View style={styles.container}>
 					<SharedElement id="image">
-						<Image style={styles.image} source={require("../assets/images/mimir_white.png")} />
+						<Image style={styles.image} source={require('../assets/images/cartoon.webp')} />
 					</SharedElement>
 					<SharedElement id="text">
 						<Text style={styles.text}>The Boys</Text>
@@ -53,6 +51,6 @@ const ListScreen= ({ modal, navigation }: any) => {
 				</View>
 			</TouchableScale>
 		</React.Fragment>
-	);
-};
-export default ListScreen;
+	)
+}
+export default ListScreen

@@ -71,10 +71,10 @@ const TAGLINE: TextStyle = {
 	marginBottom: spacing.medium,
 }
 const MIMIR: ImageStyle = {
-	marginVertical: 20,
+	marginVertical: 30,
 	alignSelf: 'center',
-	width: 60,
-	height: 120,
+	width: 120,
+	height: 100,
 }
 const LOVE_WRAPPER: ViewStyle = {
 	flexDirection: 'row',

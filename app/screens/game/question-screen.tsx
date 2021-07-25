@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
+import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header, Question } from '../../components'
 import socket from '../../services/sockets'
 import { color, spacing } from '../../theme'
 
@@ -100,12 +100,42 @@ const MIMIR: ImageStyle = {
 }
 
 export const QuestionScreen = () => {
+	const [timer, setTimer] = useState(10)
 	const [question_number, setQuestionNumber] = useState(1)
+	const [question, setQuestion] = useState(null)
 	// const [question, setQuestion] = useState(5)
 	const [answer, setAnswer] = useState(5)
+	const [answerResult, setAnswerResult] = useState(false)
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
 
+	useEffect(() => {
+		if(data) {
+			setQuestion(data[0])
+			setTimeout(() => {
+				setTimer(timer-1)
+			}, 1000)
+		}
+	}, [])
+
+	useEffect(() => {
+		setQuestion(data[question_number - 1])
+	}, [question_number])
+
+	useEffect(() => {
+		if(timer>0) {
+			setTimeout(() => {
+				setTimer(timer-1)
+			}, 1000)
+		} else {
+			setAnswerResult(true)
+			setTimeout(() => {
+				setAnswerResult(false)
+				setTimer(10)
+				setQuestionNumber(question_number + 1)
+			}, 3000)
+		}
+	}, [timer])
 	// useEffect(() => {
 	// 	setQuestion(data[i])
 	// }, [question_number])
@@ -117,16 +147,20 @@ export const QuestionScreen = () => {
 				{
 					value: '4',
 					correct: false,
+					answers: 5,
 				},
 				{
 					value: '7',
 					correct: true,
+					answers: 3,
 				},
 				{
 					value: '33',
 					correct: false,
+					answers: 2,
 				},
 			],
+			answers: 10
 		},
 
 		{
@@ -135,16 +169,20 @@ export const QuestionScreen = () => {
 				{
 					value: '1',
 					correct: false,
+					answers: 2,
 				},
 				{
 					value: '2',
 					correct: false,
+					answers: 5,
 				},
 				{
 					value: '3',
 					correct: true,
+					answers: 3,
 				},
 			],
+			answers: 10,
 		},
 
 		{
@@ -153,16 +191,20 @@ export const QuestionScreen = () => {
 				{
 					value: '4',
 					correct: false,
+					answers: 5,
 				},
 				{
 					value: '7',
 					correct: true,
+					answers: 5,
 				},
 				{
 					value: '33',
 					correct: false,
+					answers: 0,
 				},
 			],
+			answers: 10,
 		},
 	]
 
@@ -186,29 +228,27 @@ export const QuestionScreen = () => {
 		return <View />
 	}
 
-	const selectAnswer = i => {
-		setAnswer(i)
-		setQuestionNumber(question_number + 1)
+	const selectAnswer = (i) => {
+
 	}
 
+	// 1 - Sai a Question
+	// 2 -user responde
+	// 3 - Acaba o tempo
+	// certo ou errado
+	// 4 nova pergunta
+
+	if(!question) return <View><Text>Loading</Text></View>
 	return (
-		<View testID="GameScreen" style={FULL}>
+		<View testID="GameScreen" style={FULL} >
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.palette.lightGreen}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text={`Question ${question_number} of ${data.length}`} />
+				<Text style={TITLE} preset="header" text={`Time left: ${timer}`} />
+				<Question data={question} onPress={selectAnswer} showResult={answerResult}/>
 
-				<View style={QUESTION_VIEW}>
-					<Text style={QUESTION} text={data[question_number - 1].question} />
-				</View>
-				{data[question_number - 1].options.map((option, i) => (
-					<TouchableWithoutFeedback onPress={() => selectAnswer(i)}>
-						<View key={i} style={answer === i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
-							<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
-						</View>
-					</TouchableWithoutFeedback>
-				))}
 			</Screen>
 		</View>
 	)

@@ -37,7 +37,6 @@ const QUESTION_VIEW: ViewStyle = {
 	borderRadius: 62,
 	padding: spacing.larger,
 	marginTop: spacing.huge,
-	marginBottom: spacing.massive,
 }
 const ANSWER_VIEW: ViewStyle = {
   flexDirection: 'row',
@@ -62,9 +61,7 @@ export function Question(props: QuestionProps) {
 	const { data, onPress, showResult } = props
 
   useEffect(() => {
-    console.log('>> >> >> ??? answer && showResult', answer, showResult)
    if(showResult) {
-    console.log('>> >> >> ??? answer', answer)
     setAnswerResult(answer != null && data.options[answer].correct ? 'Correct' : 'Wrong')
    }
   }, [showResult, answer])
@@ -76,7 +73,6 @@ export function Question(props: QuestionProps) {
   }, [data.question])
 
   const selectAnswer = (i) => {
-    console.log('>> >> >> ??? i', i)
 		setAnswer(i)
     onPress(i)
 	}

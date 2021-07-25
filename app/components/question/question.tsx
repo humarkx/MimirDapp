@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert } from 'react-native'
-import { QuestionProps } from './question.props'
-import { translate } from '../../i18n'
-import { Text } from '../text/text'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { translate } from '../../i18n'
 import { color, spacing } from '../../theme'
+import { Text } from '../text/text'
+import { QuestionProps } from './question.props'
 
 const QUESTION: TextStyle = {
 	color: '#FFFFFF',
@@ -40,7 +40,7 @@ const QUESTION_VIEW: ViewStyle = {
 	marginBottom: spacing.massive,
 }
 const ANSWER_VIEW: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: 'row',
 	backgroundColor: '#F2F2FF',
 	justifyContent: 'space-around',
 	alignItems: 'center',
@@ -62,31 +62,31 @@ export function Question(props: QuestionProps) {
 	const { data, onPress, showResult } = props
 
   useEffect(() => {
-    console.log(">> >> >> ??? answer && showResult", answer, showResult)
+    console.log('>> >> >> ??? answer && showResult', answer, showResult)
    if(showResult) {
-    console.log(">> >> >> ??? answer", answer)
+    console.log('>> >> >> ??? answer', answer)
     setAnswerResult(answer != null && data.options[answer].correct ? 'Correct' : 'Wrong')
    }
   }, [showResult, answer])
 
-  useEffect(() => {    console.log(">> >> >> ??? null null", data)
+  useEffect(() => {    console.log('>> >> >> ??? null null', data)
 
     setAnswerResult(null)
     setAnswer(null)
   }, [data.question])
 
   const selectAnswer = (i) => {
-    console.log(">> >> >> ??? i", i)
+    console.log('>> >> >> ??? i', i)
 		setAnswer(i)
     onPress(i)
 	}
 
 	const renderOptions = () => {
 		return data.options.map((option, i) => (
-			<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)}>
+			<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)} disabled={showResult}>
 				<View style={answer === i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
 					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
-					{showResult && <Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.answers+"K"} />}
+					{showResult && <Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.answers+'K'} />}
 				</View>
 			</TouchableWithoutFeedback>
 		))

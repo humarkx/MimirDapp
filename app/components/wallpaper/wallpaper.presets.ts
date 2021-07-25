@@ -1,10 +1,11 @@
-import { ImageStyle } from "react-native"
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants'
+import { ImageStyle } from 'react-native'
 
 /**
  * All wallpaper will start off looking like this.
  */
 const BASE: ImageStyle = {
-  position: "absolute",
+  position: 'absolute',
   top: 0,
   left: 0,
   bottom: 0,
@@ -22,7 +23,14 @@ export const presets = {
    */
   stretch: {
     ...BASE,
-    resizeMode: "stretch",
+    resizeMode: 'stretch',
+    width: null, // Have to set these to null because android ¯\_(ツ)_/¯
+    height: null,
+  } as ImageStyle,
+  cover: {
+    opacity: 0.2,
+    ...BASE,
+    resizeMode: 'cover',
     width: null, // Have to set these to null because android ¯\_(ツ)_/¯
     height: null,
   } as ImageStyle,

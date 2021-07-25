@@ -20,7 +20,7 @@ const ANSWER: TextStyle = {
 	lineHeight: 22,
 }
 const RESULT: TextStyle = {
-	color: 'rgb(109, 39, 84)',
+	color: '#ffffff',
 	fontWeight: '600',
 	fontSize: 22,
 	lineHeight: 22,
@@ -53,7 +53,7 @@ const SELECTED_ANSWER: TextStyle = {
 }
 const SELECTED_ANSWER_VIEW: ViewStyle = {
 	...ANSWER_VIEW,
-	backgroundColor: 'rgb(109, 39, 84)',
+	backgroundColor: '#0EF3C5',
 }
 export function Question(props: QuestionProps) {
 	const [answerResult, setAnswerResult] = useState(null)

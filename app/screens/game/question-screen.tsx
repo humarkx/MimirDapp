@@ -8,8 +8,8 @@ import socket from '../../services/sockets'
 import { color, spacing } from '../../theme'
 
 
-const champions = require('../../../assets/images/champions-leage.jpeg')
 const logoMimir = require('../../../assets/images/mimir_white.png')
+const questionBackground = require('../../../assets/images/question_background.jpeg')
 const checked = require('../../../assets/images/tick_gif.png')
 
 const FULL: ViewStyle = { flex: 1 }
@@ -131,7 +131,9 @@ export const QuestionScreen = () => {
 				setTimer(timer-0.1)
 			}, 100)
 		} else {
-			setAnswerResult(true)
+			setTimeout(() => {
+				setAnswerResult(true)
+			}, 500)
 			setTimeout(() => {
 				setAnswerResult(false)
 				setTimer(10)
@@ -242,13 +244,13 @@ export const QuestionScreen = () => {
 	if(!question) return <View><Text>Loading</Text></View>
 	return (
 		<View testID="GameScreen" style={FULL} >
-			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.palette.lightGreen}>
+			<Wallpaper backgroundImage={questionBackground} preset="cover"/>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text={`Question ${question_number} of ${data.length}`} />
 				<View style={{ flexDirection: 'row'}}>
-					<Progress.Bar progress={timer / 10} width={windowWidth - 30}/>
+					<Progress.Bar progress={timer / 10} width={windowWidth - 30} color={'#0EF3C5'}/>
 				</View>
 				<Question data={question} onPress={selectAnswer} showResult={answerResult}/>
 

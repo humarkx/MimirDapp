@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { WelcomeScreen, GameScreen, BetScreen, QuestionScreen } from '../screens'
+import { WelcomeScreen, GameScreen, BetScreen, QuestionScreen, FinalScreen } from '../screens'
 import { DashboardScreen } from '../screens/dashboard/dashboard-screen'
 
 /**
@@ -28,6 +28,7 @@ type MainParamList = {
 	question: undefined
 	game: undefined
 	demoList: undefined
+	final: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -45,6 +46,7 @@ export function MainNavigator() {
 			<Stack.Screen name="game" component={GameScreen} />
 			<Stack.Screen name="bet" component={BetScreen} />
 			<Stack.Screen name="question" component={QuestionScreen} />
+			<Stack.Screen name="final" component={FinalScreen} />
 		</Stack.Navigator>
 	)
 }

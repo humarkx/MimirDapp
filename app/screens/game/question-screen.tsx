@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert , Dimensions } from 'react-native'
+import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert, Dimensions } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import * as Progress from 'react-native-progress'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header, Question } from '../../components'
 import socket from '../../services/sockets'
 import { color, spacing } from '../../theme'
-
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const questionBackground = require('../../../assets/images/question_background.jpeg')
@@ -103,7 +102,7 @@ const MIMIR: ImageStyle = {
 
 export const QuestionScreen = () => {
 	const windowWidth = Dimensions.get('window').width
-	const [timer, setTimer] = useState(10)
+	const [timer, setTimer] = useState(5)
 	const [question_number, setQuestionNumber] = useState(1)
 	const [question, setQuestion] = useState(null)
 	// const [question, setQuestion] = useState(5)
@@ -113,10 +112,10 @@ export const QuestionScreen = () => {
 	const goBack = () => navigation.goBack()
 
 	useEffect(() => {
-		if(data) {
+		if (data) {
 			setQuestion(data[0])
 			setTimeout(() => {
-				setTimer(timer-1)
+				setTimer(timer - 1)
 			}, 1000)
 		}
 	}, [])
@@ -126,9 +125,9 @@ export const QuestionScreen = () => {
 	}, [question_number])
 
 	useEffect(() => {
-		if(timer>0) {
+		if (timer > 0) {
 			setTimeout(() => {
-				setTimer(timer-0.1)
+				setTimer(timer - 0.1)
 			}, 100)
 		} else {
 			setTimeout(() => {
@@ -136,7 +135,7 @@ export const QuestionScreen = () => {
 			}, 500)
 			setTimeout(() => {
 				setAnswerResult(false)
-				setTimer(10)
+				setTimer(5)
 				setQuestionNumber(question_number + 1)
 			}, 3000)
 		}
@@ -165,7 +164,7 @@ export const QuestionScreen = () => {
 					answers: 2,
 				},
 			],
-			answers: 10
+			answers: 10,
 		},
 
 		{
@@ -231,7 +230,7 @@ export const QuestionScreen = () => {
 		return <View />
 	}
 
-	const selectAnswer = (i) => {
+	const selectAnswer = i => {
 		// do something later
 	}
 
@@ -241,19 +240,23 @@ export const QuestionScreen = () => {
 	// certo ou errado
 	// 4 nova pergunta
 
-	if(!question) return <View><Text>Loading</Text></View>
+	if (!question)
+		return (
+			<View>
+				<Text>Loading</Text>
+			</View>
+		)
 	return (
-		<View testID="GameScreen" style={FULL} >
-			<Wallpaper backgroundImage={questionBackground} preset="cover"/>
+		<View testID="GameScreen" style={FULL}>
+			<Wallpaper backgroundImage={questionBackground} preset="cover" />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text={`Question ${question_number} of ${data.length}`} />
-				<View style={{ flexDirection: 'row'}}>
-					<Progress.Bar progress={timer / 10} width={windowWidth - 30} color={'#0EF3C5'}/>
+				<View style={{ flexDirection: 'row' }}>
+					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
 				</View>
-				<Question data={question} onPress={selectAnswer} showResult={answerResult}/>
-
+				<Question data={question} onPress={selectAnswer} showResult={answerResult} />
 			</Screen>
 		</View>
 	)

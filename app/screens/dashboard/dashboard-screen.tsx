@@ -1,21 +1,14 @@
-import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
-import {
-	Button,
-	Header,
-	Text,
-	Screen,
-	Wallpaper,
-	AutoImage as Image,
-} from '../../components'
+import { Button, Header, Text, Screen, Wallpaper, AutoImage as Image } from '../../components'
 
 import { color, spacing } from '../../theme'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
-
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -98,10 +91,45 @@ const HINT: TextStyle = {
 	lineHeight: 15,
 	marginVertical: spacing.small,
 }
+const POT: ViewStyle = {
+	paddingVertical: spacing.medium,
+	paddingHorizontal: spacing.medium,
+	backgroundColor: color.palette.white,
+}
+const TEXT: TextStyle = {
+	color: color.palette.white,
+}
+const POT_TEXT: TextStyle = {
+	...TEXT,
+	...BOLD,
+	color: color.palette.deepPurple,
+	fontSize: 13,
+	letterSpacing: 2,
+}
 
 export const DashboardScreen = () => {
+	const [balance, setBalance] = useState('')
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
+
+	useFocusEffect(() => {
+		console.log('CHECKING WALLET BALLANCE')
+		checkWalletBalance()
+	})
+
+	const checkWalletBalance = async () => {
+		try {
+			const currentBalance = await AsyncStorage.getItem('balance')
+			if (!currentBalance) {
+				await AsyncStorage.setItem('balance', '3570')
+				setBalance('3570')
+			} else {
+				setBalance(currentBalance)
+			}
+		} catch (e) {
+			console.log(e)
+		}
+	}
 
 	return (
 		<View testID="DashboardScreen" style={FULL}>
@@ -119,17 +147,11 @@ export const DashboardScreen = () => {
 							rotation={360}
 							fill={85}
 							tintColor="#78305F"
-							backgroundColor="#fff"
-						>
-							{(fill) => <Text style={styles.points}>20:00</Text>}
+							backgroundColor="#fff">
+							{fill => <Text style={styles.points}>20:00</Text>}
 						</AnimatedCircularProgress>
 						<Text style={styles.actionLabel}>FREE TO PLAY</Text>
-						<Button
-							style={FREE}
-							textStyle={DEMO_TEXT}
-							text="JOIN"
-							onPress={() => navigation.navigate('game')}
-						/>
+						<Button style={FREE} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
 					</View>
 
 					<View>
@@ -140,17 +162,12 @@ export const DashboardScreen = () => {
 							backgroundWidth={15}
 							fill={75}
 							tintColor="#0EF3C5"
-							backgroundColor="#fff"
-						>
-							{(fill) => <Text style={styles.points}>21:00</Text>}
+							backgroundColor="#fff">
+							{fill => <Text style={styles.points}>21:00</Text>}
 						</AnimatedCircularProgress>
 						<Text style={styles.actionLabel}>BET TO PLAY</Text>
-						<Button
-							style={BET}
-							textStyle={DEMO_TEXT}
-							text="JOIN"
-							onPress={() => navigation.navigate('game')}
-						/>
+						<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
+						<Button testID="next-screen-button" style={POT} textStyle={POT_TEXT} text={balance} disabled={true} />
 					</View>
 				</View>
 			</Screen>

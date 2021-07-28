@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
 import socket from '../../services/sockets'
 import { color, spacing } from '../../theme'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
@@ -63,7 +64,7 @@ const WALLET: ImageStyle = {
 	alignSelf: 'center',
 	width: 100,
 	height: 100,
-	marginVertical: 10
+	marginVertical: 10,
 }
 const LOVE_WRAPPER: ViewStyle = {
 	flexDirection: 'row',
@@ -100,8 +101,13 @@ const AMOUNT: TextStyle = {
 }
 
 export const FinalScreen = () => {
+	const [prize, setPrize] = useState('')
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
+
+	useEffect(() => {
+		setPrize(Math.floor(Math.random() * 10000).toString())
+	}, [])
 
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
@@ -121,11 +127,24 @@ export const FinalScreen = () => {
 		socket.emit('join', { id: 'b9e64f45-ba15-40b0-abdf-17e526be5a0b' })
 	}
 
+	const updateWalletBallance = async () => {
+		try {
+			const currentBalance = await AsyncStorage.getItem('balance')
+			const newWalletBallance = Number(currentBalance) + Number(prize)
+			await AsyncStorage.setItem('balance', newWalletBallance.toString())
+		} catch (e) {
+			console.log(e)
+		}
+	}
+	const navigateToDashboard = async () => {
+		await updateWalletBallance()
+		navigation.navigate('demo')
+	}
+
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 
 				<Image source={wallet} style={WALLET} />
@@ -133,47 +152,14 @@ export const FinalScreen = () => {
 				<Text style={CONGRATZ} preset="header" text="CONGRATULATIONS!" />
 				<Text style={CONGRATZ} preset="header" text="YOU HAVE WON:" />
 
-
-				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
+				<View
+					style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
 					<Image source={stack} style={WALLET} />
-					<Text style={AMOUNT} preset="header" text="50.2K" />
+					<Text style={AMOUNT} preset="header" text={prize} />
 				</View>
 
-				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={() => navigation.navigate('question')} />
+				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={navigateToDashboard} />
 			</Screen>
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		alignItems: 'center',
-		backgroundColor: '#152d44',
-		flex: 1,
-		justifyContent: 'space-between',
-		padding: 50,
-	},
-	points: {
-		color: '#ffffff',
-		fontSize: 25,
-		fontWeight: '500',
-		letterSpacing: 1.5,
-		textAlign: 'center',
-	},
-	pointsDelta: {
-		color: '#4c6479',
-		fontSize: 50,
-		fontWeight: '100',
-	},
-	pointsDeltaActive: {
-		color: '#fff',
-	},
-	actionLabel: {
-		color: '#ffffff',
-		fontSize: 20,
-		fontWeight: '500',
-		marginBottom: 30,
-		marginTop: 30,
-		textAlign: 'center',
-	},
-})

@@ -226,7 +226,6 @@ export const QuestionScreen = () => {
 
 	if (question_number > data.length) {
 		navigation.navigate('final')
-		return <View />
 	}
 
 	const selectAnswer = i => {

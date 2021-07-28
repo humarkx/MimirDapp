@@ -64,6 +64,19 @@ const SELECTED_ANSWER_VIEW: ViewStyle = {
 	...ANSWER_VIEW,
 	backgroundColor: '#038298',
 }
+const PLAYERS: TextStyle = {
+	color: '#0EF3C5',
+	fontWeight: '500',
+	fontSize: 18,
+	lineHeight: 30,
+	textAlign: 'center',
+}
+const AMOUNT: TextStyle = {
+	fontSize: 18,
+	textAlign: 'center',
+	fontWeight: '400',
+}
+
 export function Question(props: QuestionProps) {
 	const [answerResult, setAnswerResult] = useState(null)
 	const [answer, setAnswer] = useState(null)
@@ -107,7 +120,12 @@ export function Question(props: QuestionProps) {
 							: ANSWER_VIEW
 					}>
 					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
-					{showResult && <Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.answers + 'K'} />}
+					{showResult && (
+						<Text
+							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}
+							text={option.answers + 'K'}
+						/>
+					)}
 				</View>
 			</TouchableWithoutFeedback>
 		))
@@ -115,6 +133,10 @@ export function Question(props: QuestionProps) {
 
 	return (
 		<>
+			<View style={{ position: 'absolute', right: 30 }}>
+				<Text style={PLAYERS} preset="header" text="Players" />
+				<Text style={AMOUNT} preset="header" text="50.2K" />
+			</View>
 			<View style={QUESTION_VIEW}>
 				<Text style={QUESTION} text={data.question} />
 			</View>

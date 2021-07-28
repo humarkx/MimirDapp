@@ -27,7 +27,7 @@ const RESULT: TextStyle = {
 }
 const RESULT_VIEW: ViewStyle = {
 	height: 60,
-  justifyContent: 'center',
+	justifyContent: 'center',
 	alignItems: 'center',
 }
 const QUESTION_VIEW: ViewStyle = {
@@ -39,7 +39,7 @@ const QUESTION_VIEW: ViewStyle = {
 	marginTop: spacing.huge,
 }
 const ANSWER_VIEW: ViewStyle = {
-  flexDirection: 'row',
+	flexDirection: 'row',
 	backgroundColor: '#F2F2FF',
 	justifyContent: 'space-around',
 	alignItems: 'center',
@@ -60,29 +60,32 @@ export function Question(props: QuestionProps) {
 	const [answer, setAnswer] = useState(null)
 	const { data, onPress, showResult } = props
 
-  useEffect(() => {
-   if(showResult) {
-    setAnswerResult(answer != null && data.options[answer].correct ? 'Correct' : 'Wrong')
-   }
-  }, [showResult, answer])
+	useEffect(() => {
+		if (showResult) {
+			setAnswerResult(answer != null && data.options[answer].correct ? 'Correct' : 'Wrong')
+		}
+	}, [showResult, answer])
 
-  useEffect(() => {    console.log('>> >> >> ??? null null', data)
+	useEffect(() => {
+		console.log('>> >> >> ??? null null', data)
 
-    setAnswerResult(null)
-    setAnswer(null)
-  }, [data.question])
+		setAnswerResult(null)
+		setAnswer(null)
+	}, [data.question])
 
-  const selectAnswer = (i) => {
+	const selectAnswer = i => {
+		console.log('FIRST TIME', i)
+		if (answer || answer === 0) return
 		setAnswer(i)
-    onPress(i)
+		onPress(i)
 	}
 
 	const renderOptions = () => {
 		return data.options.map((option, i) => (
-			<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)} disabled={showResult}>
+			<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)} disabled={showResult || answer}>
 				<View style={answer === i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
 					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
-					{showResult && <Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.answers+'K'} />}
+					{showResult && <Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.answers + 'K'} />}
 				</View>
 			</TouchableWithoutFeedback>
 		))
@@ -94,7 +97,7 @@ export function Question(props: QuestionProps) {
 				<Text style={QUESTION} text={data.question} />
 			</View>
 			<View style={RESULT_VIEW}>
-        <Text style={RESULT} text={answerResult} />
+				<Text style={RESULT} text={answerResult} />
 			</View>
 			{renderOptions()}
 		</>

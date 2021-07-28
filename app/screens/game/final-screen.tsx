@@ -63,7 +63,7 @@ const WALLET: ImageStyle = {
 	alignSelf: 'center',
 	width: 100,
 	height: 100,
-	marginVertical: 10
+	marginVertical: 10,
 }
 const LOVE_WRAPPER: ViewStyle = {
 	flexDirection: 'row',
@@ -133,47 +133,14 @@ export const FinalScreen = () => {
 				<Text style={CONGRATZ} preset="header" text="CONGRATULATIONS!" />
 				<Text style={CONGRATZ} preset="header" text="YOU HAVE WON:" />
 
-
-				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
+				<View
+					style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
 					<Image source={stack} style={WALLET} />
 					<Text style={AMOUNT} preset="header" text="50.2K" />
 				</View>
 
-				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={() => navigation.navigate('question')} />
+				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={() => navigation.navigate('demo')} />
 			</Screen>
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		alignItems: 'center',
-		backgroundColor: '#152d44',
-		flex: 1,
-		justifyContent: 'space-between',
-		padding: 50,
-	},
-	points: {
-		color: '#ffffff',
-		fontSize: 25,
-		fontWeight: '500',
-		letterSpacing: 1.5,
-		textAlign: 'center',
-	},
-	pointsDelta: {
-		color: '#4c6479',
-		fontSize: 50,
-		fontWeight: '100',
-	},
-	pointsDeltaActive: {
-		color: '#fff',
-	},
-	actionLabel: {
-		color: '#ffffff',
-		fontSize: 20,
-		fontWeight: '500',
-		marginBottom: 30,
-		marginTop: 30,
-		textAlign: 'center',
-	},
-})

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
@@ -112,10 +112,10 @@ export const DashboardScreen = () => {
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
 
-	useLayoutEffect(() => {
+	useFocusEffect(() => {
 		console.log('CHECKING WALLET BALLANCE')
 		checkWalletBalance()
-	}, [])
+	})
 
 	const checkWalletBalance = async () => {
 		try {
@@ -127,7 +127,7 @@ export const DashboardScreen = () => {
 				setBalance(currentBalance)
 			}
 		} catch (e) {
-			// saving error
+			console.log(e)
 		}
 	}
 

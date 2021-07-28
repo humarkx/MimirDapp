@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
 import socket from '../../services/sockets'
 import { color, spacing } from '../../theme'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
@@ -100,8 +101,13 @@ const AMOUNT: TextStyle = {
 }
 
 export const FinalScreen = () => {
+	const [prize, setPrize] = useState('')
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
+
+	useEffect(() => {
+		setPrize(Math.random().toString().slice(2, 6))
+	}, [])
 
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
@@ -121,6 +127,20 @@ export const FinalScreen = () => {
 		socket.emit('join', { id: 'b9e64f45-ba15-40b0-abdf-17e526be5a0b' })
 	}
 
+	const updateWalletBallance = async () => {
+		try {
+			const currentBalance = await AsyncStorage.getItem('balance')
+			const newWalletBallance = Number(currentBalance) + Number(prize)
+			await AsyncStorage.setItem('balance', newWalletBallance.toString())
+		} catch (e) {
+			console.log(e)
+		}
+	}
+	const navigateToDashboard = async () => {
+		await updateWalletBallance()
+		navigation.navigate('demo')
+	}
+
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
@@ -136,10 +156,10 @@ export const FinalScreen = () => {
 				<View
 					style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
 					<Image source={stack} style={WALLET} />
-					<Text style={AMOUNT} preset="header" text="50.2K" />
+					<Text style={AMOUNT} preset="header" text={prize} />
 				</View>
 
-				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={() => navigation.navigate('demo')} />
+				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={navigateToDashboard} />
 			</Screen>
 		</View>
 	)

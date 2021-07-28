@@ -6,4 +6,5 @@ export * from './welcome/welcome-screen'
 export * from './game/game-screen'
 export * from './game/bet-screen'
 export * from './game/question-screen'
+export * from './game/final-screen'
 // export other screens here

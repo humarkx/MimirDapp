@@ -9,6 +9,8 @@ import { color, spacing } from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
+const logoMimir2 = require('../../../assets/images/mimir_3.png')
+const wallet = require('../../../assets/images/mimir_wallet.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -69,6 +71,21 @@ const MIMIR: ImageStyle = {
 	width: 120,
 	height: 100,
 }
+
+const WALLET: ImageStyle = {
+	alignSelf: 'center',
+	width: 30,
+	height: 30,
+	marginVertical: 0,
+}
+
+const TOKEN: ImageStyle = {
+	alignSelf: 'center',
+	width: 18,
+	height: 26,
+	marginRight: 10,
+}
+
 const LOVE_WRAPPER: ViewStyle = {
 	flexDirection: 'row',
 	alignItems: 'center',
@@ -92,8 +109,10 @@ const HINT: TextStyle = {
 	marginVertical: spacing.small,
 }
 const POT: ViewStyle = {
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
+	flexDirection: 'row',
+	justifyContent: 'space-evenly',
+	marginTop: spacing.massive,
+	marginHorizontal: spacing.medium,
 	backgroundColor: color.palette.white,
 }
 const TEXT: TextStyle = {
@@ -105,6 +124,12 @@ const POT_TEXT: TextStyle = {
 	color: color.palette.deepPurple,
 	fontSize: 13,
 	letterSpacing: 2,
+}
+const BALANCE_TEXT: TextStyle = {
+	...TEXT,
+	...BOLD,
+	color: color.palette.deepPurple,
+	fontSize: 30,
 }
 
 export const DashboardScreen = () => {
@@ -167,9 +192,18 @@ export const DashboardScreen = () => {
 						</AnimatedCircularProgress>
 						<Text style={styles.actionLabel}>BET TO PLAY</Text>
 						<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
-						<Button testID="next-screen-button" style={POT} textStyle={POT_TEXT} text={balance} disabled={true} />
 					</View>
 				</View>
+
+				<Button testID="next-screen-button" style={POT} disabled={true} >
+					<Image source={wallet} style={WALLET} />
+					<View style={{ flexDirection: 'row'}}>
+						<Image source={logoMimir2} style={[TOKEN, {marginRight: 10}]} />
+						<Text style={BALANCE_TEXT} preset="header" text={balance} />
+					</View>
+				</Button>
+
+
 			</Screen>
 		</View>
 	)

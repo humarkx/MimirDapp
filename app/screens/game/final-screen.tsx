@@ -7,6 +7,7 @@ import { color, spacing } from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
+const logoMimir2 = require('../../../assets/images/mimir_currency.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
 const stack = require('../../../assets/images/mimir_stack.png')
 
@@ -20,13 +21,14 @@ const JOIN: ViewStyle = {
 	borderRadius: 50,
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
+	marginHorizontal: 30,
 	backgroundColor: '#FFFFFF',
 }
 const BOLD: TextStyle = { fontWeight: 'bold' }
 const DEMO_TEXT: TextStyle = {
 	...BOLD,
 	color: '#78305F',
-	fontSize: 20,
+	fontSize: 25,
 	letterSpacing: 2,
 }
 const HEADER: TextStyle = {
@@ -66,6 +68,16 @@ const WALLET: ImageStyle = {
 	height: 100,
 	marginVertical: 10,
 }
+const STACK: ImageStyle = {
+	alignSelf: 'center',
+	width: 100,
+	height: 100,
+}
+const TOKEN: ImageStyle = {
+	alignSelf: 'center',
+	width: 20,
+	height: 30,
+}
 const LOVE_WRAPPER: ViewStyle = {
 	flexDirection: 'row',
 	alignItems: 'center',
@@ -95,9 +107,8 @@ const CONGRATZ: TextStyle = {
 const AMOUNT: TextStyle = {
 	...BOLD,
 	fontSize: 34,
-	lineHeight: 38,
 	textAlign: 'center',
-	marginBottom: spacing.large,
+	marginLeft: 10
 }
 
 export const FinalScreen = () => {
@@ -154,8 +165,11 @@ export const FinalScreen = () => {
 
 				<View
 					style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
-					<Image source={stack} style={WALLET} />
-					<Text style={AMOUNT} preset="header" text={prize} />
+					<Image source={stack} style={STACK} />
+					<View style={{ flexDirection: 'row'}}>
+						<Image source={logoMimir2} style={TOKEN} />
+						<Text style={AMOUNT} preset="header" text={prize} />
+					</View>
 				</View>
 
 				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={navigateToDashboard} />

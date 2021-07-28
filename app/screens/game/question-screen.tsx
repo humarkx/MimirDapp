@@ -225,7 +225,6 @@ export const QuestionScreen = () => {
 	})
 
 	if (question_number > data.length) {
-		setQuestionNumber(1)
 		navigation.navigate('final')
 		return <View />
 	}

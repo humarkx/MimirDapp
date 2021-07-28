@@ -106,7 +106,7 @@ export const FinalScreen = () => {
 	const goBack = () => navigation.goBack()
 
 	useEffect(() => {
-		setPrize(Math.random().toString().slice(2, 6))
+		setPrize(Math.floor(Math.random() * 10000).toString())
 	}, [])
 
 	socket.on('connect', () => {
@@ -145,7 +145,6 @@ export const FinalScreen = () => {
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 
 				<Image source={wallet} style={WALLET} />

@@ -78,6 +78,7 @@ const AMOUNT: TextStyle = {
 }
 
 export function Question(props: QuestionProps) {
+	const totalAnswers = 50.2
 	const [answerResult, setAnswerResult] = useState(null)
 	const [answer, setAnswer] = useState(null)
 	const { data, onPress, showResult } = props
@@ -123,7 +124,7 @@ export function Question(props: QuestionProps) {
 					{showResult && (
 						<Text
 							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}
-							text={option.answers + 'K'}
+							text={Math.floor(totalAnswers * option.answers  * 0.01) + 'K'}
 						/>
 					)}
 				</View>
@@ -135,7 +136,7 @@ export function Question(props: QuestionProps) {
 		<>
 			<View style={{ position: 'absolute', right: 30 }}>
 				<Text style={PLAYERS} preset="header" text="Players" />
-				<Text style={AMOUNT} preset="header" text="50.2K" />
+				<Text style={AMOUNT} preset="header" text={totalAnswers + 'K'} />
 			</View>
 			<View style={QUESTION_VIEW}>
 				<Text style={QUESTION} text={data.question} />

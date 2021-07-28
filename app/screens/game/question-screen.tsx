@@ -151,17 +151,17 @@ export const QuestionScreen = () => {
 				{
 					value: '4',
 					correct: false,
-					answers: 5,
+					answers: 50,
 				},
 				{
 					value: '7',
 					correct: true,
-					answers: 3,
+					answers: 30,
 				},
 				{
 					value: '33',
 					correct: false,
-					answers: 2,
+					answers: 20,
 				},
 			],
 			answers: 10,
@@ -173,17 +173,17 @@ export const QuestionScreen = () => {
 				{
 					value: '1',
 					correct: false,
-					answers: 2,
+					answers: 20,
 				},
 				{
 					value: '2',
 					correct: false,
-					answers: 5,
+					answers: 50,
 				},
 				{
 					value: '3',
 					correct: true,
-					answers: 3,
+					answers: 30,
 				},
 			],
 			answers: 10,
@@ -195,12 +195,12 @@ export const QuestionScreen = () => {
 				{
 					value: '4',
 					correct: false,
-					answers: 5,
+					answers: 50,
 				},
 				{
 					value: '7',
 					correct: true,
-					answers: 5,
+					answers: 50,
 				},
 				{
 					value: '33',
@@ -253,7 +253,7 @@ export const QuestionScreen = () => {
 				<View style={{ flexDirection: 'row' }}>
 					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
 				</View>
-				<Question data={question} onPress={selectAnswer} showResult={answerResult} />
+				<Question data={question} onPress={selectAnswer} showResult={answerResult}/>
 			</Screen>
 		</View>
 	)

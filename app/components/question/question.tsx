@@ -120,11 +120,17 @@ export function Question(props: QuestionProps) {
 							? CORRECT_ANSWER
 							: ANSWER_VIEW
 					}>
+					{answer === i && (
+						<Text
+							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', left: 30, fontSize: 12 }]}
+							text={'Your answer'}
+						/>
+					)}
 					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
 					{showResult && (
 						<Text
 							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}
-							text={Math.floor(totalAnswers * option.answers  * 0.01) + 'K'}
+							text={Math.floor(totalAnswers * option.answers * 0.01) + 'K'}
 						/>
 					)}
 				</View>

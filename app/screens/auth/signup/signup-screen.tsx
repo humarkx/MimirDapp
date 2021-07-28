@@ -100,7 +100,7 @@ export const SignUpScreen = () => {
 
 	const signUp = async () => {
 		await auth()
-			.createUserWithEmailAndPassword(email, password)
+			.createUserWithEmailAndPassword(email.trim(), password)
 			.then(() => {
 				console.log('User account created & signed in!')
 			})

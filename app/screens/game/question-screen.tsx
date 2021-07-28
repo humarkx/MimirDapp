@@ -94,6 +94,7 @@ const SELECTED_ANSWER_VIEW: ViewStyle = {
 	backgroundColor: 'rgb(109, 39, 84)',
 }
 const MIMIR: ImageStyle = {
+	marginTop: spacing.massive,
 	marginVertical: 0,
 	alignSelf: 'center',
 	width: 120,
@@ -253,7 +254,7 @@ export const QuestionScreen = () => {
 				<View style={{ flexDirection: 'row' }}>
 					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
 				</View>
-				<Question data={question} onPress={selectAnswer} showResult={answerResult}/>
+				<Question data={question} onPress={selectAnswer} showResult={answerResult} />
 			</Screen>
 		</View>
 	)

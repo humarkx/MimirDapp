@@ -176,7 +176,7 @@ export const DashboardScreen = () => {
 							{fill => <Text style={styles.points}>20:00</Text>}
 						</AnimatedCircularProgress>
 						<Text style={styles.actionLabel}>FREE TO PLAY</Text>
-						<Button style={FREE} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
+						<Button style={FREE} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('bet')} />
 					</View>
 
 					<View>
@@ -195,15 +195,13 @@ export const DashboardScreen = () => {
 					</View>
 				</View>
 
-				<Button testID="next-screen-button" style={POT} disabled={true} >
+				<Button testID="next-screen-button" style={POT} disabled={true}>
 					<Image source={wallet} style={WALLET} />
-					<View style={{ flexDirection: 'row'}}>
-						<Image source={logoMimir2} style={[TOKEN, {marginRight: 10}]} />
+					<View style={{ flexDirection: 'row' }}>
+						<Image source={logoMimir2} style={[TOKEN, { marginRight: 10 }]} />
 						<Text style={BALANCE_TEXT} preset="header" text={balance} />
 					</View>
 				</Button>
-
-
 			</Screen>
 		</View>
 	)

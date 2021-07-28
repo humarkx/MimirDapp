@@ -100,7 +100,7 @@ export const LoginScreen = () => {
 
 	const signIn = async () => {
 		await auth()
-			.signInWithEmailAndPassword(email, password)
+			.signInWithEmailAndPassword(email.trim(), password)
 			.then(async userCredential => {
 				const token = await auth().currentUser.getIdTokenResult()
 				console.log(userCredential.user)

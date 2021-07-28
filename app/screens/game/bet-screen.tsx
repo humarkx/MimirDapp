@@ -52,6 +52,7 @@ const TAGLINE: TextStyle = {
 	marginBottom: spacing.huge,
 }
 const MIMIR: ImageStyle = {
+	marginTop: spacing.massive,
 	marginVertical: 20,
 	alignSelf: 'center',
 	width: 120,

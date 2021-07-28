@@ -122,7 +122,6 @@ export const BetScreen = () => {
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text="Bet Placed" />
 

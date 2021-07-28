@@ -51,9 +51,18 @@ const SELECTED_ANSWER: TextStyle = {
 	...ANSWER,
 	color: '#FFFFFF',
 }
+
+const CORRECT_ANSWER: ViewStyle = {
+	...ANSWER_VIEW,
+	backgroundColor: '#04E2B7',
+}
+const WRONG_ANSWER: ViewStyle = {
+	...ANSWER_VIEW,
+	backgroundColor: '#6D2754',
+}
 const SELECTED_ANSWER_VIEW: ViewStyle = {
 	...ANSWER_VIEW,
-	backgroundColor: '#0EF3C5',
+	backgroundColor: '#038298',
 }
 export function Question(props: QuestionProps) {
 	const [answerResult, setAnswerResult] = useState(null)
@@ -83,7 +92,20 @@ export function Question(props: QuestionProps) {
 	const renderOptions = () => {
 		return data.options.map((option, i) => (
 			<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)} disabled={showResult || answer}>
-				<View style={answer === i ? SELECTED_ANSWER_VIEW : ANSWER_VIEW}>
+				<View
+					style={
+						answer === i
+							? !showResult
+								? SELECTED_ANSWER_VIEW
+								: option.correct
+								? CORRECT_ANSWER
+								: WRONG_ANSWER
+							: !showResult
+							? ANSWER_VIEW
+							: option.correct
+							? CORRECT_ANSWER
+							: ANSWER_VIEW
+					}>
 					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
 					{showResult && <Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.answers + 'K'} />}
 				</View>
@@ -96,9 +118,7 @@ export function Question(props: QuestionProps) {
 			<View style={QUESTION_VIEW}>
 				<Text style={QUESTION} text={data.question} />
 			</View>
-			<View style={RESULT_VIEW}>
-				<Text style={RESULT} text={answerResult} />
-			</View>
+			<View style={RESULT_VIEW} />
 			{renderOptions()}
 		</>
 	)

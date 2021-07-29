@@ -5,9 +5,8 @@ import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-nati
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../components'
 import { color, spacing, typography } from '../../theme'
 
-const MimirLogo = require('./MimirWhiteStanding.png')
+const MimirLogo = require('../../../assets/images/mimir_white.png')
 const BlockchainLogo = require('./blockchain.png')
-
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -19,12 +18,19 @@ const TEXT: TextStyle = {
 	fontFamily: typography.primary,
 }
 const BOLD: TextStyle = { fontWeight: 'bold' }
+// const MIMIRWHITESTANDING: ImageStyle = {
+// 	width: 180,
+// 	height: 186,
+// 	alignSelf: 'center',
+// 	marginVertical: spacing.large,
+// 	maxWidth: '100%',
+// }
+
 const MIMIRWHITESTANDING: ImageStyle = {
-	width: 180,
-	height: 186,
+	marginVertical: 30,
 	alignSelf: 'center',
-	marginVertical: spacing.large,
-	maxWidth: '100%',
+	width: 180,
+	height: 160,
 }
 
 const BLOCKCHAIN: ImageStyle = {
@@ -63,7 +69,6 @@ const CONGRATULATIONS_TEXT: TextStyle = {
 	maxWidth: '100%',
 }
 
-
 export const WelcomeScreen = () => {
 	const navigation = useNavigation()
 	const nextScreen = () => navigation.navigate('demo')
@@ -73,8 +78,8 @@ export const WelcomeScreen = () => {
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Image source={MimirLogo} style={MIMIRWHITESTANDING} />
-					<Text style={CONGRATULATIONS_TEXT} text="CONGRATULATIONS! " />
-					<Text style={CONGRATULATIONS_TEXT} text="YOUR MIMIR WALLET HAS BEEN CREATED " />
+				<Text style={CONGRATULATIONS_TEXT} text="CONGRATULATIONS! " />
+				<Text style={CONGRATULATIONS_TEXT} text="YOUR MIMIR WALLET HAS BEEN CREATED " />
 				<Image source={BlockchainLogo} style={BLOCKCHAIN} />
 			</Screen>
 			<SafeAreaView style={FOOTER}>

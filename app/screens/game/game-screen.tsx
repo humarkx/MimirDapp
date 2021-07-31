@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import { Input } from 'react-native-elements'
@@ -55,7 +55,7 @@ const NEXT: TextStyle = {
 	lineHeight: 38,
 	textTransform: 'uppercase',
 	textAlign: 'center',
-	marginBottom: spacing.large,
+	marginVertical: spacing.large,
 }
 
 const WALLET: ImageStyle = {
@@ -74,35 +74,22 @@ const TOKEN: ImageStyle = {
 
 const TOKEN_SMALL: ImageStyle = {
 	...TOKEN,
-	width: 14,
+	width: 16,
 	height: 22,
 }
 
 const MIMIR: ImageStyle = {
-	marginVertical: 20,
 	alignSelf: 'center',
 	width: 120,
 	height: 100,
 }
 
-const INPUT: TextStyle = {
-	fontWeight: 'bold',
-}
-
 const POT: ViewStyle = {
 	flexDirection: 'row',
-	paddingVertical: spacing.smaller,
+	paddingVertical: spacing.tiny,
 	backgroundColor: color.palette.white,
 }
 
-const POT_SMALL: ViewStyle = {
-	flexDirection: 'row',
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.white,
-	justifyContent: 'space-around',
-	width: '48%'
-}
 const TEXT: TextStyle = {
 	color: color.palette.white,
 }
@@ -114,10 +101,8 @@ const POT_BALANCE: TextStyle = {
 }
 const POT_TEXT: TextStyle = {
 	...TEXT,
-	...BOLD,
-	color: color.palette.deepPurple,
-	fontSize: 13,
-	letterSpacing: 2,
+	fontSize: 24,
+	textTransform: 'uppercase',
 }
 const BALANCE_TEXT: TextStyle = {
 	...TEXT,
@@ -133,7 +118,7 @@ export const GameScreen = () => {
 	const goBack = () => navigation.goBack()
 
 	useEffect(() => {
-		const currentBalance =  AsyncStorage.getItem('balance').then(value => {
+		const currentBalance = AsyncStorage.getItem('balance').then(value => {
 			setBalance(value)
 		})
 	})
@@ -159,25 +144,19 @@ export const GameScreen = () => {
 					</AnimatedCircularProgress>
 				</View>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20, marginBottom: 20 }}>
-					<Text style={[NEXT, {marginBottom: 0}]} preset="default" text="Today’s pot:" />
-					<View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+					<Text style={POT_TEXT} preset="default" text="Today’s pot:" />
+					<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 						<Image source={logoMimir1} style={TOKEN_SMALL} />
-						<Text style={[NEXT, {marginBottom: 0}]} preset="default" text="59 327" />
+						<Text style={POT_TEXT} preset="default" text="59 327" />
 					</View>
 				</View>
 
-
 				<Text style={TITLE} preset="header" text="Bet amount" />
-				<Button
-					testID="next-screen-button"
-					style={[POT, { marginBottom: 20 }]}
-					disabled={true}
-				>
+				<Button testID="next-screen-button" style={[POT, { marginBottom: 20 }]} disabled={true}>
 					<Image source={logoMimir2} style={TOKEN} />
-					<Text style={POT_BALANCE} preset="header" text='1,000' />
+					<Text style={POT_BALANCE} preset="header" text="1,000" />
 				</Button>
 				<Button style={FREE} textStyle={DEMO_TEXT} text="PLACE BET" onPress={() => navigation.navigate('bet')} />
-
 			</Screen>
 		</View>
 	)

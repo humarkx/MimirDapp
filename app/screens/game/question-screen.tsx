@@ -147,64 +147,64 @@ export const QuestionScreen = () => {
 
 	const data = [
 		{
-			question: 'How many potatos does a potato have?',
+			question: 'What is the most common colour of toilet paper in France',
 			options: [
 				{
-					value: '4',
+					value: 'White',
 					correct: false,
-					answers: 50,
+					answers: 20,
 				},
 				{
-					value: '7',
-					correct: true,
+					value: 'Blue',
+					correct: false,
 					answers: 30,
 				},
 				{
-					value: '33',
-					correct: false,
-					answers: 20,
+					value: 'Pink',
+					correct: true,
+					answers: 50,
 				},
 			],
 			answers: 10,
 		},
 
 		{
-			question: 'How many apples does an apple have?',
+			question: 'What does the average person do 13 times a day?',
 			options: [
 				{
-					value: '1',
+					value: 'Laugh',
+					correct: true,
+					answers: 70,
+				},
+				{
+					value: 'Go to the bathroom',
 					correct: false,
 					answers: 20,
 				},
 				{
-					value: '2',
+					value: 'Yawn',
 					correct: false,
-					answers: 50,
-				},
-				{
-					value: '3',
-					correct: true,
-					answers: 30,
+					answers: 10,
 				},
 			],
 			answers: 10,
 		},
 
 		{
-			question: 'How many bananas does a banana have?',
+			question: 'Which European country has 158 verses to its national anthem?',
 			options: [
 				{
-					value: '4',
-					correct: false,
-					answers: 50,
-				},
-				{
-					value: '7',
+					value: 'Greece',
 					correct: true,
 					answers: 50,
 				},
 				{
-					value: '33',
+					value: 'Spain',
+					correct: false,
+					answers: 50,
+				},
+				{
+					value: 'Sweden',
 					correct: false,
 					answers: 0,
 				},

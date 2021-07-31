@@ -8,6 +8,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
+const logoMimir1 = require('../../../assets/images/mimir_currency.png')
 const logoMimir2 = require('../../../assets/images/mimir_3.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
 
@@ -43,15 +44,14 @@ const HEADER_TITLE: TextStyle = {
 	letterSpacing: 1.5,
 }
 const TITLE: TextStyle = {
-	...BOLD,
-	fontSize: 34,
+	fontSize: 24,
 	lineHeight: 38,
 	textAlign: 'center',
-	marginBottom: spacing.large,
+	marginBottom: spacing.medium,
 }
 
 const NEXT: TextStyle = {
-	fontSize: 28,
+	fontSize: 22,
 	lineHeight: 38,
 	textTransform: 'uppercase',
 	textAlign: 'center',
@@ -72,6 +72,12 @@ const TOKEN: ImageStyle = {
 	marginRight: 10,
 }
 
+const TOKEN_SMALL: ImageStyle = {
+	...TOKEN,
+	width: 14,
+	height: 22,
+}
+
 const MIMIR: ImageStyle = {
 	marginVertical: 20,
 	alignSelf: 'center',
@@ -85,8 +91,7 @@ const INPUT: TextStyle = {
 
 const POT: ViewStyle = {
 	flexDirection: 'row',
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
+	paddingVertical: spacing.smaller,
 	backgroundColor: color.palette.white,
 }
 
@@ -153,8 +158,16 @@ export const GameScreen = () => {
 						{fill => <Text style={styles.points}>21:00</Text>}
 					</AnimatedCircularProgress>
 				</View>
+				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20, marginBottom: 20 }}>
+					<Text style={[NEXT, {marginBottom: 0}]} preset="default" text="Today’s pot:" />
+					<View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+						<Image source={logoMimir1} style={TOKEN_SMALL} />
+						<Text style={[NEXT, {marginBottom: 0}]} preset="default" text="59 327" />
+					</View>
+				</View>
 
-				<Text style={TITLE} preset="header" text="Place bet amount" />
+
+				<Text style={TITLE} preset="header" text="Bet amount" />
 				<Button
 					testID="next-screen-button"
 					style={[POT, { marginBottom: 20 }]}
@@ -165,14 +178,6 @@ export const GameScreen = () => {
 				</Button>
 				<Button style={FREE} textStyle={DEMO_TEXT} text="PLACE BET" onPress={() => navigation.navigate('bet')} />
 
-				<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-					<Button testID="next-screen-button" style={POT_SMALL} disabled={true} >
-						<Image source={wallet} style={WALLET} />
-						<Image source={logoMimir2} style={[TOKEN, {marginRight: 0}]} />
-						<Text style={BALANCE_TEXT} preset="header" text={balance} />
-					</Button>
-					<Button testID="next-screen-button" style={POT_SMALL} textStyle={POT_TEXT} text={"TODAY'S POT"} disabled={true} />
-				</View>
 			</Screen>
 		</View>
 	)

@@ -113,6 +113,7 @@ const POT: ViewStyle = {
 	justifyContent: 'space-evenly',
 	marginTop: spacing.massive,
 	marginHorizontal: spacing.medium,
+	paddingVertical: spacing.smaller,
 	backgroundColor: color.palette.white,
 }
 const TEXT: TextStyle = {
@@ -162,7 +163,7 @@ export const DashboardScreen = () => {
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text="MimerUser123" />
+				<Text style={TITLE} preset="header" text="Welcome!" />
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 					<View>
 						<AnimatedCircularProgress

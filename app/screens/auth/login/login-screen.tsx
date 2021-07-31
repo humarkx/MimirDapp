@@ -34,6 +34,7 @@ const HEADER_TITLE: TextStyle = {
 const TITLE_WRAPPER: TextStyle = {
 	...TEXT,
 	textAlign: 'center',
+	paddingBottom: 50,
 }
 const TITLE: TextStyle = {
 	...TEXT,
@@ -52,16 +53,10 @@ const BOWSER: ImageStyle = {
 	alignSelf: 'center',
 	marginVertical: spacing.large,
 	maxWidth: '100%',
-	width: 200,
-	height: 180,
+	width: 180,
+	height: 160,
 }
-const CONTENT: TextStyle = {
-	...TEXT,
-	color: '#BAB6C8',
-	fontSize: 15,
-	lineHeight: 22,
-	marginBottom: spacing.large,
-}
+
 const CONTINUE: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
@@ -127,12 +122,12 @@ export const LoginScreen = () => {
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Header style={HEADER} titleStyle={HEADER_TITLE} />
+				<Image source={mimirLogo} style={BOWSER} />
 				<Text style={TITLE_WRAPPER}>
 					<Text style={TITLE} text="THE LIVESTREAMED, " />
 					<Text style={ALMOST} text="CRYPTO QUIZ APP" />
 					<Text style={TITLE} text="!" />
 				</Text>
-				<Image source={mimirLogo} style={BOWSER} />
 				<Input
 					autoCapitalize={'none'}
 					value={email}

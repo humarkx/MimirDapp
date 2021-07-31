@@ -5,6 +5,7 @@ import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-nati
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../components'
 import { color, spacing, typography } from '../../theme'
 
+const logout = require('../../../assets/images/logout.png')
 const MimirLogo = require('../../../assets/images/mimir_white.png')
 const BlockchainLogo = require('./blockchain.png')
 
@@ -57,7 +58,13 @@ const FOOTER_CONTENT: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
 }
-
+const LOGOUT_TEXT: TextStyle = {
+	...TEXT,
+	...BOLD,
+	color: color.palette.deepPurple,
+	fontSize: 13,
+	letterSpacing: 2,
+}
 const CONGRATULATIONS_TEXT: TextStyle = {
 	...TEXT,
 	width: 240,
@@ -68,10 +75,26 @@ const CONGRATULATIONS_TEXT: TextStyle = {
 	alignSelf: 'center',
 	maxWidth: '100%',
 }
-
+const LOGOUT: ViewStyle = {
+	paddingVertical: spacing.medium,
+	paddingHorizontal: spacing.medium,
+	backgroundColor: color.palette.white,
+}
 export const WelcomeScreen = () => {
 	const navigation = useNavigation()
 	const nextScreen = () => navigation.navigate('demo')
+
+	const signOut = async () => {
+		await auth()
+			.signOut()
+			.then(() => {
+				// Sign-out successful.
+			})
+			.catch(error => {
+				console.warn('Auth Error', error)
+				// An error happened.
+			})
+	}
 
 	return (
 		<View testID="WelcomeScreen" style={FULL}>
@@ -90,6 +113,15 @@ export const WelcomeScreen = () => {
 						textStyle={CONTINUE_TEXT}
 						tx="welcomeScreen.continue"
 						onPress={nextScreen}
+					/>
+				</View>
+				<View style={FOOTER_CONTENT}>
+					<Button
+						testID="next-screen-button"
+						style={LOGOUT}
+						textStyle={LOGOUT_TEXT}
+						text={'LOGOUT'}
+						onPress={signOut}
 					/>
 				</View>
 			</SafeAreaView>

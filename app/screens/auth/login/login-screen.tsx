@@ -35,6 +35,7 @@ const TITLE_WRAPPER: TextStyle = {
 	...TEXT,
 	textAlign: 'center',
 	paddingBottom: 50,
+	paddingTop: 10,
 }
 const TITLE: TextStyle = {
 	...TEXT,
@@ -51,7 +52,6 @@ const ALMOST: TextStyle = {
 }
 const BOWSER: ImageStyle = {
 	alignSelf: 'center',
-	marginVertical: spacing.large,
 	maxWidth: '100%',
 	width: 180,
 	height: 160,

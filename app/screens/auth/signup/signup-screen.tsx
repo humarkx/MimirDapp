@@ -34,6 +34,8 @@ const HEADER_TITLE: TextStyle = {
 const TITLE_WRAPPER: TextStyle = {
 	...TEXT,
 	textAlign: 'center',
+	paddingBottom: 50,
+	paddingTop: 10,
 }
 const TITLE: TextStyle = {
 	...TEXT,
@@ -50,7 +52,6 @@ const ALMOST: TextStyle = {
 }
 const BOWSER: ImageStyle = {
 	alignSelf: 'center',
-	marginVertical: spacing.large,
 	maxWidth: '100%',
 	width: 200,
 	height: 180,
@@ -131,12 +132,13 @@ export const SignUpScreen = () => {
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Header style={HEADER} titleStyle={HEADER_TITLE} />
+
+				<Image source={mimirLogo} style={BOWSER} />
 				<Text style={TITLE_WRAPPER}>
 					<Text style={TITLE} text="THE LIVESTREAMED, " />
 					<Text style={ALMOST} text="CRYPTO QUIZ APP" />
 					<Text style={TITLE} text="!" />
 				</Text>
-				<Image source={mimirLogo} style={BOWSER} />
 				{/*<Input*/}
 				{/*	value={username}*/}
 				{/*	onChangeText={setUsername}*/}
@@ -171,7 +173,7 @@ export const SignUpScreen = () => {
 						testID="next-screen-button"
 						style={CONTINUE}
 						textStyle={CONTINUE_TEXT}
-						text={'CREATE'}
+						text={'CREATE ACCOUNT'}
 						onPress={signUp}
 					/>
 				</View>

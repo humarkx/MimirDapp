@@ -58,6 +58,7 @@ const TITLE: TextStyle = {
 	lineHeight: 38,
 	textAlign: 'center',
 	marginBottom: spacing.medium,
+	marginTop: spacing.medium,
 }
 const TAGLINE: TextStyle = {
 	color: '#BAB6C8',
@@ -66,7 +67,6 @@ const TAGLINE: TextStyle = {
 	marginBottom: spacing.medium,
 }
 const MIMIR: ImageStyle = {
-	marginVertical: 30,
 	alignSelf: 'center',
 	width: 120,
 	height: 100,

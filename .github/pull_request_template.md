@@ -1,3 +1,21 @@
-- [x] #739
-- [ ] https://github.com/octo-org/octo-repo/issues/740
-- [ ] Add delight to the experience when all tasks are complete :tada:
+# Related Issue
+- issue goes here
+
+# Proposed Changes
+- Change 1
+- Change 2
+
+# Additional Info
+- any additional information
+
+# Checklist
+- [ ] Tests
+- [ ] Translations
+- [ ] Documentation
+
+# Screenshots
+Original | Updated
+:------------------------------------:|:------------------------------------:
+** original Screenshot ** |** updated Screenshot **
+
+

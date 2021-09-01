@@ -1,5 +1,6 @@
 import auth from '@react-native-firebase/auth'
 import socket from '../sockets'
+import { Alert } from 'react-native'
 
 export async function login(email: string, password: string) {
 	return auth()
@@ -20,9 +21,27 @@ export async function register(email: string, password: string, name: any) {
 			throw new Error('Response but no user')
 		})
 		.catch(error => {
-			throw error
+			if (error.code === 'auth/email-already-in-use') {
+				Alert.alert('That email address is already in use!')
+				console.log('That email address is already in use!')
+				return
+			}
+
+			if (error.code === 'auth/invalid-email') {
+				Alert.alert('That email address is invalid!')
+				console.log('That email address is invalid!')
+				return
+			}
+			if (error.code === 'auth/weak-password') {
+				Alert.alert('The given password is invalid.')
+				console.log('That email address is invalid!')
+				return
+			}
+			Alert.alert(error.message)
+			console.error(error)
 		})
 }
+
 export async function updateUserPassword(newPassword: string) {
 	return new Promise((resolve, reject) => {
 		const user = auth().currentUser

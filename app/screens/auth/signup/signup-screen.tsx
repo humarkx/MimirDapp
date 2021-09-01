@@ -3,7 +3,9 @@ import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView, Alert } from 'react-native'
 import { Input } from 'react-native-elements'
+import { useDispatch } from 'react-redux'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image, Spacer } from '../../../components'
+import { register } from '../../../store/user/actions'
 import { color, spacing, typography } from '../../../theme'
 
 const mimirLogo = require('../../../..//assets/images/mimir_white.png')
@@ -98,33 +100,10 @@ export const SignUpScreen = () => {
 	const [password, setPassword] = useState('')
 	const navigation = useNavigation()
 	const login = () => navigation.goBack()
+	const dispatch = useDispatch()
 
 	const signUp = async () => {
-		await auth()
-			.createUserWithEmailAndPassword(email.trim(), password)
-			.then(() => {
-				console.log('User account created & signed in!')
-			})
-			.catch(error => {
-				if (error.code === 'auth/email-already-in-use') {
-					Alert.alert('That email address is already in use!')
-					console.log('That email address is already in use!')
-					return
-				}
-
-				if (error.code === 'auth/invalid-email') {
-					Alert.alert('That email address is invalid!')
-					console.log('That email address is invalid!')
-					return
-				}
-				if (error.code === 'auth/weak-password') {
-					Alert.alert('The given password is invalid.')
-					console.log('That email address is invalid!')
-					return
-				}
-				Alert.alert(error.message)
-				console.error(error)
-			})
+		dispatch(register(username, email.trim(), password.trim()))
 	}
 
 	return (
@@ -149,12 +128,21 @@ export const SignUpScreen = () => {
 				{/*/>*/}
 				<Input
 					autoCapitalize={'none'}
+					value={username}
+					onChangeText={setUsername}
+					textAlign={'center'}
+					style={{ color: '#F5F5F5' }}
+					placeholder="Username"
+					leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}
+				/>
+				<Input
+					autoCapitalize={'none'}
 					value={email}
 					onChangeText={setEmail}
 					textAlign={'center'}
 					style={{ color: '#F5F5F5' }}
 					placeholder="Email"
-					leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}
+					leftIcon={{ type: 'font-awesome', name: 'envelope', color: '#F5F5F5' }}
 				/>
 				<Input
 					autoCapitalize={'none'}

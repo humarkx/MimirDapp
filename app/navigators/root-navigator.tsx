@@ -13,6 +13,8 @@ import { ActivityIndicator } from '../components'
 import socket from '../services/sockets'
 import { color } from '../theme'
 import { MainNavigator, AuthNavigator } from './index'
+import { useTheme } from 'styled-components'
+import { navigationRef } from './navigation-utilities'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -103,15 +105,39 @@ const RootStack = () => {
 	)
 }
 
-export const RootNavigator = React.forwardRef<
-	NavigationContainerRef,
-	Partial<React.ComponentProps<typeof NavigationContainer>>
->((props, ref) => {
+interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+
+export const RootNavigator = (props: NavigationProps) => {
+	const { colors, dark } = useTheme()
+
+	const theme = {
+		dark,
+		colors: {
+			primary: colors.palette.white,
+			background: colors.palette.white,
+			card: colors.palette.white,
+			text: colors.palette.white,
+			border: colors.palette.white,
+			notification: colors.palette.white,
+		},
+	}
+
 	return (
-		<NavigationContainer {...props} ref={ref}>
+		<NavigationContainer ref={navigationRef} theme={theme} {...props}>
 			<RootStack />
 		</NavigationContainer>
 	)
-})
-
+}
 RootNavigator.displayName = 'RootNavigator'
+
+/**
+ * A list of routes from which we're allowed to leave the app when
+ * the user presses the back button on Android.
+ *
+ * Anything not on this list will be a standard `back` action in
+ * react-navigation.
+ *
+ * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
+ */
+const exitRoutes = ['mainStack']
+export const canExit = (routeName: string) => exitRoutes.includes(routeName)

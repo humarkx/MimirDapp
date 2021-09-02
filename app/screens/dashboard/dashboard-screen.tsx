@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
-
+import socket from '../../services/sockets'
 import { Button, Header, Text, Screen, Wallpaper, AutoImage as Image } from '../../components'
 
 import { color, spacing } from '../../theme'
@@ -135,12 +135,24 @@ const BALANCE_TEXT: TextStyle = {
 
 export const DashboardScreen = () => {
 	const [balance, setBalance] = useState('')
+	const [games, setGames] = useState([])
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
 
 	useFocusEffect(() => {
 		console.log('CHECKING WALLET BALLANCE')
+		// socket.emit('getGames')
 		checkWalletBalance()
+	})
+
+	useEffect(() => {
+		console.log('CHECKING WALLET BALLANCE')
+		socket.emit('getGames')
+	}, [])
+
+	socket.on('openGames', (games) => {
+		console.log(games)
+		setGames(games)
 	})
 
 	const checkWalletBalance = async () => {
@@ -165,22 +177,28 @@ export const DashboardScreen = () => {
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text="Welcome!" />
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-					<View>
-						<AnimatedCircularProgress
-							size={150}
-							width={15}
-							backgroundWidth={15}
-							rotation={360}
-							fill={85}
-							tintColor="#78305F"
-							backgroundColor="#fff">
-							{fill => <Text style={styles.points}>20:00</Text>}
-						</AnimatedCircularProgress>
-						<Text style={styles.actionLabel}>FREE TO PLAY</Text>
-						<Button style={FREE} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('bet')} />
-					</View>
+					{
+						games.map(game => {
+							const nextRoute = game.type === 'FREE'? 'bet' : 'game'
+							return <View key={game.refId}>
+								<AnimatedCircularProgress
+									size={150}
+									width={15}
+									backgroundWidth={15}
+									rotation={360}
+									fill={85}
+									tintColor="#78305F"
+									backgroundColor="#fff">
+									{fill => <Text style={styles.points}>20:00</Text>}
+								</AnimatedCircularProgress>
+								<Text style={styles.actionLabel}>{game.type} TO PLAY</Text>
+								<Button style={FREE} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate(nextRoute, {gameId: game.refId})} />
+							</View>
+						})
+					}
 
-					<View>
+
+					{/* <View>
 						<AnimatedCircularProgress
 							size={150}
 							width={15}
@@ -193,7 +211,7 @@ export const DashboardScreen = () => {
 						</AnimatedCircularProgress>
 						<Text style={styles.actionLabel}>BET TO PLAY</Text>
 						<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
-					</View>
+					</View> */}
 				</View>
 
 				<Button testID="next-screen-button" style={POT} disabled={true}>

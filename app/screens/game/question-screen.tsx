@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert, Dimensions } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import * as Progress from 'react-native-progress'
@@ -103,6 +103,7 @@ const MIMIR: ImageStyle = {
 
 export const QuestionScreen = () => {
 	const windowWidth = Dimensions.get('window').width
+	const route = useRoute()
 	const [timer, setTimer] = useState(5)
 	const [question_number, setQuestionNumber] = useState(1)
 	const [question, setQuestion] = useState(null)
@@ -112,125 +113,29 @@ export const QuestionScreen = () => {
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
 
-	useEffect(() => {
-		if (data) {
-			setQuestion(data[0])
-			setTimeout(() => {
-				setTimer(timer - 1)
-			}, 1000)
-		}
-	}, [])
-
-	useEffect(() => {
-		setQuestion(data[question_number - 1])
-	}, [question_number])
-
-	useEffect(() => {
-		if (timer > 0) {
-			setTimeout(() => {
-				setTimer(timer - 0.1)
-			}, 100)
-		} else {
-			setTimeout(() => {
-				setAnswerResult(true)
-			}, 500)
-			setTimeout(() => {
-				setAnswerResult(false)
-				setTimer(5)
-				setQuestionNumber(question_number + 1)
-			}, 3000)
-		}
-	}, [timer])
-	// useEffect(() => {
-	// 	setQuestion(data[i])
-	// }, [question_number])
-
-	const data = [
-		{
-			question: 'What is the most common colour of toilet paper in France',
-			options: [
-				{
-					value: 'White',
-					correct: false,
-					answers: 20,
-				},
-				{
-					value: 'Blue',
-					correct: false,
-					answers: 30,
-				},
-				{
-					value: 'Pink',
-					correct: true,
-					answers: 50,
-				},
-			],
-			answers: 10,
-		},
-
-		{
-			question: 'What does the average person do 13 times a day?',
-			options: [
-				{
-					value: 'Laugh',
-					correct: true,
-					answers: 70,
-				},
-				{
-					value: 'Go to the bathroom',
-					correct: false,
-					answers: 20,
-				},
-				{
-					value: 'Yawn',
-					correct: false,
-					answers: 10,
-				},
-			],
-			answers: 10,
-		},
-
-		{
-			question: 'Which European country has 158 verses to its national anthem?',
-			options: [
-				{
-					value: 'Greece',
-					correct: true,
-					answers: 50,
-				},
-				{
-					value: 'Spain',
-					correct: false,
-					answers: 50,
-				},
-				{
-					value: 'Sweden',
-					correct: false,
-					answers: 0,
-				},
-			],
-			answers: 10,
-		},
-	]
-
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
 	})
 
-	socket.on('RoomEnter', a => {
-		console.log('::::::::::::::::::::: RoomEnter :::::::::::::::: ', a)
+	socket.on('endGame', a => {
+		console.log('::::::::::::::::::::: endGame :::::::::::::::: ', a)
+		navigation.navigate('final')
 	})
 
 	socket.on('question', q => {
 		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
+		setQuestion(q)
 	})
 
-	if (question_number > data.length) {
-		navigation.navigate('final')
-	}
+	// if (question_number > data.length) {
+
+	// }
 
 	const selectAnswer = i => {
-		// do something later
+		const gameId = route.params['gameId']
+		const answerId = question.options[i]._id
+		const payload = { gameId, answerId: answerId, questionId: question._id, time: 0 }
+		socket.emit('answer', payload)
 	}
 
 	// 1 - Sai a Question
@@ -250,7 +155,7 @@ export const QuestionScreen = () => {
 			<Wallpaper backgroundImage={questionBackground} preset="cover" />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text={`Question ${question_number} of ${data.length}`} />
+				<Text style={TITLE} preset="header" text={`Question ${question_number} of 20`} />
 				<View style={{ flexDirection: 'row' }}>
 					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
 				</View>

@@ -94,7 +94,7 @@ export function Question(props: QuestionProps) {
 
 		setAnswerResult(null)
 		setAnswer(null)
-	}, [data.question])
+	}, [data._id])
 
 	const selectAnswer = i => {
 		console.log('FIRST TIME', i)
@@ -126,7 +126,7 @@ export function Question(props: QuestionProps) {
 							text={'Your answer'}
 						/>
 					)}
-					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.value} />
+					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.text} />
 					{showResult && (
 						<Text
 							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}
@@ -145,7 +145,7 @@ export function Question(props: QuestionProps) {
 				<Text style={AMOUNT} preset="header" text={totalAnswers + 'K'} />
 			</View>
 			<View style={QUESTION_VIEW}>
-				<Text style={QUESTION} text={data.question} />
+				<Text style={QUESTION} text={data.text} />
 			</View>
 			<View style={RESULT_VIEW} />
 			{renderOptions()}

@@ -55,7 +55,14 @@ const RootStack = () => {
 				socket.io.opts.query = { token: token ?? '' }
 			})
 		}
-		socket.connect()
+		let res = socket.connect()
+		console.log("connect res", user)
+		console.log("connect res", socket.connected)
+		console.log("connect res", res.connected)
+
+		// socket.on("connect_error", (error) => {
+		// 	console.error(error, error.message)
+		// });
 		// if we don't have a user, its set to null and redirected to AuthStack
 		// else we enter the app
 		setUser(user)

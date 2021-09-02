@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
 import socket from '../../services/sockets'
@@ -99,24 +99,28 @@ const AMOUNT: TextStyle = {
 
 export const BetScreen = () => {
 	const navigation = useNavigation()
+	const route = useRoute()
 	const goBack = () => navigation.goBack()
 
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
 	})
 
-	socket.on('RoomEnter', a => {
-		console.log('::::::::::::::::::::: RoomEnter :::::::::::::::: ', a)
+	socket.on('startGame', a => {
+		navigation.navigate('question', {gameId: route.params['gameId']})
+		console.log('::::::::::::::::::::: startGame :::::::::::::::: ', a)
 	})
 
 	socket.on('question', q => {
 		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
 	})
-	console.log('connect')
+
+	console.log('connect', socket.connected)
 
 	const click = () => {
-		console.log('CLICK')
-		socket.emit('join', { id: 'b9e64f45-ba15-40b0-abdf-17e526be5a0b' })
+		console.log('CLICK', route.params['gameId'])
+
+		socket.emit('join', { id: route.params['gameId'] })
 	}
 
 	return (
@@ -137,7 +141,7 @@ export const BetScreen = () => {
 							style={JOIN}
 							textStyle={DEMO_TEXT}
 							text="JOIN NOW"
-							onPress={() => navigation.navigate('question')}
+							onPress={() => click()}
 						/>
 					</View>
 				</View>

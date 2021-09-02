@@ -2,11 +2,14 @@ import { StyleProp, ViewProps, TextStyle } from "react-native"
 import { TxKeyPath } from "../../i18n"
 
 type Question = {
+  _id: string
   question: string
+  text: string
   options: {
-    value: string
+    text: string
     correct: boolean
     answers: number
+    _id: string
   }[]
   answers: number
 }

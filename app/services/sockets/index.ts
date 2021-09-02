@@ -1,7 +1,7 @@
 import { API_URL } from '@env'
 import { io } from 'socket.io-client'
 
-const socket = io(API_URL, {
+const socket = io("http://127.0.0.1:4001", {
 	transports: ['websocket'],
 	withCredentials: true,
 	autoConnect: false,

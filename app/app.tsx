@@ -11,28 +11,20 @@
  */
 import './i18n'
 import './utils/ignore-warnings'
-import React, { useState, useEffect, useRef } from 'react'
-import { NavigationContainerRef } from '@react-navigation/native'
+import React, { useState, useEffect } from 'react'
 import AppLoading from 'expo-app-loading'
 import { useColorScheme } from 'react-native'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
-import { enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { ThemeProvider } from 'styled-components'
 import { ToggleStorybook } from '../storybook/toggle-storybook'
-import { useBackButtonHandler, RootNavigator, canExit, setRootNavigation, useNavigationPersistence } from './navigators'
+import { useBackButtonHandler, RootNavigator, canExit, useNavigationPersistence } from './navigators'
 import { Environment } from './services/reactotron/environment'
 import { store, persistor } from './store'
 import { initFonts } from './theme/fonts' // expo
 import { lightTheme, darkTheme } from './theme/theme'
 import * as storage from './utils/storage'
-
-// This puts screens in a native ViewController or Activity. If you want fully native
-// stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
-// https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
-
-enableScreens()
 
 export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE'
 
@@ -40,16 +32,14 @@ export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE'
  * This is the root component of our app.
  */
 function App() {
-	const navigationRef = useRef<NavigationContainerRef>(null)
 	const [appIsReady, setAppIsReady] = useState(false)
 	const scheme = useColorScheme()
-
-	setRootNavigation(navigationRef)
-	useBackButtonHandler(navigationRef, canExit)
-	const { initialNavigationState, onNavigationStateChange } = useNavigationPersistence(
-		storage,
-		NAVIGATION_PERSISTENCE_KEY,
-	)
+	useBackButtonHandler(canExit)
+	const {
+		initialNavigationState,
+		onNavigationStateChange,
+		isRestored: isNavigationStateRestored,
+	} = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
 	// Kick off initial async loading actions, like loading fonts and RootStore
 	useEffect(() => {
@@ -70,10 +60,9 @@ function App() {
 	// In the meantime, don't render anything. This will be the background
 	// color set in native by rootView's background color. You can replace
 	// with your own loading component if you wish.
-	if (!appIsReady) {
+	if (!appIsReady || !isNavigationStateRestored) {
 		return <AppLoading />
 	}
-
 	// otherwise, we're ready to render the app
 	return (
 		<Provider store={store}>
@@ -81,11 +70,7 @@ function App() {
 				<ThemeProvider theme={scheme === 'dark' ? darkTheme : lightTheme}>
 					<ToggleStorybook>
 						<SafeAreaProvider initialMetrics={initialWindowMetrics}>
-							<RootNavigator
-								ref={navigationRef}
-								initialState={initialNavigationState}
-								onStateChange={onNavigationStateChange}
-							/>
+							<RootNavigator initialState={initialNavigationState} onStateChange={onNavigationStateChange} />
 						</SafeAreaProvider>
 					</ToggleStorybook>
 				</ThemeProvider>

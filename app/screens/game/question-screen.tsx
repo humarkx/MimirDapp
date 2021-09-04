@@ -155,7 +155,7 @@ export const QuestionScreen = () => {
 			<Wallpaper backgroundImage={questionBackground} preset="cover" />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text={`Question ${question_number} of 20`} />
+				<Text style={TITLE} text={`Question ${question_number} of 20`} />
 				<View style={{ flexDirection: 'row' }}>
 					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
 				</View>

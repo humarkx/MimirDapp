@@ -29,7 +29,7 @@ const weight: { [key: string]: FontWeightVariants } = {
 	black: '900',
 }
 
-interface Typography extends TypographyVariants {
+export interface Typography extends TypographyVariants {
 	primary: string
 	secondary: string
 	code: string

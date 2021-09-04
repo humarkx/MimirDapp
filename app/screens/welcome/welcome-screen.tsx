@@ -1,6 +1,5 @@
 import React from 'react'
 import auth from '@react-native-firebase/auth'
-import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-native'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../components'
 import { colors, spacing, typography } from '../../theme'
@@ -82,7 +81,7 @@ const LOGOUT: ViewStyle = {
 	backgroundColor: colors.palette.white,
 }
 export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
-	const nextScreen = () => navigation.navigate('demo')
+	const nextScreen = () => navigation.navigate('Dashboard')
 
 	const signOut = async () => {
 		await auth()

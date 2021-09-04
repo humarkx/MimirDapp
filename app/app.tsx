@@ -15,13 +15,12 @@ import React, { useState, useEffect } from 'react'
 import AppLoading from 'expo-app-loading'
 import { useColorScheme } from 'react-native'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
-import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { ThemeProvider } from 'styled-components'
 import { ToggleStorybook } from '../storybook/toggle-storybook'
 import { useBackButtonHandler, RootNavigator, canExit, useNavigationPersistence } from './navigators'
 import { Environment } from './services/reactotron/environment'
-import { store, persistor } from './store'
+import { Provider, store, persistor } from './store'
 import { initFonts } from './theme/fonts' // expo
 import { lightTheme, darkTheme } from './theme/theme'
 import * as storage from './utils/storage'
@@ -65,16 +64,14 @@ function App() {
 	}
 	// otherwise, we're ready to render the app
 	return (
-		<Provider store={store}>
-			<PersistGate loading={false} persistor={persistor}>
-				<ThemeProvider theme={scheme === 'dark' ? darkTheme : lightTheme}>
-					<ToggleStorybook>
-						<SafeAreaProvider initialMetrics={initialWindowMetrics}>
-							<RootNavigator initialState={initialNavigationState} onStateChange={onNavigationStateChange} />
-						</SafeAreaProvider>
-					</ToggleStorybook>
-				</ThemeProvider>
-			</PersistGate>
+		<Provider>
+			<ThemeProvider theme={scheme === 'dark' ? darkTheme : lightTheme}>
+				<ToggleStorybook>
+					<SafeAreaProvider initialMetrics={initialWindowMetrics}>
+						<RootNavigator initialState={initialNavigationState} onStateChange={onNavigationStateChange} />
+					</SafeAreaProvider>
+				</ToggleStorybook>
+			</ThemeProvider>
 		</Provider>
 	)
 }

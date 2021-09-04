@@ -87,7 +87,7 @@ const RootStack = () => {
 			{initializing && <Stack.Screen name="initStack" component={Initializing} />}
 			{!initializing && user && (
 				<Stack.Screen
-					name="mainStack"
+					name="MainStack"
 					component={MainNavigator}
 					options={{
 						headerShown: false,
@@ -141,5 +141,5 @@ RootNavigator.displayName = 'RootNavigator'
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ['mainStack']
+const exitRoutes = ['MainStack']
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)

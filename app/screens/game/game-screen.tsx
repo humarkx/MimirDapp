@@ -128,7 +128,7 @@ export const GameScreen = () => {
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={NEXT} preset="default" text="Next game starts at:" />
+				<Text style={NEXT} text="Next game starts at:" />
 
 				<View style={{ justifyContent: 'center', flexDirection: 'row', paddingBottom: 20 }}>
 					<AnimatedCircularProgress
@@ -143,17 +143,17 @@ export const GameScreen = () => {
 					</AnimatedCircularProgress>
 				</View>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20, marginBottom: 20 }}>
-					<Text style={POT_TEXT} preset="default" text="Today’s pot:" />
+					<Text style={POT_TEXT} text="Today’s pot:" />
 					<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 						<Image source={logoMimir1} style={TOKEN_SMALL} />
-						<Text style={POT_TEXT} preset="default" text="59 327" />
+						<Text style={POT_TEXT} text="59 327" />
 					</View>
 				</View>
 
-				<Text style={TITLE} preset="header" text="Bet amount" />
+				<Text style={TITLE} text="Bet amount" />
 				<Button testID="next-screen-button" style={[POT, { marginBottom: 20 }]} disabled={true}>
 					<Image source={logoMimir2} style={TOKEN} />
-					<Text style={POT_BALANCE} preset="header" text="1,000" />
+					<Text style={POT_BALANCE} text="1,000" />
 				</Button>
 				<Button style={FREE} textStyle={DEMO_TEXT} text="PLACE BET" onPress={() => navigation.navigate('bet')} />
 			</Screen>

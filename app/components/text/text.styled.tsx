@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { translate } from '../../i18n'
-import { ThemeType } from '../../theme'
+import { ThemeType } from '../../theme/theme'
 import { TextProps } from './text.props'
 import { TextColorVariants } from './text.types'
 
@@ -54,12 +54,7 @@ export const StyledText = (props: TextProps) => {
 	const content = i18nText || text || children
 
 	return (
-		<Text
-			variant={variant}
-			typography={typography}
-			{...rest}
-			//@ts-expect-error style is causing a ts error for no good reason.
-			style={styleOverride}>
+		<Text variant={variant} typography={typography} {...rest} style={styleOverride}>
 			{content}
 		</Text>
 	)

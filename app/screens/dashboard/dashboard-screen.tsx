@@ -3,10 +3,13 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import socket from '../../services/sockets'
-import { Button, Header, Text, Screen, Wallpaper, AutoImage as Image } from '../../components'
+import { Button, Header, Text, Screen, Wallpaper, AutoImage as Image, Spacer, Container } from '../../components'
+import { useSelector } from 'react-redux'
 
 import { colors, spacing } from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { DashboardScreenProps } from '../../@types/navigation'
+import { RootState } from '../../store'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir2 = require('../../../assets/images/mimir_3.png')
@@ -133,11 +136,11 @@ const BALANCE_TEXT: TextStyle = {
 	fontSize: 30,
 }
 
-export const DashboardScreen = () => {
+export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	const [balance, setBalance] = useState('')
 	const [games, setGames] = useState([])
-	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
+	const { username } = useSelector((state: RootState) => state.auth)
 
 	useFocusEffect(() => {
 		console.log('CHECKING WALLET BALLANCE')
@@ -173,34 +176,34 @@ export const DashboardScreen = () => {
 		<View testID="DashboardScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
-				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
+				<Spacer space={'large'} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text="Welcome!" />
-				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-					{games.map(game => {
-						const nextRoute = game.type === 'FREE' ? 'bet' : 'game'
-						return (
-							<View key={game.refId}>
-								<AnimatedCircularProgress
-									size={150}
-									width={15}
-									backgroundWidth={15}
-									rotation={360}
-									fill={85}
-									tintColor="#78305F"
-									backgroundColor="#fff">
-									{fill => <Text style={styles.points}>20:00</Text>}
-								</AnimatedCircularProgress>
-								<Text style={styles.actionLabel}>{game.type} TO PLAY</Text>
-								<Button
-									style={FREE}
-									textStyle={DEMO_TEXT}
-									text="JOIN"
-									onPress={() => navigation.navigate(nextRoute, { gameId: game.refId })}
-								/>
-							</View>
-						)
-					})}
+				<Text style={TITLE} text={username} />
+				<Container>
+					{/*{games.map(game => {*/}
+					{/*	const nextRoute = game.type === 'FREE' ? 'bet' : 'game'*/}
+					{/*	return (*/}
+					{/*		<View key={game.refId}>*/}
+					{/*			<AnimatedCircularProgress*/}
+					{/*				size={150}*/}
+					{/*				width={15}*/}
+					{/*				backgroundWidth={15}*/}
+					{/*				rotation={360}*/}
+					{/*				fill={85}*/}
+					{/*				tintColor="#78305F"*/}
+					{/*				backgroundColor="#fff">*/}
+					{/*				{fill => <Text style={styles.points}>20:00</Text>}*/}
+					{/*			</AnimatedCircularProgress>*/}
+					{/*			<Text style={styles.actionLabel}>{game.type} TO PLAY</Text>*/}
+					{/*			<Button*/}
+					{/*				style={FREE}*/}
+					{/*				textStyle={DEMO_TEXT}*/}
+					{/*				text="JOIN"*/}
+					{/*				onPress={() => navigation.navigate(nextRoute, { gameId: game.refId })}*/}
+					{/*			/>*/}
+					{/*		</View>*/}
+					{/*	)*/}
+					{/*})}*/}
 
 					{/* <View>
 						<AnimatedCircularProgress
@@ -216,13 +219,13 @@ export const DashboardScreen = () => {
 						<Text style={styles.actionLabel}>BET TO PLAY</Text>
 						<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
 					</View> */}
-				</View>
+				</Container>
 
 				<Button testID="next-screen-button" style={POT} disabled={true}>
 					<Image source={wallet} style={WALLET} />
 					<View style={{ flexDirection: 'row' }}>
 						<Image source={logoMimir2} style={[TOKEN, { marginRight: 10 }]} />
-						<Text style={BALANCE_TEXT} preset="header" text={balance} />
+						<Text style={BALANCE_TEXT} text={balance} />
 					</View>
 				</Button>
 			</Screen>

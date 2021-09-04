@@ -35,21 +35,21 @@ const getButtonSize = (size, icon) => {
 			return `
         height: 38px;
         ${icon ? 'width: 38px;' : ''}
-        border-radius: 12px;
+        border-radius: 38px;
         padding-horizontal: 6px;
 				`
 		case 'medium':
 			return `
         height: 40px;
         ${icon ? 'width: 40px;' : ''}
-        border-radius: 12px;
+        border-radius: 40px;
          padding-horizontal: 8px;
       `
 		case 'large':
 			return `
         height: 58px;
 				${icon ? 'width: 58px;' : ''}
-        border-radius: 16px;
+        border-radius: 58px;
         padding-horizontal: 16px;
       `
 		case 'default':
@@ -57,7 +57,7 @@ const getButtonSize = (size, icon) => {
 			return `
         height: 58px;
         ${icon ? 'width: 58px;' : ''}
-        border-radius: 16px;
+        border-radius: 58px;
 				padding-horizontal: 12px;
       `
 	}
@@ -74,7 +74,7 @@ const Button = styled.TouchableOpacity<ButtonProps>`
 		type === 'clear' || type === 'outline'
 			? 'transparent'
 			: variant === 'mono'
-			? theme.colors.palette.branding['grey-100']
+			? theme.colors.palette.gray
 			: getColorVariant(theme, variant, opacity)};
 	${({ theme, type, variant, disabled, opacity }) =>
 		type === 'outline' &&

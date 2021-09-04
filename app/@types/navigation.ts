@@ -1,20 +1,22 @@
-import { CompositeNavigationProp, NavigatorScreenParams } from '@react-navigation/native'
+import { CompositeNavigationProp, CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 
 export type MainParamList = {
 	welcome: undefined
-	demo: undefined
-	bet: undefined
+	Dashboard: undefined
+	bet: { gameId: string }
 	question: undefined
-	game: undefined
+	game: { gameId: string }
 	demoList: undefined
 	final: undefined
 }
 
 export type RootParamList = {
 	initStack: undefined
-	mainStack: NavigatorScreenParams<MainParamList>
+	BoardingStack: undefined
+	MainStack: NavigatorScreenParams<MainParamList>
 	authStack: undefined
 }
 
 export type WelcomeScreenProps = StackScreenProps<MainParamList, 'welcome'>
+export type DashboardScreenProps = StackScreenProps<MainParamList, 'Dashboard'>

@@ -29,12 +29,13 @@ const Stack = createNativeStackNavigator<MainParamList>()
 export function MainNavigator() {
 	return (
 		<Stack.Navigator
+			initialRouteName={'Dashboard'}
 			screenOptions={{
 				headerShown: false,
 				gestureEnabled: true,
 			}}>
 			<Stack.Screen name="welcome" component={WelcomeScreen} />
-			<Stack.Screen name="demo" component={DashboardScreen} />
+			<Stack.Screen name="Dashboard" component={DashboardScreen} />
 			<Stack.Screen name="game" component={GameScreen} />
 			<Stack.Screen name="bet" component={BetScreen} />
 			<Stack.Screen name="question" component={QuestionScreen} />

@@ -11,7 +11,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { View } from 'react-native'
 import { ActivityIndicator } from '../components'
 import socket from '../services/sockets'
-import { color } from '../theme'
 import { MainNavigator, AuthNavigator } from './index'
 import { useTheme } from 'styled-components'
 import { navigationRef } from './navigation-utilities'
@@ -46,7 +45,7 @@ const Initializing = () => {
 const RootStack = () => {
 	const [initializing, setInitializing] = useState(true)
 	const [user, setUser] = useState()
-
+	const { colors } = useTheme()
 	const onAuthStateChanged = async user => {
 		if (!user) {
 			socket.io.opts.query = { token: '' }
@@ -56,9 +55,9 @@ const RootStack = () => {
 			})
 		}
 		let res = socket.connect()
-		console.log("connect res", user)
-		console.log("connect res", socket.connected)
-		console.log("connect res", res.connected)
+		console.log('connect res', user)
+		console.log('connect res', socket.connected)
+		console.log('connect res', res.connected)
 
 		// socket.on("connect_error", (error) => {
 		// 	console.error(error, error.message)
@@ -86,7 +85,7 @@ const RootStack = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				cardStyle: { backgroundColor: color.palette.deepPurple },
+				cardStyle: { backgroundColor: colors.palette.deepPurple },
 				headerShown: false,
 			}}>
 			{initializing && <Stack.Screen name="initStack" component={Initializing} />}

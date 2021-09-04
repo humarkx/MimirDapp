@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-native'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../components'
-import { color, spacing, typography } from '../../theme'
+import { colors, spacing, typography } from '../../theme'
 
 const logout = require('../../../assets/images/logout.png')
 const MimirLogo = require('../../../assets/images/mimir_white.png')
@@ -11,11 +11,11 @@ const BlockchainLogo = require('./blockchain.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const TEXT: TextStyle = {
-	color: color.palette.white,
+	color: colors.palette.white,
 	fontFamily: typography.primary,
 }
 const BOLD: TextStyle = { fontWeight: 'bold' }
@@ -45,7 +45,7 @@ const BLOCKCHAIN: ImageStyle = {
 const CONTINUE: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.deepPurple,
+	backgroundColor: colors.palette.deepPurple,
 }
 const CONTINUE_TEXT: TextStyle = {
 	...TEXT,
@@ -61,7 +61,7 @@ const FOOTER_CONTENT: ViewStyle = {
 const LOGOUT_TEXT: TextStyle = {
 	...TEXT,
 	...BOLD,
-	color: color.palette.deepPurple,
+	color: colors.palette.deepPurple,
 	fontSize: 13,
 	letterSpacing: 2,
 }
@@ -78,7 +78,7 @@ const CONGRATULATIONS_TEXT: TextStyle = {
 const LOGOUT: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.white,
+	backgroundColor: colors.palette.white,
 }
 export const WelcomeScreen = () => {
 	const navigation = useNavigation()
@@ -99,7 +99,7 @@ export const WelcomeScreen = () => {
 	return (
 		<View testID="WelcomeScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Image source={MimirLogo} style={MIMIRWHITESTANDING} />
 				<Text style={CONGRATULATIONS_TEXT} text="CONGRATULATIONS! " />
 				<Text style={CONGRATULATIONS_TEXT} text="YOUR MIMIR WALLET HAS BEEN CREATED " />

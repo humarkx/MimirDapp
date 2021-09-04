@@ -5,7 +5,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import socket from '../../services/sockets'
 import { Button, Header, Text, Screen, Wallpaper, AutoImage as Image } from '../../components'
 
-import { color, spacing } from '../../theme'
+import { colors, spacing } from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
@@ -14,13 +14,13 @@ const wallet = require('../../../assets/images/mimir_wallet.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const DEMO: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.deepPurple,
+	backgroundColor: colors.palette.deepPurple,
 }
 const FREE: ViewStyle = {
 	borderRadius: 50,
@@ -114,22 +114,22 @@ const POT: ViewStyle = {
 	marginTop: spacing.massive,
 	marginHorizontal: spacing.medium,
 	paddingVertical: spacing.smaller,
-	backgroundColor: color.palette.white,
+	backgroundColor: colors.palette.white,
 }
 const TEXT: TextStyle = {
-	color: color.palette.white,
+	color: colors.palette.white,
 }
 const POT_TEXT: TextStyle = {
 	...TEXT,
 	...BOLD,
-	color: color.palette.deepPurple,
+	color: colors.palette.deepPurple,
 	fontSize: 13,
 	letterSpacing: 2,
 }
 const BALANCE_TEXT: TextStyle = {
 	...TEXT,
 	...BOLD,
-	color: color.palette.deepPurple,
+	color: colors.palette.deepPurple,
 	fontSize: 30,
 }
 
@@ -150,7 +150,7 @@ export const DashboardScreen = () => {
 		socket.emit('getGames')
 	}, [])
 
-	socket.on('openGames', (games) => {
+	socket.on('openGames', games => {
 		console.log(games)
 		setGames(games)
 	})
@@ -172,15 +172,15 @@ export const DashboardScreen = () => {
 	return (
 		<View testID="DashboardScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text="Welcome!" />
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-					{
-						games.map(game => {
-							const nextRoute = game.type === 'FREE'? 'bet' : 'game'
-							return <View key={game.refId}>
+					{games.map(game => {
+						const nextRoute = game.type === 'FREE' ? 'bet' : 'game'
+						return (
+							<View key={game.refId}>
 								<AnimatedCircularProgress
 									size={150}
 									width={15}
@@ -192,11 +192,15 @@ export const DashboardScreen = () => {
 									{fill => <Text style={styles.points}>20:00</Text>}
 								</AnimatedCircularProgress>
 								<Text style={styles.actionLabel}>{game.type} TO PLAY</Text>
-								<Button style={FREE} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate(nextRoute, {gameId: game.refId})} />
+								<Button
+									style={FREE}
+									textStyle={DEMO_TEXT}
+									text="JOIN"
+									onPress={() => navigation.navigate(nextRoute, { gameId: game.refId })}
+								/>
 							</View>
-						})
-					}
-
+						)
+					})}
 
 					{/* <View>
 						<AnimatedCircularProgress

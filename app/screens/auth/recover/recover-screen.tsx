@@ -2,17 +2,17 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-native'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../../components'
-import { color, spacing, typography } from '../../../theme'
+import { colors, spacing, typography } from '../../../theme'
 
 const bowserLogo = require('./bowser.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const TEXT: TextStyle = {
-	color: color.palette.white,
+	color: colors.palette.white,
 	fontFamily: typography.primary,
 }
 const BOLD: TextStyle = { fontWeight: 'bold' }
@@ -63,7 +63,7 @@ const CONTENT: TextStyle = {
 const CONTINUE: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.deepPurple,
+	backgroundColor: colors.palette.deepPurple,
 }
 const CONTINUE_TEXT: TextStyle = {
 	...TEXT,
@@ -84,7 +84,7 @@ export const RecoverScreen = () => {
 	return (
 		<View testID="RecoverScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header headerTx="welcomeScreen.poweredBy" style={HEADER} titleStyle={HEADER_TITLE} />
 				<Text style={TITLE_WRAPPER}>
 					<Text style={TITLE} text="Your new app, " />

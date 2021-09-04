@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { translate } from '../../i18n'
-import { color, spacing } from '../../theme'
+import { colors, spacing } from '../../theme'
 import { Text } from '../text/text'
 import { QuestionProps } from './question.props'
 

@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
 import socket from '../../services/sockets'
-import { color, spacing } from '../../theme'
+import { colors, spacing } from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
@@ -13,7 +13,7 @@ const stack = require('../../../assets/images/mimir_stack.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const JOIN: ViewStyle = {
@@ -108,7 +108,7 @@ const AMOUNT: TextStyle = {
 	...BOLD,
 	fontSize: 34,
 	textAlign: 'center',
-	marginLeft: 10
+	marginLeft: 10,
 }
 
 export const FinalScreen = () => {
@@ -155,7 +155,7 @@ export const FinalScreen = () => {
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Image source={logoMimir} style={MIMIR} />
 
 				<Image source={wallet} style={WALLET} />
@@ -166,7 +166,7 @@ export const FinalScreen = () => {
 				<View
 					style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
 					<Image source={stack} style={STACK} />
-					<View style={{ flexDirection: 'row'}}>
+					<View style={{ flexDirection: 'row' }}>
 						<Image source={logoMimir2} style={TOKEN} />
 						<Text style={AMOUNT} preset="header" text={prize} />
 					</View>

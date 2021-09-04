@@ -6,17 +6,17 @@ import { Input } from 'react-native-elements'
 import { useDispatch } from 'react-redux'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image, Spacer } from '../../../components'
 import { register } from '../../../store/user/actions'
-import { color, spacing, typography } from '../../../theme'
+import { colors, spacing, typography } from '../../../theme'
 
 const mimirLogo = require('../../../..//assets/images/mimir_white.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const TEXT: TextStyle = {
-	color: color.palette.white,
+	color: colors.palette.white,
 	fontFamily: typography.primary,
 }
 const BOLD: TextStyle = { fontWeight: 'bold' }
@@ -68,17 +68,17 @@ const CONTENT: TextStyle = {
 const CONTINUE: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.deepPurple,
+	backgroundColor: colors.palette.deepPurple,
 }
 const SIGNUP: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
-	backgroundColor: color.palette.white,
+	backgroundColor: colors.palette.white,
 }
 const SIGNUP_TEXT: TextStyle = {
 	...TEXT,
 	...BOLD,
-	color: color.palette.deepPurple,
+	color: colors.palette.deepPurple,
 	fontSize: 13,
 	letterSpacing: 2,
 }
@@ -109,7 +109,7 @@ export const SignUpScreen = () => {
 	return (
 		<View testID="SignUpScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header style={HEADER} titleStyle={HEADER_TITLE} />
 
 				<Image source={mimirLogo} style={BOWSER} />

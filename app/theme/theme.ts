@@ -1,4 +1,3 @@
-import { color } from './color'
 import { Colors, colors } from './colors'
 import { spacing, Spacing } from './spacing'
 import { typography, Typography } from './typography'
@@ -8,7 +7,6 @@ export interface ThemeType {
 	spacing: Spacing
 	typography: Typography
 	colors: Colors
-	color: unknown
 }
 
 export const lightTheme: ThemeType = {
@@ -16,7 +14,6 @@ export const lightTheme: ThemeType = {
 	spacing: spacing,
 	typography: typography,
 	colors: colors,
-	color: color,
 }
 
 export const darkTheme: ThemeType = {
@@ -24,5 +21,4 @@ export const darkTheme: ThemeType = {
 	spacing: spacing,
 	typography: typography,
 	colors: colors,
-	color: color,
 }

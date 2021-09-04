@@ -5,7 +5,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import * as Progress from 'react-native-progress'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header, Question } from '../../components'
 import socket from '../../services/sockets'
-import { color, spacing } from '../../theme'
+import { colors, spacing } from '../../theme'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const questionBackground = require('../../../assets/images/question_background.jpeg')
@@ -13,7 +13,7 @@ const checked = require('../../../assets/images/tick_gif.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const JOIN: ViewStyle = {
@@ -153,7 +153,7 @@ export const QuestionScreen = () => {
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper backgroundImage={questionBackground} preset="cover" />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text={`Question ${question_number} of 20`} />
 				<View style={{ flexDirection: 'row' }}>

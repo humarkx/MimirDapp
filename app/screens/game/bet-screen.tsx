@@ -3,14 +3,14 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
 import socket from '../../services/sockets'
-import { color, spacing } from '../../theme'
+import { colors, spacing } from '../../theme'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const checked = require('../../../assets/images/tick_gif.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 const JOIN: ViewStyle = {
@@ -107,7 +107,7 @@ export const BetScreen = () => {
 	})
 
 	socket.on('startGame', a => {
-		navigation.navigate('question', {gameId: route.params['gameId']})
+		navigation.navigate('question', { gameId: route.params['gameId'] })
 		console.log('::::::::::::::::::::: startGame :::::::::::::::: ', a)
 	})
 
@@ -126,7 +126,7 @@ export const BetScreen = () => {
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text="Bet Placed" />
 
@@ -137,12 +137,7 @@ export const BetScreen = () => {
 				<Text style={AMOUNT} preset="header" text="50.2K" />
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 					<View>
-						<Button
-							style={JOIN}
-							textStyle={DEMO_TEXT}
-							text="JOIN NOW"
-							onPress={() => click()}
-						/>
+						<Button style={JOIN} textStyle={DEMO_TEXT} text="JOIN NOW" onPress={() => click()} />
 					</View>
 				</View>
 			</Screen>

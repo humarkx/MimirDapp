@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
-import { Input } from 'react-native-elements'
 import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header, Spacer } from '../../components'
-import { color, spacing } from '../../theme'
+import { colors, spacing } from '../../theme'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -14,7 +13,7 @@ const wallet = require('../../../assets/images/mimir_wallet.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.transparent,
+	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 
@@ -87,15 +86,15 @@ const MIMIR: ImageStyle = {
 const POT: ViewStyle = {
 	flexDirection: 'row',
 	paddingVertical: spacing.tiny,
-	backgroundColor: color.palette.white,
+	backgroundColor: colors.palette.white,
 }
 
 const TEXT: TextStyle = {
-	color: color.palette.white,
+	color: colors.palette.white,
 }
 const POT_BALANCE: TextStyle = {
 	...TEXT,
-	color: color.palette.trueBlack,
+	color: colors.palette.trueBlack,
 	fontSize: 30,
 	letterSpacing: 2,
 }
@@ -107,7 +106,7 @@ const POT_TEXT: TextStyle = {
 const BALANCE_TEXT: TextStyle = {
 	...TEXT,
 	...BOLD,
-	color: color.palette.deepPurple,
+	color: colors.palette.deepPurple,
 	fontSize: 20,
 	letterSpacing: 2,
 }
@@ -126,7 +125,7 @@ export const GameScreen = () => {
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={NEXT} preset="default" text="Next game starts at:" />

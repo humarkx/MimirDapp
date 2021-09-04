@@ -10,11 +10,12 @@ import { NavigationContainer, NavigationContainerRef } from '@react-navigation/n
 import { createStackNavigator } from '@react-navigation/stack'
 import { View } from 'react-native'
 import { ActivityIndicator } from '../components'
-import socket from '../services/sockets'
 import { MainNavigator, AuthNavigator } from './index'
 import { useTheme } from 'styled-components'
 import { navigationRef } from './navigation-utilities'
 import { RootParamList } from '../@types/navigation'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,45 +30,35 @@ import { RootParamList } from '../@types/navigation'
 
 const Stack = createStackNavigator<RootParamList>()
 
-const Initializing = () => {
-	return (
-		// eslint-disable-next-line react-native/no-inline-styles
-		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-			<ActivityIndicator />
-		</View>
-	)
-}
-
 const RootStack = () => {
-	const [initializing, setInitializing] = useState(true)
-	const [user, setUser] = useState()
 	const { colors } = useTheme()
-	const onAuthStateChanged = async user => {
-		if (!user) {
-			socket.io.opts.query = { token: '' }
-		} else {
-			await user.getIdToken().then(token => {
-				socket.io.opts.query = { token: token ?? '' }
-			})
-		}
-		let res = socket.connect()
-		console.log('connect res', user)
-		console.log('connect res', socket.connected)
-		console.log('connect res', res.connected)
-
-		// socket.on("connect_error", (error) => {
-		// 	console.error(error, error.message)
-		// });
-		// if we don't have a user, its set to null and redirected to AuthStack
-		// else we enter the app
-		setUser(user)
-		if (initializing) setInitializing(false)
-	}
-
-	useEffect(() => {
-		const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-		return subscriber // unsubscribe on unmount
-	}, [])
+	const { authorized, loading } = useSelector((state: RootState) => state.user)
+	// const onAuthStateChanged = async user => {
+	// 	if (!user) {
+	// 		socket.io.opts.query = { token: '' }
+	// 	} else {
+	// 		await user.getIdToken().then(token => {
+	// 			socket.io.opts.query = { token: token ?? '' }
+	// 		})
+	// 	}
+	// 	let res = socket.connect()
+	// 	console.log('connect res', user)
+	// 	console.log('connect res', socket.connected)
+	// 	console.log('connect res', res.connected)
+	//
+	// 	// socket.on("connect_error", (error) => {
+	// 	// 	console.error(error, error.message)
+	// 	// });
+	// 	// if we don't have a user, its set to null and redirected to AuthStack
+	// 	// else we enter the app
+	// 	setUser(user)
+	// 	if (initializing) setInitializing(false)
+	// }
+	//
+	// useEffect(() => {
+	// 	const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+	// 	return subscriber // unsubscribe on unmount
+	// }, [])
 
 	const Initializing = () => {
 		return (
@@ -84,8 +75,8 @@ const RootStack = () => {
 				cardStyle: { backgroundColor: colors.palette.deepPurple },
 				headerShown: false,
 			}}>
-			{initializing && <Stack.Screen name="initStack" component={Initializing} />}
-			{!initializing && user && (
+			{loading && <Stack.Screen name="initStack" component={Initializing} />}
+			{!loading && authorized && (
 				<Stack.Screen
 					name="MainStack"
 					component={MainNavigator}
@@ -94,7 +85,7 @@ const RootStack = () => {
 					}}
 				/>
 			)}
-			{!initializing && !user && (
+			{!loading && !authorized && (
 				<Stack.Screen
 					name="authStack"
 					component={AuthNavigator}

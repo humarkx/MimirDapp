@@ -17,7 +17,9 @@ function* LOGIN(action: UserActionsTypes) {
 		//   message: 'Logged In',
 		//   description: 'You have successfully logged in!',
 		// })
-	} catch (error) {}
+	} catch (error) {
+		console.log('LOGIN ERROR', error.message, error)
+	}
 }
 
 function* REGISTER(action: UserActionsTypes) {

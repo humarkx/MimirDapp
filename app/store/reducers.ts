@@ -4,7 +4,7 @@ import authReducer from './user/reducers'
 
 const rootReducer = combineReducers({
 	posts: postReducer,
-	auth: authReducer,
+	user: authReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

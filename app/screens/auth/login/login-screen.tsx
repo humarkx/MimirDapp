@@ -5,6 +5,8 @@ import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView, Alert } from 'rea
 import { Input } from 'react-native-elements'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image, Spacer } from '../../../components'
 import { colors, spacing, typography } from '../../../theme'
+import { useDispatch } from 'react-redux'
+import { login } from '../../../store/user/actions'
 
 const mimirLogo = require('../../../..//assets/images/mimir_white.png')
 
@@ -92,29 +94,31 @@ export const LoginScreen = () => {
 	const navigation = useNavigation()
 	const nextScreen = () => navigation.navigate('demo')
 	const signUp = () => navigation.navigate('SignUp')
+	const dispatch = useDispatch()
 
 	const signIn = async () => {
-		await auth()
-			.signInWithEmailAndPassword(email.trim(), password)
-			.then(async userCredential => {
-				const token = await auth().currentUser.getIdTokenResult()
-				console.log(userCredential.user)
-			})
-			.catch(error => {
-				if (error.code === 'auth/invalid-email') {
-					Alert.alert('That email address is invalid!')
-					console.log('That email address is invalid!')
-					return
-				}
-				if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-					Alert.alert('The password is invalid or the user does not exist.')
-					console.log('The password is invalid or the user does not exist.')
-					return
-				}
-				Alert.alert(error.message)
-				console.log(error.code)
-				console.log(error.message)
-			})
+		dispatch(login(email.trim(), password.trim()))
+		// await auth()
+		// 	.signInWithEmailAndPassword(email.trim(), password)
+		// 	.then(async userCredential => {
+		// 		const token = await auth().currentUser.getIdTokenResult()
+		// 		console.log(userCredential.user)
+		// 	})
+		// 	.catch(error => {
+		// 		if (error.code === 'auth/invalid-email') {
+		// 			Alert.alert('That email address is invalid!')
+		// 			console.log('That email address is invalid!')
+		// 			return
+		// 		}
+		// 		if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+		// 			Alert.alert('The password is invalid or the user does not exist.')
+		// 			console.log('The password is invalid or the user does not exist.')
+		// 			return
+		// 		}
+		// 		Alert.alert(error.message)
+		// 		console.log(error.code)
+		// 		console.log(error.message)
+		// 	})
 	}
 
 	return (

@@ -9,7 +9,7 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.response.use(undefined, error => {
-	console.log('ERROR DATA::::::', error)
+	console.log('ERROR DATA:', error)
 	// Errors handling
 	const { response } = error
 	const { data } = response

@@ -140,7 +140,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	const [balance, setBalance] = useState('')
 	const [games, setGames] = useState([])
 	const goBack = () => navigation.goBack()
-	const { username } = useSelector((state: RootState) => state.auth)
+	const { username } = useSelector((state: RootState) => state.user)
 
 	useFocusEffect(() => {
 		console.log('CHECKING WALLET BALLANCE')

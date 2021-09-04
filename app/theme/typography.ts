@@ -1,143 +1,102 @@
 import { Platform } from 'react-native'
 
-/**
- * You can find a list of available fonts on both iOS and Android here:
- * https://github.com/react-native-training/react-native-fonts
- *
- * If you're interested in adding a custom font to your project,
- * check out the readme file in ./assets/fonts/ then come back here
- * and enter your new font name. Remember the Android font name
- * is probably different than iOS.
- * More on that here:
- * https://github.com/lendup/react-native-cross-platform-text
- *
- * The various styles of fonts are defined in the <Text /> component.
- */
+const FontWeight = ['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900'] as const
+export type FontWeightVariants = typeof FontWeight[number]
 
 export interface Text {
 	fontFamily: string
-	fontWeight: number
-	fontSize: number | string
-	lineHeight?: number | string
+	fontWeight: FontWeightVariants
+	fontSize: number
+	lineHeight: number
 	letterSpacing?: number | string
 }
-export interface Typography {
+
+const TypographyStringVariants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'] as const
+export type TypographyTypes = typeof TypographyStringVariants[number]
+
+export type TypographyVariants = {
+	[key in TypographyTypes]: Text
+}
+
+const weight: { [key: string]: FontWeightVariants } = {
+	thin: '100',
+	extraLight: '200',
+	light: '300',
+	regular: '400',
+	medium: '500',
+	semiBold: '600',
+	bold: '700',
+	black: '900',
+}
+
+interface Typography extends TypographyVariants {
 	primary: string
 	secondary: string
 	code: string
-	h1: Text
-	h2: Text
-	h3: Text
-	h4: Text
-	h5: Text
-	h6: Text
-	h7: Text
-	h8: Text
-	body: Text
-	button: Text
 }
 
-const weight = {
-	thin: 100,
-	extraLight: 200,
-	light: 300,
-	regular: 400,
-	medium: 500,
-	semiBold: 600,
-	bold: 700,
-	black: 900,
-}
-
-const font = {
-	/**
-	 * The primary font.  Used in most places.
-	 */
-	primary: Platform.select({ ios: 'System', android: 'System' }),
-
-	/**
-	 * An alternate font used for perhaps titles and stuff.
-	 */
-	secondary: Platform.select({ ios: 'System', android: 'System' }),
-
-	/**
-	 * Lets get fancy with a monospace font!
-	 */
-	code: Platform.select({ ios: 'System', android: 'System' }),
-}
 export const typography: Typography = {
 	/**
 	 * The primary font.  Used in most places.
 	 */
-	primary: font.primary,
+	primary: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 
 	/**
 	 * An alternate font used for perhaps titles and stuff.
 	 */
-	secondary: font.secondary,
+	secondary: Platform.select({ ios: 'Arial', android: 'sans-serif' }),
 
 	/**
 	 * Lets get fancy with a monospace font!
 	 */
-	code: font.code,
+	code: Platform.select({ ios: 'Courier', android: 'monospace' }),
 
 	h1: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.semiBold,
-		fontSize: '24px',
-		lineHeight: '30px',
+		fontSize: 24,
+		lineHeight: 30,
 	},
 	h2: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.semiBold,
-		fontSize: '16px',
-		lineHeight: '26px',
+		fontSize: 16,
+		lineHeight: 26,
 	},
 	h3: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.regular,
-		fontSize: '16px',
-		lineHeight: '26px',
+		fontSize: 16,
+		lineHeight: 26,
 	},
 	h4: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.bold,
-		fontSize: '14px',
-		lineHeight: '18px',
+		fontSize: 14,
+		lineHeight: 18,
 	},
 	h5: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.semiBold,
-		fontSize: '14px',
-		lineHeight: '18px',
+		fontSize: 14,
+		lineHeight: 18,
 	},
 	h6: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.regular,
-		fontSize: '14px',
-		lineHeight: '18px',
+		fontSize: 14,
+		lineHeight: 18,
 	},
 	h7: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.bold,
-		fontSize: '12px',
-		lineHeight: '15px',
+		fontSize: 12,
+		lineHeight: 15,
 	},
 	h8: {
-		fontFamily: font.primary,
+		fontFamily: Platform.select({ ios: 'Helvetica', android: 'normal' }),
 		fontWeight: weight.regular,
-		fontSize: '12px',
-		lineHeight: '15px',
+		fontSize: 12,
+		lineHeight: 15,
 	},
-	body: {
-		fontFamily: font.primary,
-		fontWeight: weight.regular,
-		fontSize: '16px',
-		lineHeight: '26px',
-	},
-	button: {
-		fontFamily: font.primary,
-		fontWeight: weight.regular,
-		fontSize: '16px',
-		lineHeight: '26px',
-	}
 }

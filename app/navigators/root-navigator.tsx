@@ -14,6 +14,7 @@ import socket from '../services/sockets'
 import { MainNavigator, AuthNavigator } from './index'
 import { useTheme } from 'styled-components'
 import { navigationRef } from './navigation-utilities'
+import { RootParamList } from '../@types/navigation'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -25,11 +26,6 @@ import { navigationRef } from './navigation-utilities'
  *   https://reactnavigation.org/docs/params/
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
-export type RootParamList = {
-	initStack: undefined
-	mainStack: undefined
-	authStack: undefined
-}
 
 const Stack = createStackNavigator<RootParamList>()
 

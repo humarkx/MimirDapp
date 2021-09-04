@@ -1,33 +1,72 @@
-import * as React from "react"
-import { ViewStyle, TextStyle, Alert } from "react-native"
-import { storiesOf } from "@storybook/react-native"
-import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { Button } from "./button"
+import * as React from 'react'
+import { boolean } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react-native'
+import { StoryScreen, Story, UseCase } from '../../../storybook/views'
+import { Spacer } from '../spacer/spacer'
+import { Button } from './button'
 
 declare let module
 
-const buttonStyleArray: ViewStyle[] = [{ paddingVertical: 100 }, { borderRadius: 0 }]
+const noop = () => undefined
 
-const buttonTextStyleArray: TextStyle[] = [{ fontSize: 20 }, { color: "#a511dc" }]
-
-storiesOf("Button", module)
-  .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
-  .add("Style Presets", () => (
-    <Story>
-      <UseCase text="Primary" usage="The primary button.">
-        <Button text="Click It" preset="primary" onPress={() => Alert.alert("pressed")} />
-      </UseCase>
-      <UseCase text="Disabled" usage="The disabled behaviour of the primary button.">
-        <Button text="Click It" preset="primary" onPress={() => Alert.alert("pressed")} disabled />
-      </UseCase>
-      <UseCase text="Array Style" usage="Button with array style">
-        <Button
-          text="Click It"
-          preset="primary"
-          onPress={() => Alert.alert("pressed")}
-          style={buttonStyleArray}
-          textStyle={buttonTextStyleArray}
-        />
-      </UseCase>
-    </Story>
-  ))
+storiesOf('Button', module)
+	.addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>)
+	.add(
+		'Buttons',
+		() => (
+			<Story>
+				<UseCase text="Primary" usage="Primary Button">
+					<Button type={'solid'} text={'solid'} onPress={noop} disabled={boolean('Disabled', false)} />
+				</UseCase>
+				<UseCase text="Subtle" usage="Secondary Button">
+					<Button type={'outline'} text={'outline'} onPress={noop} disabled={boolean('Disabled', false)} />
+				</UseCase>
+				<UseCase text="Clear" usage="Link Button">
+					<Button type={'clear'} text={'clear'} onPress={noop} disabled={boolean('Disabled', false)} />
+				</UseCase>
+			</Story>
+		),
+		{
+			notes: '',
+		},
+	)
+	.add(
+		'Buttons with Icon',
+		() => (
+			<Story>
+				<UseCase text="Button Icon" usage="Coloured Button Icon">
+					<Button icon={'Home'} disabled={boolean('Disabled', false)} />
+				</UseCase>
+				<UseCase text="Monochromatic Button Icon" usage="Mono Icon Button">
+					<Button icon={'Home'} variant={'mono'} disabled={boolean('Disabled', false)} />
+				</UseCase>
+			</Story>
+		),
+		{
+			notes: '',
+		},
+	)
+	.add(
+		'Button Sizes',
+		() => (
+			<Story>
+				<UseCase text="Button Sizes" usage="General buttons with different sizes">
+					<Button type={'solid'} text={'small'} size={'small'} onPress={noop} disabled={boolean('Disabled', false)} />
+					<Spacer />
+					<Button type={'solid'} text={'medium'} size={'medium'} onPress={noop} disabled={boolean('Disabled', false)} />
+					<Spacer />
+					<Button type={'solid'} text={'large'} size={'large'} onPress={noop} disabled={boolean('Disabled', false)} />
+				</UseCase>
+				<UseCase text="Button Icon Sizes" usage="Button Icon Sizes">
+					<Button icon={'Home'} size={'small'} disabled={boolean('Disabled', false)} />
+					<Spacer />
+					<Button icon={'Home'} size={'medium'} disabled={boolean('Disabled', false)} />
+					<Spacer />
+					<Button icon={'Home'} size={'large'} disabled={boolean('Disabled', false)} />
+				</UseCase>
+			</Story>
+		),
+		{
+			notes: '',
+		},
+	)

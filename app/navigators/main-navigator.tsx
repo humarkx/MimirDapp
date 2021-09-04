@@ -5,9 +5,10 @@
  * You'll likely spend most of your time in this file.
  */
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { WelcomeScreen, GameScreen, BetScreen, QuestionScreen, FinalScreen } from '../screens'
 import { DashboardScreen } from '../screens/dashboard/dashboard-screen'
+import { MainParamList } from '../@types/navigation'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -21,18 +22,9 @@ import { DashboardScreen } from '../screens/dashboard/dashboard-screen'
  *   https://reactnavigation.org/docs/params/
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
-type MainParamList = {
-	welcome: undefined
-	demo: undefined
-	bet: undefined
-	question: undefined
-	game: undefined
-	demoList: undefined
-	final: undefined
-}
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
-const Stack = createStackNavigator<MainParamList>()
+const Stack = createNativeStackNavigator<MainParamList>()
 
 export function MainNavigator() {
 	return (

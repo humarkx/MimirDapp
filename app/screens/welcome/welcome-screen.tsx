@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-native'
 import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../components'
 import { colors, spacing, typography } from '../../theme'
+import { WelcomeScreenProps } from '../../@types/navigation'
 
 const logout = require('../../../assets/images/logout.png')
 const MimirLogo = require('../../../assets/images/mimir_white.png')
@@ -80,8 +81,7 @@ const LOGOUT: ViewStyle = {
 	paddingHorizontal: spacing.medium,
 	backgroundColor: colors.palette.white,
 }
-export const WelcomeScreen = () => {
-	const navigation = useNavigation()
+export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 	const nextScreen = () => navigation.navigate('demo')
 
 	const signOut = async () => {

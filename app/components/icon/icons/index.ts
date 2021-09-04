@@ -1,7 +1,5 @@
-export const icons = {
-	back: require('./arrow-left.png'),
-	bullet: require('./bullet.png'),
-	logout: require('../../../../assets/images/logout.png'),
-}
+import heyfinaIcons from './icons'
 
-export type IconTypes = keyof typeof icons
+const IconsListTypes = heyfinaIcons.icons.map(icon => icon.properties.name)
+
+export type IconType = typeof IconsListTypes[number]

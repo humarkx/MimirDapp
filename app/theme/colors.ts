@@ -93,7 +93,7 @@ export const colors = {
 	/**
 	 * The default color of text in many components.
 	 */
-	text: palette.trueBlack,
+	text: palette.white,
 
 	/**
 	 * Used for light text.

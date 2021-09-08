@@ -12,10 +12,10 @@ export interface Text {
 }
 
 const TypographyStringVariants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'] as const
-export type TypographyTypes = typeof TypographyStringVariants[number]
+export type TypographyVariants = typeof TypographyStringVariants[number]
 
-export type TypographyVariants = {
-	[key in TypographyTypes]: Text
+export type TypographyVariantsByKey = {
+	[key in TypographyVariants]: Text
 }
 
 const weight: { [key: string]: FontWeightVariants } = {
@@ -29,7 +29,7 @@ const weight: { [key: string]: FontWeightVariants } = {
 	black: '900',
 }
 
-export interface Typography extends TypographyVariants {
+export interface Typography extends TypographyVariantsByKey {
 	primary: string
 	secondary: string
 	code: string

@@ -1,55 +1,93 @@
-import * as React from "react"
-import { KeyboardAvoidingView, Platform, ScrollView, StatusBar, View } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { ScreenProps } from "./screen.props"
-import { isNonScrolling, offsets, presets } from "./screen.presets"
+import * as React from 'react'
+import {
+	Keyboard,
+	KeyboardAvoidingView,
+	Platform,
+	ScrollView,
+	StatusBar,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useTheme } from 'styled-components'
+import { offsets, presets } from './screen.presets'
+import { ScreenProps } from './screen.props'
 
-const isIos = Platform.OS === "ios"
+const isIos = Platform.OS === 'ios'
 
 function ScreenWithoutScrolling(props: ScreenProps) {
-  const insets = useSafeAreaInsets()
-  const preset = presets.fixed
-  const style = props.style || {}
-  const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
-  const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
+	const { dark } = useTheme()
+	const insets = useSafeAreaInsets()
+	const preset = presets.fixed
+	const style = props.style || {}
+	const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
+	const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
 
-  return (
-    <KeyboardAvoidingView
-      style={[preset.outer, backgroundStyle]}
-      behavior={isIos ? "padding" : undefined}
-      keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
-    >
-      <StatusBar barStyle={props.statusBar || "light-content"} />
-      <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
-    </KeyboardAvoidingView>
-  )
+	return (
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+			<KeyboardAvoidingView
+				style={[preset.outer, backgroundStyle]}
+				behavior={isIos ? 'padding' : undefined}
+				keyboardVerticalOffset={offsets[props.keyboardOffset || 'none']}>
+				<StatusBar
+					backgroundColor={props.backgroundColor ?? preset.outer.backgroundColor}
+					barStyle={props.statusBar || (dark ? 'light-content' : 'dark-content')}
+				/>
+				<View style={[preset.inner, style, insetStyle]}>{props.children}</View>
+			</KeyboardAvoidingView>
+		</TouchableWithoutFeedback>
+	)
 }
 
 function ScreenWithScrolling(props: ScreenProps) {
-  const insets = useSafeAreaInsets()
-  const preset = presets.scroll
-  const style = props.style || {}
-  const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
-  const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
+	const { dark } = useTheme()
+	const insets = useSafeAreaInsets()
+	const preset = presets.scroll
+	const style = props.style || {}
+	const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
+	const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
 
-  return (
-    <KeyboardAvoidingView
-      style={[preset.outer, backgroundStyle]}
-      behavior={isIos ? "padding" : undefined}
-      keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
-    >
-      <StatusBar barStyle={props.statusBar || "light-content"} />
-      <View style={[preset.outer, backgroundStyle, insetStyle]}>
-        <ScrollView
-          style={[preset.outer, backgroundStyle]}
-          contentContainerStyle={[preset.inner, style]}
-          keyboardShouldPersistTaps={props.keyboardShouldPersistTaps || "handled"}
-        >
-          {props.children}
-        </ScrollView>
-      </View>
-    </KeyboardAvoidingView>
-  )
+	return (
+		<KeyboardAvoidingView
+			style={[preset.outer, backgroundStyle]}
+			behavior={isIos ? 'padding' : undefined}
+			keyboardVerticalOffset={offsets[props.keyboardOffset || 'none']}>
+			<StatusBar
+				backgroundColor={props.backgroundColor ?? preset.outer.backgroundColor}
+				barStyle={props.statusBar || (dark ? 'light-content' : 'dark-content')}
+			/>
+			<View style={[preset.outer, backgroundStyle, insetStyle]}>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					ref={props.scrollRef}
+					style={[preset.outer, backgroundStyle]}
+					contentContainerStyle={[preset.inner, style]}
+					keyboardShouldPersistTaps={props.keyboardShouldPersistTaps || 'handled'}>
+					{props.children}
+				</ScrollView>
+			</View>
+		</KeyboardAvoidingView>
+	)
+}
+
+const ScreenWithKeyboardScroll = (props: ScreenProps) => {
+	const { dark } = useTheme()
+	const insets = useSafeAreaInsets()
+	const preset = presets.fixed
+	const style = props.style || {}
+	const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
+	const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
+
+	return (
+		<KeyboardAwareScrollView scrollEnabled={false} contentContainerStyle={[preset.outer, backgroundStyle]}>
+			<StatusBar
+				backgroundColor={props.backgroundColor ?? preset.outer.backgroundColor}
+				barStyle={props.statusBar || (dark ? 'light-content' : 'dark-content')}
+			/>
+			<View style={[preset.inner, style, insetStyle]}>{props.children}</View>
+		</KeyboardAwareScrollView>
+	)
 }
 
 /**
@@ -57,10 +95,14 @@ function ScreenWithScrolling(props: ScreenProps) {
  *
  * @param props The screen props
  */
-export function Screen(props: ScreenProps) {
-  if (isNonScrolling(props.preset)) {
-    return <ScreenWithoutScrolling {...props} />
-  } else {
-    return <ScreenWithScrolling {...props} />
-  }
+export const Screen = (props: ScreenProps) => {
+	switch (props.preset) {
+		case 'scroll':
+			return <ScreenWithScrolling {...props} />
+		case 'keyboardScroll':
+			return <ScreenWithKeyboardScroll {...props} />
+		case 'fixed':
+		default:
+			return <ScreenWithoutScrolling {...props} />
+	}
 }

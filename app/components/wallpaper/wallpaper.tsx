@@ -1,5 +1,5 @@
 import React from 'react'
-import { AutoImage as Image } from '../auto-image/auto-image'
+import { Image as Image } from '../image/image'
 import { presets } from './wallpaper.presets'
 import { WallpaperProps } from './wallpaper.props'
 

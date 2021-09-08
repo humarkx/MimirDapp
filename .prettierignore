@@ -1,6 +1,5 @@
-node_modules
-ios
-android
 .vscode
+android
+ios
+node_modules
 package.json
-app/@types/graphql.ts

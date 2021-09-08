@@ -38,6 +38,7 @@
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "1.5.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-localhost": "1.0.0",
     "react-native-paper": "^4.9.2",
     "react-native-progress": "^5.0.0",
@@ -149,7 +150,8 @@
     "web": "node_modules/.bin/ts-node scripts/web",
     "eject": "expo eject",
     "postinstall": "node ./bin/postInstall",
-    "test": "npx hardhat test && jest"
+    "test": "npx hardhat test && jest",
+    "icon:types": "echo \"declare const mimirIcons: $(cat app/components/icon/icons/selection.json); export default mimirIcons;\" > app/components/icon/icons/icons.d.ts"
   },
   "private": true,
   "name": "MimirDapp",

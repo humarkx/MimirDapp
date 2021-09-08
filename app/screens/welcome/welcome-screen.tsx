@@ -1,7 +1,7 @@
 import React from 'react'
 import auth from '@react-native-firebase/auth'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from 'react-native'
-import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image } from '../../components'
+import { Button, Header, Screen, Text, Wallpaper, Image as Image } from '../../components'
 import { colors, spacing, typography } from '../../theme'
 import { WelcomeScreenProps } from '../../@types/navigation'
 

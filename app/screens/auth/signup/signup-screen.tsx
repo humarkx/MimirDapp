@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView, Alert } from 'react-native'
 import { Input } from 'react-native-elements'
 import { useDispatch } from 'react-redux'
-import { Button, Header, Screen, Text, Wallpaper, AutoImage as Image, Spacer } from '../../../components'
+import { Button, Header, Screen, Text, Wallpaper, Image as Image, Spacer } from '../../../components'
 import { register } from '../../../store/user/actions'
 import { colors, spacing, typography } from '../../../theme'
 

@@ -1,1 +1,7 @@
-global.js
+babel.config.js
+metro.config.js
+react-native.config.js
+app/components/icon/icons/icons.d.ts
+app/models
+app/graphql/schema.json
+app/graphql/aws_generated

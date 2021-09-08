@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
-import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header, Spacer } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image as Image, Header, Spacer } from '../../components'
 import { colors, spacing } from '../../theme'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
-const logoMimir1 = require('../../../assets/images/mimir_currency.png')
+const logoMimir1 = require('../../../assets/images/mimir.png')
 const logoMimir2 = require('../../../assets/images/mimir_3.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
 

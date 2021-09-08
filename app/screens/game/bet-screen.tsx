@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image as Image, Header } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 

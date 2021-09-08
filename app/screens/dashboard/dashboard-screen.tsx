@@ -1,140 +1,140 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
-import socket from '../../services/sockets'
-import { Button, Header, Text, Screen, Wallpaper, AutoImage as Image, Spacer, Container } from '../../components'
 import { useSelector } from 'react-redux'
-
-import { colors, spacing } from '../../theme'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { DashboardScreenProps } from '../../@types/navigation'
+import { Button, Icon, Text, Screen, Wallpaper, Image, Spacer, Container, ScreenWrapper } from '../../components'
+import socket from '../../services/sockets'
 import { RootState } from '../../store'
+import { colors, spacing } from '../../theme'
+import { MimirLogo } from './dashboard-screen.styled'
 
-const logoMimir = require('../../../assets/images/mimir_white.png')
+const logoMimir = require('../../../assets/images/mimir.png')
 const logoMimir2 = require('../../../assets/images/mimir_3.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
-
-const FULL: ViewStyle = { flex: 1 }
-const CONTAINER: ViewStyle = {
-	backgroundColor: colors.transparent.transparent,
-	paddingHorizontal: spacing.medium,
-}
-const DEMO: ViewStyle = {
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
-	backgroundColor: colors.palette.deepPurple,
-}
-const FREE: ViewStyle = {
-	borderRadius: 50,
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
-	backgroundColor: '#78305F',
-}
-const BET: ViewStyle = {
-	borderRadius: 50,
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
-	backgroundColor: '#0EF3C5',
-}
-const BOLD: TextStyle = { fontWeight: 'bold' }
-const DEMO_TEXT: TextStyle = {
-	...BOLD,
-	fontSize: 13,
-	letterSpacing: 2,
-}
-const HEADER: TextStyle = {
-	paddingTop: spacing.medium,
-	paddingBottom: spacing.medium,
-	paddingHorizontal: 0,
-}
-const HEADER_TITLE: TextStyle = {
-	...BOLD,
-	fontSize: 12,
-	lineHeight: 15,
-	textAlign: 'center',
-	letterSpacing: 1.5,
-}
-const TITLE: TextStyle = {
-	...BOLD,
-	fontSize: 28,
-	lineHeight: 38,
-	textAlign: 'center',
-	marginBottom: spacing.medium,
-	marginTop: spacing.medium,
-}
-const TAGLINE: TextStyle = {
-	color: '#BAB6C8',
-	fontSize: 15,
-	lineHeight: 22,
-	marginBottom: spacing.medium,
-}
-const MIMIR: ImageStyle = {
-	alignSelf: 'center',
-	width: 120,
-	height: 100,
-}
-
-const WALLET: ImageStyle = {
-	alignSelf: 'center',
-	width: 30,
-	height: 30,
-	marginVertical: 0,
-}
-
-const TOKEN: ImageStyle = {
-	alignSelf: 'center',
-	width: 18,
-	height: 26,
-	marginRight: 10,
-}
-
-const LOVE_WRAPPER: ViewStyle = {
-	flexDirection: 'row',
-	alignItems: 'center',
-	alignSelf: 'center',
-}
-const LOVE: TextStyle = {
-	color: '#BAB6C8',
-	fontSize: 15,
-	lineHeight: 22,
-}
-const HEART: ImageStyle = {
-	marginHorizontal: spacing.small,
-	width: 10,
-	height: 10,
-	resizeMode: 'contain',
-}
-const HINT: TextStyle = {
-	color: '#BAB6C8',
-	fontSize: 12,
-	lineHeight: 15,
-	marginVertical: spacing.small,
-}
-const POT: ViewStyle = {
-	flexDirection: 'row',
-	justifyContent: 'space-evenly',
-	marginTop: spacing.massive,
-	marginHorizontal: spacing.medium,
-	paddingVertical: spacing.smaller,
-	backgroundColor: colors.palette.white,
-}
-const TEXT: TextStyle = {
-	color: colors.palette.white,
-}
-const POT_TEXT: TextStyle = {
-	...TEXT,
-	...BOLD,
-	color: colors.palette.deepPurple,
-	fontSize: 13,
-	letterSpacing: 2,
-}
-const BALANCE_TEXT: TextStyle = {
-	...TEXT,
-	...BOLD,
-	color: colors.palette.deepPurple,
-	fontSize: 30,
-}
+//
+// const FULL: ViewStyle = { flex: 1 }
+// const CONTAINER: ViewStyle = {
+// 	backgroundColor: colors.transparent.transparent,
+// 	paddingHorizontal: spacing.medium,
+// }
+// const DEMO: ViewStyle = {
+// 	paddingVertical: spacing.medium,
+// 	paddingHorizontal: spacing.medium,
+// 	backgroundColor: colors.palette.deepPurple,
+// }
+// const FREE: ViewStyle = {
+// 	borderRadius: 50,
+// 	paddingVertical: spacing.medium,
+// 	paddingHorizontal: spacing.medium,
+// 	backgroundColor: '#78305F',
+// }
+// const BET: ViewStyle = {
+// 	borderRadius: 50,
+// 	paddingVertical: spacing.medium,
+// 	paddingHorizontal: spacing.medium,
+// 	backgroundColor: '#0EF3C5',
+// }
+// const BOLD: TextStyle = { fontWeight: 'bold' }
+// const DEMO_TEXT: TextStyle = {
+// 	...BOLD,
+// 	fontSize: 13,
+// 	letterSpacing: 2,
+// }
+// const HEADER: TextStyle = {
+// 	paddingTop: spacing.medium,
+// 	paddingBottom: spacing.medium,
+// 	paddingHorizontal: 0,
+// }
+// const HEADER_TITLE: TextStyle = {
+// 	...BOLD,
+// 	fontSize: 12,
+// 	lineHeight: 15,
+// 	textAlign: 'center',
+// 	letterSpacing: 1.5,
+// }
+// const TITLE: TextStyle = {
+// 	...BOLD,
+// 	fontSize: 28,
+// 	lineHeight: 38,
+// 	textAlign: 'center',
+// 	marginBottom: spacing.medium,
+// 	marginTop: spacing.medium,
+// }
+// const TAGLINE: TextStyle = {
+// 	color: '#BAB6C8',
+// 	fontSize: 15,
+// 	lineHeight: 22,
+// 	marginBottom: spacing.medium,
+// }
+// const MIMIR: ImageStyle = {
+// 	alignSelf: 'center',
+// 	width: 120,
+// 	height: 100,
+// }
+//
+// const WALLET: ImageStyle = {
+// 	alignSelf: 'center',
+// 	width: 30,
+// 	height: 30,
+// 	marginVertical: 0,
+// }
+//
+// const TOKEN: ImageStyle = {
+// 	alignSelf: 'center',
+// 	width: 18,
+// 	height: 26,
+// 	marginRight: 10,
+// }
+//
+// const LOVE_WRAPPER: ViewStyle = {
+// 	flexDirection: 'row',
+// 	alignItems: 'center',
+// 	alignSelf: 'center',
+// }
+// const LOVE: TextStyle = {
+// 	color: '#BAB6C8',
+// 	fontSize: 15,
+// 	lineHeight: 22,
+// }
+// const HEART: ImageStyle = {
+// 	marginHorizontal: spacing.small,
+// 	width: 10,
+// 	height: 10,
+// 	resizeMode: 'contain',
+// }
+// const HINT: TextStyle = {
+// 	color: '#BAB6C8',
+// 	fontSize: 12,
+// 	lineHeight: 15,
+// 	marginVertical: spacing.small,
+// }
+// const POT: ViewStyle = {
+// 	flexDirection: 'row',
+// 	justifyContent: 'space-evenly',
+// 	marginTop: spacing.massive,
+// 	marginHorizontal: spacing.medium,
+// 	paddingVertical: spacing.smaller,
+// 	backgroundColor: colors.palette.white,
+// }
+// const TEXT: TextStyle = {
+// 	color: colors.palette.white,
+// }
+// const POT_TEXT: TextStyle = {
+// 	...TEXT,
+// 	...BOLD,
+// 	color: colors.palette.deepPurple,
+// 	fontSize: 13,
+// 	letterSpacing: 2,
+// }
+// const BALANCE_TEXT: TextStyle = {
+// 	...TEXT,
+// 	...BOLD,
+// 	color: colors.palette.deepPurple,
+// 	fontSize: 30,
+// }
 
 export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	const [balance, setBalance] = useState('')
@@ -173,13 +173,23 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	}
 
 	return (
-		<View testID="DashboardScreen" style={FULL}>
+		<ScreenWrapper testID="DashboardScreen" safeAreaView>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
-				<Spacer space={'large'} />
-				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} text={username} />
+			<Screen backgroundColor={colors.transparent.transparent}>
+				<Container center>
+					<MimirLogo source={logoMimir} />
+					<Spacer space={'medium'} />
+					<Text variant={'white'} typography={'h1'} text={username} />
+				</Container>
 				<Container>
+					<Button variant={'secondary'} text={'FREE TO PLAY'} />
+					<Spacer />
+					<Button variant={'primary'}>
+						<Icon color={'white'} name={'mimir_wallet'} />
+						<Spacer />
+						<Text text={balance} />
+					</Button>
+
 					{/*{games.map(game => {*/}
 					{/*	const nextRoute = game.type === 'FREE' ? 'bet' : 'game'*/}
 					{/*	return (*/}
@@ -220,16 +230,8 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 						<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
 					</View> */}
 				</Container>
-
-				<Button testID="next-screen-button" style={POT} disabled={true}>
-					<Image source={wallet} style={WALLET} />
-					<View style={{ flexDirection: 'row' }}>
-						<Image source={logoMimir2} style={[TOKEN, { marginRight: 10 }]} />
-						<Text style={BALANCE_TEXT} text={balance} />
-					</View>
-				</Button>
 			</Screen>
-		</View>
+		</ScreenWrapper>
 	)
 }
 

@@ -30,8 +30,8 @@ export interface Palette {
 	offWhite: string
 }
 export const palette: Palette = {
-	primary: '#FF9B90',
-	secondary: '#909CFE',
+	primary: '#78305F',
+	secondary: '#0EF3C5',
 	light: '#F4F6FA',
 	lightGreen: '#90C7C2',
 	lightPurple: '#E1DDF5',

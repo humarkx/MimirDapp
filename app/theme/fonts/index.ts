@@ -6,6 +6,6 @@ export const initFonts = async () => {
 	// Welcome back! Just uncomment this and replace/append with your font file names!
 	// ⬇
 	await Font.loadAsync({
-		Heyfina: require('./Heyfina.ttf'),
+		Mimir: require('./Mimir.ttf'),
 	})
 }

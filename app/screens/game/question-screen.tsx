@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert, Dimensions } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import * as Progress from 'react-native-progress'
-import { Button, Text, Screen, Wallpaper, AutoImage as Image, Header, Question } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image as Image, Header, Question } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 

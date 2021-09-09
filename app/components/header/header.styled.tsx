@@ -41,7 +41,14 @@ export const StyledHeader = (props: HeaderProps) => {
 	return (
 		<HeaderWrapper isAbsolute={isAbsolute}>
 			{leftIcon ? (
-				<Button onPress={onLeftPress} variant={'mono'} size={'small'} icon={leftIcon} iconSize={'small'} />
+				<Button
+					onPress={onLeftPress}
+					variant={'dark'}
+					type={'clear'}
+					size={'small'}
+					icon={leftIcon}
+					iconSize={'medium'}
+				/>
 			) : (
 				<SideContent />
 			)}
@@ -49,7 +56,14 @@ export const StyledHeader = (props: HeaderProps) => {
 				<Title typography={'h4'} text={header} numberOfLines={1} />
 			</TitleWrapper>
 			{rightIcon ? (
-				<Button onPress={onRightPress} variant={'mono'} size={'small'} icon={rightIcon} iconSize={'small'} />
+				<Button
+					onPress={onRightPress}
+					variant={'dark'}
+					type={'clear'}
+					size={'small'}
+					icon={rightIcon}
+					iconSize={'medium'}
+				/>
 			) : (
 				<SideContent />
 			)}

@@ -17,7 +17,7 @@ const getColorVariant = (theme, variant, opacity) => {
 		dark: theme.colors.background,
 		default: theme.colors.secondary,
 		faded: theme.colors.transparent.faded,
-		ghost: theme.colors.transparent.ghost,
+		ghost: theme.colors.transparent.transparent,
 		mono: theme.colors.transparent.black,
 		primary: theme.colors.primary,
 		secondary: theme.colors.secondary,

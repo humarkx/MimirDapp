@@ -5,7 +5,19 @@ import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
-import { Button, Icon, Text, Screen, Wallpaper, Image, Spacer, Container, ScreenWrapper } from '../../components'
+import {
+	Button,
+	Icon,
+	Text,
+	Screen,
+	Wallpaper,
+	Image,
+	Spacer,
+	Container,
+	ScreenWrapper,
+	Header,
+	Card,
+} from '../../components'
 import socket from '../../services/sockets'
 import { RootState } from '../../store'
 import { colors, spacing } from '../../theme'
@@ -175,61 +187,100 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	return (
 		<ScreenWrapper testID="DashboardScreen" safeAreaView>
 			<Wallpaper />
-			<Screen backgroundColor={colors.transparent.transparent}>
-				<Container center>
+			<Header leftIcon={'switch'} rightIcon={'cog'} />
+			<Screen backgroundColor={colors.transparent.transparent} unsafe>
+				<Container centerHorizontal>
 					<MimirLogo source={logoMimir} />
 					<Spacer space={'medium'} />
 					<Text variant={'white'} typography={'h1'} text={username} />
 				</Container>
-				<Container>
-					<Button variant={'secondary'} text={'FREE TO PLAY'} />
-					<Spacer />
-					<Button variant={'primary'}>
-						<Icon color={'white'} name={'mimir_wallet'} />
-						<Spacer />
-						<Text text={balance} />
-					</Button>
-
-					{/*{games.map(game => {*/}
-					{/*	const nextRoute = game.type === 'FREE' ? 'bet' : 'game'*/}
-					{/*	return (*/}
-					{/*		<View key={game.refId}>*/}
-					{/*			<AnimatedCircularProgress*/}
-					{/*				size={150}*/}
-					{/*				width={15}*/}
-					{/*				backgroundWidth={15}*/}
-					{/*				rotation={360}*/}
-					{/*				fill={85}*/}
-					{/*				tintColor="#78305F"*/}
-					{/*				backgroundColor="#fff">*/}
-					{/*				{fill => <Text style={styles.points}>20:00</Text>}*/}
-					{/*			</AnimatedCircularProgress>*/}
-					{/*			<Text style={styles.actionLabel}>{game.type} TO PLAY</Text>*/}
-					{/*			<Button*/}
-					{/*				style={FREE}*/}
-					{/*				textStyle={DEMO_TEXT}*/}
-					{/*				text="JOIN"*/}
-					{/*				onPress={() => navigation.navigate(nextRoute, { gameId: game.refId })}*/}
-					{/*			/>*/}
-					{/*		</View>*/}
-					{/*	)*/}
-					{/*})}*/}
-
-					{/* <View>
-						<AnimatedCircularProgress
-							size={150}
-							width={15}
-							rotation={360}
-							backgroundWidth={15}
-							fill={75}
-							tintColor="#0EF3C5"
-							backgroundColor="#fff">
-							{fill => <Text style={styles.points}>21:00</Text>}
-						</AnimatedCircularProgress>
-						<Text style={styles.actionLabel}>BET TO PLAY</Text>
-						<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />
-					</View> */}
+				<Container centerHorizontal centerVertical>
+					<Button variant={'secondary'} text={'FREE TO PLAY'} typography={'h2'} />
 				</Container>
+				{/*<Container>*/}
+				{/*	/!*{games.map(game => {*!/*/}
+				{/*	/!*	const nextRoute = game.type === 'FREE' ? 'bet' : 'game'*!/*/}
+				{/*	/!*	return (*!/*/}
+				{/*	/!*		<View key={game.refId}>*!/*/}
+				{/*	/!*			<AnimatedCircularProgress*!/*/}
+				{/*	/!*				size={150}*!/*/}
+				{/*	/!*				width={15}*!/*/}
+				{/*	/!*				backgroundWidth={15}*!/*/}
+				{/*	/!*				rotation={360}*!/*/}
+				{/*	/!*				fill={85}*!/*/}
+				{/*	/!*				tintColor="#78305F"*!/*/}
+				{/*	/!*				backgroundColor="#fff">*!/*/}
+				{/*	/!*				{fill => <Text style={styles.points}>20:00</Text>}*!/*/}
+				{/*	/!*			</AnimatedCircularProgress>*!/*/}
+				{/*	/!*			<Text style={styles.actionLabel}>{game.type} TO PLAY</Text>*!/*/}
+				{/*	/!*			<Button*!/*/}
+				{/*	/!*				style={FREE}*!/*/}
+				{/*	/!*				textStyle={DEMO_TEXT}*!/*/}
+				{/*	/!*				text="JOIN"*!/*/}
+				{/*	/!*				onPress={() => navigation.navigate(nextRoute, { gameId: game.refId })}*!/*/}
+				{/*	/!*			/>*!/*/}
+				{/*	/!*		</View>*!/*/}
+				{/*	/!*	)*!/*/}
+				{/*	/!*})}*!/*/}
+
+				{/*	/!* <View>*/}
+				{/*		<AnimatedCircularProgress*/}
+				{/*			size={150}*/}
+				{/*			width={15}*/}
+				{/*			rotation={360}*/}
+				{/*			backgroundWidth={15}*/}
+				{/*			fill={75}*/}
+				{/*			tintColor="#0EF3C5"*/}
+				{/*			backgroundColor="#fff">*/}
+				{/*			{fill => <Text style={styles.points}>21:00</Text>}*/}
+				{/*		</AnimatedCircularProgress>*/}
+				{/*		<Text style={styles.actionLabel}>BET TO PLAY</Text>*/}
+				{/*		<Button style={BET} textStyle={DEMO_TEXT} text="JOIN" onPress={() => navigation.navigate('game')} />*/}
+				{/*	</View> *!/*/}
+				{/*</Container>*/}
+				<Container>
+					<Card
+						style={{
+							flex: 1,
+							minHeight: 120,
+							justifyContent: 'center',
+							marginLeft: 10,
+							backgroundColor: '#372644',
+							shadowColor: 'black',
+							alignItems: 'center',
+							shadowOffset: { width: 3, height: 8 },
+							shadowOpacity: 0.2,
+							shadowRadius: 3.84,
+							borderRadius: 10,
+							elevation: 8,
+						}}>
+						<Icon color={'white'} name={'mimir_wallet'} />
+						<Spacer space={'small'} />
+						<Text text={balance} typography={'h1'} />
+					</Card>
+					<Spacer space={'small'} />
+
+					<Card
+						style={{
+							flex: 1,
+							justifyContent: 'center',
+							minHeight: 120,
+							marginLeft: 10,
+							backgroundColor: '#372644',
+							shadowColor: 'black',
+							alignItems: 'center',
+							shadowOffset: { width: 3, height: 8 },
+							shadowOpacity: 0.2,
+							shadowRadius: 3.84,
+							borderRadius: 10,
+							elevation: 8,
+						}}>
+						<Icon color={'white'} name={'mimir_wallet'} />
+						<Spacer space={'small'} />
+						<Text text={'Leaderboards'} typography={'h1'} />
+					</Card>
+				</Container>
+				<Spacer space={'huge'} />
 			</Screen>
 		</ScreenWrapper>
 	)

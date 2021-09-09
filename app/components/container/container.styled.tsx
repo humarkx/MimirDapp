@@ -9,19 +9,44 @@ const ContainerStyle = styled.View<ContainerProps>`
 		`
     flex: 1;
   `}
-	${({ center }) =>
-		center &&
-		`
+	${({ centerHorizontal, dir }) =>
+		centerHorizontal && (dir === 'column' || dir === 'column-reverse')
+			? `
 		align-items: center;
-  `}
-  	${({ direction }) =>
-		direction &&
+  `
+			: centerHorizontal && (dir === 'row' || dir === 'row-reverse')
+			? `
+		justify-content: center;
+  `
+			: ''}
+  ${({ centerVertical, dir }) =>
+		centerVertical && (dir === 'column' || dir === 'column-reverse')
+			? `
+		justify-content: center;
+  `
+			: centerVertical && (dir === 'row' || dir === 'row-reverse')
+			? `
+		align-items: center;
+  `
+			: ''}
+  	${({ dir, hasFlex }) =>
+		dir &&
+		hasFlex &&
 		`
-		flex-direction: ${direction};
+		flex-direction: ${dir};
   `}
 `
 
-export const StyledContainer = props => {
-	const { hasFlex = true, center = false, direction } = props
-	return <ContainerStyle hasFlex={hasFlex} center={center} direction={direction} {...props} />
+export const StyledContainer = (props: ContainerProps) => {
+	const { hasFlex = true, centerHorizontal = false, centerVertical = false, dir = 'column', style, ...rest } = props
+	return (
+		<ContainerStyle
+			hasFlex={hasFlex}
+			dir={dir}
+			{...props}
+			style={style}
+			centerHorizontal={centerHorizontal}
+			centerVertical={centerVertical}
+		/>
+	)
 }

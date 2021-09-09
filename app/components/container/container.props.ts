@@ -12,14 +12,19 @@ export interface ContainerProps extends ViewProps {
 	backgroundColor?: string
 
 	/**
-	 * An optional background color
+	 * Center content Vertically
 	 */
-	center?: boolean
+	centerVertical?: boolean
+
+	/**
+	 * Center content Horizontally
+	 */
+	centerHorizontal?: boolean
 
 	/**
 	 * An optional direction
 	 */
-	direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse'
+	dir?: 'row' | 'row-reverse' | 'column' | 'column-reverse'
 
 	/**
 	 * An optional no flex option

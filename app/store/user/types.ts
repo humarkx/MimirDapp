@@ -21,6 +21,7 @@ export interface UserPayload {
 	avatar?: string | null
 	banner?: string | null
 	country?: string | null
+	walletBalance?: number | null
 	roles?: Array<string> | null
 	authorized?: boolean // false is default value
 	status?: string | null // false is default value

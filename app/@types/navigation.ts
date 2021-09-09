@@ -7,6 +7,8 @@ export type MainParamList = {
 	bet: { gameId: string }
 	question: undefined
 	game: { gameId: string }
+	GameMode: { gameType: string }
+	Tournaments: { gameType: string }
 	demoList: undefined
 	final: undefined
 }

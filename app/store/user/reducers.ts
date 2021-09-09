@@ -15,6 +15,7 @@ const userInitialState: AuthState = {
 	avatar: null,
 	country: null,
 	roles: null,
+	walletBalance: 1546,
 	authorized: false, // false is default value
 	status: null, // false is default value
 	loading: false,

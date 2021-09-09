@@ -6,9 +6,17 @@
  */
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { WelcomeScreen, GameScreen, BetScreen, QuestionScreen, FinalScreen } from '../screens'
-import { DashboardScreen } from '../screens/dashboard/dashboard-screen'
 import { MainParamList } from '../@types/navigation'
+import {
+	WelcomeScreen,
+	GameScreen,
+	BetScreen,
+	QuestionScreen,
+	FinalScreen,
+	GameModeScreen,
+	DashboardScreen,
+} from '../screens'
+import { TournamentsScreen } from '../screens/game/tournaments-screen'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -36,6 +44,8 @@ export function MainNavigator() {
 			}}>
 			<Stack.Screen name="welcome" component={WelcomeScreen} />
 			<Stack.Screen name="Dashboard" component={DashboardScreen} />
+			<Stack.Screen name="GameMode" component={GameModeScreen} />
+			<Stack.Screen name="Tournaments" component={TournamentsScreen} />
 			<Stack.Screen name="game" component={GameScreen} />
 			<Stack.Screen name="bet" component={BetScreen} />
 			<Stack.Screen name="question" component={QuestionScreen} />

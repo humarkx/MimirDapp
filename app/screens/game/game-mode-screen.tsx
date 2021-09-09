@@ -1,51 +1,62 @@
-import React, { useEffect } from 'react'
-import { Alert } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
 import socket from '../../services/sockets'
 import { RootState } from '../../store'
-import { MimirLogo } from './dashboard-screen.styled'
+import { MimirLogo } from '../dashboard/dashboard-screen.styled'
 
 const logoMimir = require('../../../assets/images/mimir.png')
 
-export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
-	const { username, walletBalance } = useSelector((state: RootState) => state.user)
-	const dispatch = useDispatch()
+export const GameModeScreen = ({ navigation }: DashboardScreenProps) => {
+	const [balance, setBalance] = useState('')
+
+	const { username } = useSelector((state: RootState) => state.user)
+
+	useFocusEffect(() => {
+		console.log('CHECKING WALLET BALLANCE')
+		// socket.emit('getGames')
+		checkWalletBalance()
+	})
+
 	useEffect(() => {
 		console.log('CHECKING WALLET BALLANCE')
 		socket.emit('getGames')
 	}, [])
 
-	const logOut = () => {
-		dispatch({
-			type: 'LOGOUT',
-		})
+	const checkWalletBalance = async () => {
+		try {
+			const currentBalance = await AsyncStorage.getItem('balance')
+			if (!currentBalance) {
+				await AsyncStorage.setItem('balance', '3570')
+				setBalance('3570')
+			} else {
+				setBalance(currentBalance)
+			}
+		} catch (e) {
+			console.log(e)
+		}
 	}
 
 	return (
-		<ScreenWrapper testID="DashboardScreen" safeAreaView>
+		<ScreenWrapper testID="GameModeScreen" safeAreaView>
 			<Wallpaper />
-			<Header
-				leftIcon={'switch'}
-				rightIcon={'cog'}
-				onLeftPress={logOut}
-				onRightPress={() => Alert.alert('Profile to be implemented soon')}
-			/>
+			<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} headerText={'Game Modes'} />
 			<Screen unsafe>
-				<Container centerHorizontal>
-					<MimirLogo source={logoMimir} />
-					<Spacer space={'medium'} />
-					<Text variant={'white'} typography={'h1'} text={username} />
-				</Container>
 				<Container centerHorizontal centerVertical>
+					<Button disabled variant={'secondary'} text={'1 vs 1'} typography={'h2'} onPress={navigation.goBack} />
+					<Spacer space={'medium'} />
+
 					<Button
 						variant={'secondary'}
-						text={'FREE TO PLAY'}
+						text={'TOURNAMENTS'}
 						typography={'h2'}
-						onPress={() => navigation.navigate('GameMode')}
+						onPress={() => navigation.navigate('Tournaments')}
 					/>
 				</Container>
+
 				<Container>
 					<Card
 						style={{
@@ -64,7 +75,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 						}}>
 						<Icon color={'white'} name={'mimir_wallet'} />
 						<Spacer space={'small'} />
-						<Text text={walletBalance} typography={'h1'} />
+						<Text text={balance} typography={'h1'} />
 					</Card>
 					<Spacer space={'small'} />
 

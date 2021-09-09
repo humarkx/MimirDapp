@@ -24,7 +24,7 @@ export interface TextProps extends TextProperties {
 	/**
 	 * The text to display if not using `tx` or nested components.
 	 */
-	text?: string
+	text?: string | number
 
 	/**
 	 * The text to display if not using `tx` or nested components.

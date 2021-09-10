@@ -6,10 +6,9 @@ import { CardProps } from './card.props'
 const CardStyle = styled(Card)<CardProps>`
 	flex: 1;
 	color: ${({ theme }) => theme.colors.text};
-	padding: 8px;
 	margin-bottom: 0;
 	margin-top: 0;
-	border-radius: 12px;
+	border-radius: 25px;
 	min-height: 60px;
 	background-color: ${({ theme }) => theme.colors.transparent.transparent};
 	border-color: ${({ theme }) => theme.colors.primary};

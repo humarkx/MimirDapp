@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
-import { TouchableOpacity } from 'react-native'
+import { ImageBackground, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
@@ -65,10 +65,18 @@ export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
 									shadowOffset: { width: 3, height: 8 },
 									shadowOpacity: 0.2,
 									shadowRadius: 3.84,
-									borderRadius: 10,
+									borderRadius: 25,
 									elevation: 8,
 								}}>
-								<Text text={'CLASSICAL MUSIC'} typography={'h1'} />
+								<ImageBackground
+									style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}
+									imageStyle={{ borderRadius: 25, opacity: 0.5 }}
+									resizeMode="cover"
+									source={{
+										uri: 'https://www.limelightmagazine.com.au/wp-content/uploads/2019/06/0f14b1b9-australian-chamber-orchestra.jpg',
+									}}>
+									<Text text={'CLASSICAL MUSIC'} typography={'h1'} />
+								</ImageBackground>
 							</Card>
 						</TouchableOpacity>
 					))}

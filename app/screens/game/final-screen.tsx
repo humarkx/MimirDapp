@@ -5,6 +5,8 @@ import { Button, Text, Screen, Wallpaper, Image as Image, Header } from '../../c
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from 'react-redux'
+import { getCurrentUser } from '../../store/user/actions'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir2 = require('../../../assets/images/mimir.png')
@@ -115,8 +117,10 @@ export const FinalScreen = () => {
 	const [prize, setPrize] = useState('')
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
+	const dispatch = useDispatch()
 
 	useEffect(() => {
+		dispatch(getCurrentUser())
 		setPrize(Math.floor(Math.random() * 10000).toString())
 	}, [])
 
@@ -149,7 +153,7 @@ export const FinalScreen = () => {
 	}
 	const navigateToDashboard = async () => {
 		await updateWalletBallance()
-		navigation.navigate('demo')
+		navigation.navigate('Dashboard')
 	}
 
 	return (

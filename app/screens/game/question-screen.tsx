@@ -122,14 +122,23 @@ export const QuestionScreen = () => {
 		navigation.navigate('final')
 	})
 
+	socket.on('results', a => {
+		setAnswerResult(true)
+		console.log('::::::::::::::::::::: RESULTS :::::::::::::::: ', a)
+	})
+
+	socket.on('result', a => {
+		console.log('::::::::::::::::::::: ANSWER RESULT :::::::::::::::: ', a)
+	})
 	socket.on('question', q => {
 		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
+		setAnswerResult(false)
 		setQuestion(q)
 	})
 
-	// if (question_number > data.length) {
-
-	// }
+	// TODO
+	// 25 seconds to respond
+	// 5 seconds before next question
 
 	const selectAnswer = i => {
 		const gameId = route.params['gameId']

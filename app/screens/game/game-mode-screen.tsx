@@ -1,44 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useFocusEffect } from '@react-navigation/native'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
-import socket from '../../services/sockets'
 import { RootState } from '../../store'
-import { MimirLogo } from '../dashboard/dashboard-screen.styled'
-
-const logoMimir = require('../../../assets/images/mimir.png')
 
 export const GameModeScreen = ({ navigation }: DashboardScreenProps) => {
-	const [balance, setBalance] = useState('')
-
-	const { username } = useSelector((state: RootState) => state.user)
-
-	useFocusEffect(() => {
-		console.log('CHECKING WALLET BALLANCE')
-		// socket.emit('getGames')
-		checkWalletBalance()
-	})
-
-	useEffect(() => {
-		console.log('CHECKING WALLET BALLANCE')
-		socket.emit('getGames')
-	}, [])
-
-	const checkWalletBalance = async () => {
-		try {
-			const currentBalance = await AsyncStorage.getItem('balance')
-			if (!currentBalance) {
-				await AsyncStorage.setItem('balance', '3570')
-				setBalance('3570')
-			} else {
-				setBalance(currentBalance)
-			}
-		} catch (e) {
-			console.log(e)
-		}
-	}
+	const { walletBalance } = useSelector((state: RootState) => state.user)
 
 	return (
 		<ScreenWrapper testID="GameModeScreen" safeAreaView>
@@ -74,7 +41,7 @@ export const GameModeScreen = ({ navigation }: DashboardScreenProps) => {
 						}}>
 						<Icon color={'white'} name={'mimir_wallet'} />
 						<Spacer space={'small'} />
-						<Text text={balance} typography={'h1'} />
+						<Text text={walletBalance} typography={'h1'} />
 					</Card>
 					<Spacer space={'small'} />
 

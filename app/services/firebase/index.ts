@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth'
-import socket from '../sockets'
 import { Alert } from 'react-native'
+import socket from '../sockets'
 
 export async function login(email: string, password: string) {
 	return auth()

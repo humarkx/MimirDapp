@@ -111,22 +111,16 @@ const BALANCE_TEXT: TextStyle = {
 	letterSpacing: 2,
 }
 
-export const GameScreen = () => {
-	const [balance, setBalance] = useState('')
+export const GameScreen = ({ route }) => {
+	const { gameId } = route.params
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
-
-	useEffect(() => {
-		const currentBalance = AsyncStorage.getItem('balance').then(value => {
-			setBalance(value)
-		})
-	})
 
 	return (
 		<View testID="GameScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
-				<Header leftIcon="back" onLeftPress={goBack} style={HEADER} titleStyle={HEADER_TITLE} />
+				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={NEXT} text="Next game starts at:" />
 
@@ -150,12 +144,17 @@ export const GameScreen = () => {
 					</View>
 				</View>
 
-				<Text style={TITLE} text="Bet amount" />
+				<Text style={TITLE} text="Play money" />
 				<Button testID="next-screen-button" style={[POT, { marginBottom: 20 }]} disabled={true}>
 					<Image source={logoMimir2} style={TOKEN} />
 					<Text style={POT_BALANCE} text="1,000" />
 				</Button>
-				<Button style={FREE} textStyle={DEMO_TEXT} text="PLACE BET" onPress={() => navigation.navigate('bet')} />
+				<Button
+					style={FREE}
+					textStyle={DEMO_TEXT}
+					text="JOIN FREE PLAY"
+					onPress={() => navigation.navigate('bet', { gameId })}
+				/>
 			</Screen>
 		</View>
 	)

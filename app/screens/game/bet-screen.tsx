@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import { Button, Text, Screen, Wallpaper, Image as Image, Header } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image as Image, Header, ActivityIndicator } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 
@@ -100,8 +100,7 @@ const AMOUNT: TextStyle = {
 export const BetScreen = () => {
 	const navigation = useNavigation()
 	const route = useRoute()
-	const goBack = () => navigation.goBack()
-
+	const [loading, setLoading] = useState(false)
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
 	})
@@ -118,6 +117,7 @@ export const BetScreen = () => {
 	console.log('connect', socket.connected)
 
 	const click = () => {
+		setLoading(true)
 		console.log('CLICK', route.params['gameId'])
 
 		socket.emit('join', { id: route.params['gameId'] })
@@ -132,12 +132,13 @@ export const BetScreen = () => {
 
 				<Image source={checked} style={CHECKED} />
 
-				<Text style={ROUND} preset="header" text="Joining round..." />
+				{loading && <Text style={ROUND} preset="header" text="Joining round..." />}
 				<Text style={PLAYERS} preset="header" text="Players" />
 				<Text style={AMOUNT} preset="header" text="50.2K" />
+				{loading && <ActivityIndicator />}
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 					<View>
-						<Button style={JOIN} textStyle={DEMO_TEXT} text="JOIN NOW" onPress={() => click()} />
+						<Button style={JOIN} textStyle={DEMO_TEXT} text="JOIN NOW" onPress={() => click()} disabled={loading} />
 					</View>
 				</View>
 			</Screen>

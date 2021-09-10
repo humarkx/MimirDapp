@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
-import socket from '../../services/sockets'
 import { RootState } from '../../store'
 import { MimirLogo } from './dashboard-screen.styled'
 
@@ -12,10 +11,6 @@ const logoMimir = require('../../../assets/images/mimir.png')
 export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	const { username, walletBalance } = useSelector((state: RootState) => state.user)
 	const dispatch = useDispatch()
-	useEffect(() => {
-		console.log('CHECKING WALLET BALLANCE')
-		socket.emit('getGames')
-	}, [])
 
 	const logOut = () => {
 		dispatch({

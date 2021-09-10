@@ -43,7 +43,7 @@ export const GameModeScreen = ({ navigation }: DashboardScreenProps) => {
 	return (
 		<ScreenWrapper testID="GameModeScreen" safeAreaView>
 			<Wallpaper />
-			<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} headerText={'Game Modes'} />
+			<Header leftIcon={'arrow-left2'} onLeftPress={navigation.goBack} headerText={'Game Modes'} />
 			<Screen unsafe>
 				<Container centerHorizontal centerVertical>
 					<Button disabled variant={'secondary'} text={'1 vs 1'} typography={'h2'} onPress={navigation.goBack} />
@@ -63,7 +63,6 @@ export const GameModeScreen = ({ navigation }: DashboardScreenProps) => {
 							flex: 1,
 							minHeight: 120,
 							justifyContent: 'center',
-							marginLeft: 10,
 							backgroundColor: '#372644',
 							shadowColor: 'black',
 							alignItems: 'center',
@@ -84,7 +83,6 @@ export const GameModeScreen = ({ navigation }: DashboardScreenProps) => {
 							flex: 1,
 							justifyContent: 'center',
 							minHeight: 120,
-							marginLeft: 10,
 							backgroundColor: '#372644',
 							shadowColor: 'black',
 							alignItems: 'center',

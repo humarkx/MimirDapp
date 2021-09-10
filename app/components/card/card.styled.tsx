@@ -9,7 +9,7 @@ const CardStyle = styled(Card)<CardProps>`
 	padding: 8px;
 	margin-bottom: 0;
 	margin-top: 0;
-	border-radius: 16px;
+	border-radius: 12px;
 	min-height: 60px;
 	background-color: ${({ theme }) => theme.colors.transparent.transparent};
 	border-color: ${({ theme }) => theme.colors.primary};

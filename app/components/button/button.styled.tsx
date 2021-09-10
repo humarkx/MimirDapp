@@ -57,7 +57,7 @@ const getButtonSize = (size, icon) => {
 			return `
         height: 58px;
         ${icon ? 'width: 58px;' : ''}
-        border-radius: 58px;
+        border-radius: 12px;
 				padding-horizontal: 12px;
       `
 	}

@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import { TouchableOpacity } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
 import socket from '../../services/sockets'
 import { RootState } from '../../store'
+import { getFreeGames } from '../../store/games/actions'
 import { MimirLogo } from '../dashboard/dashboard-screen.styled'
-import { TouchableOpacity } from 'react-native'
 
 const logoMimir = require('../../../assets/images/mimir.png')
 
 export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
+	const dispatch = useDispatch()
 	const [balance, setBalance] = useState('')
 
 	const { username } = useSelector((state: RootState) => state.user)
@@ -23,8 +25,7 @@ export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
 	})
 
 	useEffect(() => {
-		console.log('CHECKING WALLET BALLANCE')
-		socket.emit('getGames')
+		dispatch(getFreeGames())
 	}, [])
 
 	const checkWalletBalance = async () => {

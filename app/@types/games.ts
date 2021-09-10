@@ -3,16 +3,16 @@ import { UserModel } from './user'
 
 export interface GameModel {
 	_id: string
-	refId: string
 	players: UserModel[]
 	questions: Question[]
+	refId: string
+	minPlayers: number
 	results: {
 		player: UserModel
 		alive: boolean
 		score: number
 	}[]
-	type: string
-	status: string
 	startDate: Date
-	minPlayers: number
+	status: string
+	type: string
 }

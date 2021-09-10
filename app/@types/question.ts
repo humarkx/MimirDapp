@@ -1,15 +1,15 @@
 export interface Option {
 	_id: string
-	text: string
 	correct: boolean
+	text: string
 }
 
 export interface Question {
 	_id: string
-	refId: string
-	title: string
-	text: string
-	options: Option[]
-	dificulty: number
 	categories: string[]
+	dificulty: number
+	options: Option[]
+	refId: string
+	text: string
+	title: string
 }

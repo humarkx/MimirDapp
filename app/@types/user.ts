@@ -1,13 +1,14 @@
 export interface UserModel {
 	_id: string
-	refId: string
-	username: string
-	firstName?: string
-	lastName?: string
-	email: string
 	avatar?: string
 	banner?: string
 	country?: string
-	roles: string[]
+	email: string
+	firstName?: string
+	lastName?: string
 	log: { date?: Date; action: string; logged: string[] }[]
+	refId: string
+	roles: string[]
+	username: string
+	walletBalance: number
 }

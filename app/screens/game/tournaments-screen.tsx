@@ -17,6 +17,7 @@ export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
 	const [balance, setBalance] = useState('')
 
 	const { username } = useSelector((state: RootState) => state.user)
+	const { freeGames } = useSelector((state: RootState) => state.games)
 
 	useFocusEffect(() => {
 		console.log('CHECKING WALLET BALLANCE')
@@ -48,44 +49,29 @@ export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
 			<Header leftIcon={'arrow-left2'} onLeftPress={navigation.goBack} headerText={'Tournaments'} />
 			<Screen unsafe>
 				<Container>
-					<TouchableOpacity style={{ flex: 1 }}>
-						<Card
-							style={{
-								flex: 1,
-								minHeight: 120,
-								justifyContent: 'center',
-								backgroundColor: '#372644',
-								shadowColor: 'black',
-								alignItems: 'center',
-								shadowOffset: { width: 3, height: 8 },
-								shadowOpacity: 0.2,
-								shadowRadius: 3.84,
-								borderRadius: 10,
-								elevation: 8,
-							}}>
-							<Text text={'CLASSICAL MUSIC'} typography={'h1'} />
-						</Card>
-					</TouchableOpacity>
-					<Spacer space={'small'} />
-
-					<TouchableOpacity style={{ flex: 1 }}>
-						<Card
-							style={{
-								flex: 1,
-								justifyContent: 'center',
-								minHeight: 120,
-								backgroundColor: '#372644',
-								shadowColor: 'black',
-								alignItems: 'center',
-								shadowOffset: { width: 3, height: 8 },
-								shadowOpacity: 0.2,
-								shadowRadius: 3.84,
-								borderRadius: 10,
-								elevation: 8,
-							}}>
-							<Text text={'STAR WARS'} typography={'h1'} />
-						</Card>
-					</TouchableOpacity>
+					{freeGames.map(game => (
+						<TouchableOpacity
+							key={game._id}
+							style={{ flex: 1, maxHeight: 220 }}
+							onPress={() => navigation.navigate('game', { gameId: game.refId })}>
+							<Card
+								style={{
+									flex: 1,
+									minHeight: 120,
+									justifyContent: 'center',
+									backgroundColor: '#372644',
+									shadowColor: 'black',
+									alignItems: 'center',
+									shadowOffset: { width: 3, height: 8 },
+									shadowOpacity: 0.2,
+									shadowRadius: 3.84,
+									borderRadius: 10,
+									elevation: 8,
+								}}>
+								<Text text={'CLASSICAL MUSIC'} typography={'h1'} />
+							</Card>
+						</TouchableOpacity>
+					))}
 				</Container>
 				<Spacer space={'huge'} />
 			</Screen>

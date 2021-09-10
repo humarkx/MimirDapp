@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
+import gamesReducer from './games/reducers'
 import postReducer from './posts/posts.reducer'
 import authReducer from './user/reducers'
-import gamesReducer from './games/reducers'
 
 const rootReducer = combineReducers({
 	posts: postReducer,

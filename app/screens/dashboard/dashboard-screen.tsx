@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'react-native'
+import { Alert, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
@@ -28,58 +28,71 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 				onRightPress={() => Alert.alert('Profile to be implemented soon')}
 			/>
 			<Screen unsafe>
-				<Container centerHorizontal>
+				<Container centerHorizontal hasFlex={false}>
 					<MimirLogo source={logoMimir} />
 					<Spacer space={'medium'} />
 					<Text variant={'white'} typography={'h1'} text={username} />
 				</Container>
 				<Container centerHorizontal centerVertical>
 					<Button
-						variant={'secondary'}
+						size={'huge'}
+						variant={'primary'}
 						text={'FREE TO PLAY'}
-						typography={'h2'}
+						typography={'h1'}
 						onPress={() => navigation.navigate('GameMode')}
 					/>
-				</Container>
-				<Container>
-					<Card
-						style={{
-							flex: 1,
-							minHeight: 120,
-							justifyContent: 'center',
-							backgroundColor: '#372644',
-							shadowColor: 'black',
-							alignItems: 'center',
-							shadowOffset: { width: 3, height: 8 },
-							shadowOpacity: 0.2,
-							shadowRadius: 3.84,
-							borderRadius: 10,
-							elevation: 8,
-						}}>
-						<Icon color={'white'} name={'mimir_wallet'} />
-						<Spacer space={'small'} />
-						<Text text={walletBalance} typography={'h1'} />
-					</Card>
 					<Spacer space={'small'} />
+					<Button
+						variant={'secondary'}
+						size={'huge'}
+						text={'PLAY TO WIN'}
+						typography={'h1'}
+						onPress={() => navigation.navigate('GameMode')}
+					/>
+				<Spacer space={'medium'} />
+					<View style={{ flexDirection: 'row'}}>
+						<Card
+							style={{
+								flexDirection: 'row',
+								flex: 1,
+								width: '100%',
+								justifyContent: 'center',
+								backgroundColor: '#fff',
+								shadowColor: 'black',
+								alignItems: 'center',
+								shadowOffset: { width: 3, height: 5 },
+								shadowOpacity: 0.2,
+								shadowRadius: 3.84,
+								borderRadius: 10,
+								elevation: 5,
+							}}>
+							<Icon color={'black'} name={'mimir_wallet'} />
+							<Spacer />
+							<Text variant={'primary'} text={walletBalance} typography={'h6'} />
+						</Card>
+						<Spacer  />
 
-					<Card
-						style={{
-							flex: 1,
-							justifyContent: 'center',
-							minHeight: 120,
-							backgroundColor: '#372644',
-							shadowColor: 'black',
-							alignItems: 'center',
-							shadowOffset: { width: 3, height: 8 },
-							shadowOpacity: 0.2,
-							shadowRadius: 3.84,
-							borderRadius: 10,
-							elevation: 8,
-						}}>
-						<Icon color={'white'} name={'mimir_leaderboards'} />
-						<Spacer space={'small'} />
-						<Text text={'Leaderboards'} typography={'h1'} />
-					</Card>
+						<Card
+							style={{
+								flexDirection: 'row',
+								flex: 1,
+								width: '100%',
+								justifyContent: 'center',
+								backgroundColor: '#fff',
+								shadowColor: 'black',
+								alignItems: 'center',
+								shadowOffset: { width: 3, height: 8 },
+								shadowOpacity: 0.2,
+								shadowRadius: 3.84,
+								borderRadius: 10,
+								elevation: 8,
+							}}>
+							<Icon color={'black'} name={'mimir_leaderboards'} />
+							<Spacer  />
+							<Text variant={'primary'} text={'Leaderboards'} typography={'h6'} />
+						</Card>
+					</View>
+
 				</Container>
 				<Spacer space={'huge'} />
 			</Screen>

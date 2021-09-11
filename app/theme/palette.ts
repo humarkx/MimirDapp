@@ -2,6 +2,7 @@ export interface Palette {
 	primary: string
 	secondary: string
 	light: string
+	darkGreen: string
 	lightGreen: string
 	lightPurple: string
 	trueBlack: string
@@ -33,6 +34,7 @@ export const palette: Palette = {
 	primary: '#78305F',
 	secondary: '#0EF3C5',
 	light: '#F4F6FA',
+	darkGreen: '#172347',
 	lightGreen: '#90C7C2',
 	lightPurple: '#E1DDF5',
 	trueBlack: '#2D3142',

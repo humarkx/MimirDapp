@@ -11,7 +11,7 @@ const buttonVariants = [
 ] as const
 export type ButtonVariants = typeof buttonVariants[number]
 
-const buttonSizes = ['default', 'large', 'medium', 'small'] as const
+const buttonSizes = ['default', 'large', 'medium', 'small', 'huge'] as const
 export type ButtonSizes = typeof buttonSizes[number]
 
 const buttonTypes = ['solid', 'clear', 'outline'] as const

@@ -152,7 +152,7 @@ export const GameScreen = ({ route }) => {
 				<Button
 					style={FREE}
 					textStyle={DEMO_TEXT}
-					text="JOIN FREE PLAY"
+					text="FREE PLAY"
 					onPress={() => navigation.navigate('bet', { gameId })}
 				/>
 			</Screen>

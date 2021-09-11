@@ -19,7 +19,7 @@ export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
 			<Wallpaper />
 			<Header leftIcon={'arrow-left2'} onLeftPress={navigation.goBack} headerText={'Tournaments'} />
 			<Screen unsafe>
-				<Container>
+				<Container centerVertical>
 					{freeGames.map(game => (
 						<TouchableOpacity
 							key={game._id}
@@ -46,7 +46,7 @@ export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
 									source={{
 										uri: 'https://www.limelightmagazine.com.au/wp-content/uploads/2019/06/0f14b1b9-australian-chamber-orchestra.jpg',
 									}}>
-									<Text text={'CLASSICAL MUSIC'} typography={'h1'} />
+									<Text text={'RANDOM'} typography={'h1'} />
 								</ImageBackground>
 							</Card>
 						</TouchableOpacity>

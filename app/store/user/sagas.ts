@@ -1,7 +1,9 @@
-import { all, call, put, takeEvery, select } from 'redux-saga/effects'
+import { all, call, put, takeEvery, select, takeLatest } from 'redux-saga/effects'
 import { login, register, getUser } from '../../services/auth'
 import * as firebase from '../../services/firebase'
 import { UserActions, UserActionsTypes, UserLoginPayload, UserPayload, UserRegisterPayload } from './types'
+import { SUBSCRIBE_TO_ALL_GAMES } from '../games/sagas'
+import { GameActions } from '../games/types'
 
 function* LOGIN(action: UserActionsTypes) {
 	const { email, password } = action.payload as UserLoginPayload
@@ -56,6 +58,10 @@ function* LOAD_CURRENT_ACCOUNT() {
 				type: UserActions.LOAD_CURRENT_ACCOUNT_SUCCESS.toString(),
 				payload: userData,
 			})
+			yield put({
+				type: UserActions.LOAD_CURRENT_ACCOUNT_SUCCESS.toString(),
+				payload: userData,
+			})
 		}
 	} catch (error) {
 		yield put({
@@ -65,6 +71,16 @@ function* LOAD_CURRENT_ACCOUNT() {
 				error: error.message,
 			},
 		})
+	}
+}
+
+function* LOAD_CURRENT_ACCOUNT_SUCCESS(action: UserActionsTypes) {
+	try {
+		yield put({
+			type: GameActions.SUBSCRIBE_TO_ALL_GAMES.toString(),
+		})
+	} catch (e) {
+		console.log(e)
 	}
 }
 
@@ -96,6 +112,7 @@ export default function* rootSaga() {
 		takeEvery(UserActions.GET_USER, GET_USER),
 		takeEvery(UserActions.REGISTER, REGISTER),
 		takeEvery(UserActions.LOAD_CURRENT_ACCOUNT, LOAD_CURRENT_ACCOUNT),
+		takeLatest(UserActions.LOAD_CURRENT_ACCOUNT_SUCCESS, LOAD_CURRENT_ACCOUNT_SUCCESS),
 		takeEvery(UserActions.LOGOUT, LOGOUT),
 		LOAD_CURRENT_ACCOUNT(), // run once on app load to check user auth
 	])

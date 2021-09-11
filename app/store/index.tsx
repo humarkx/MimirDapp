@@ -9,6 +9,19 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers'
 import { rootSaga } from './sagas'
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+let rehydrationComplete: any
+
+const rehydrationPromise = new Promise(resolve => {
+	rehydrationComplete = resolve
+	// rehydrationFailed = reject
+})
+
+export function rehydration() {
+	return rehydrationPromise
+}
+
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
@@ -24,15 +37,20 @@ const middlewares = [sagaMiddleware]
 //
 // 	middlewares.push(logger)
 // }
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middlewares)))
-const persistor = persistStore(store)
+// const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof rootReducer>
 export type AppDispatch = typeof store.dispatch
 
+const persistor = persistStore(store, null, () => {
+	// this will be invoked after rehydration is complete
+	rehydrationComplete()
+})
 const Provider = ({ children }) => {
 	return (
 		<ReduxProvider store={store}>

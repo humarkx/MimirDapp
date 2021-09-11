@@ -14,7 +14,7 @@ import { MainNavigator, AuthNavigator } from './index'
 import { useTheme } from 'styled-components'
 import { navigationRef } from './navigation-utilities'
 import { RootParamList } from '../@types/navigation'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 
 /**
@@ -31,8 +31,13 @@ import { RootState } from '../store'
 const Stack = createStackNavigator<RootParamList>()
 
 const RootStack = () => {
+	const dispatch = useDispatch()
 	const { colors } = useTheme()
 	const { authorized, loading } = useSelector((state: RootState) => state.user)
+
+	useEffect(() => {
+		// dispatch()
+	}, [])
 	// const onAuthStateChanged = async user => {
 	// 	if (!user) {
 	// 		socket.io.opts.query = { token: '' }

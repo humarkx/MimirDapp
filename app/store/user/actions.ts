@@ -7,4 +7,4 @@ export const register = (username: string, email: string, password: string) => {
 
 export const login = (email: string, password: string) => UserActions.LOGIN({ email, password })
 
-export const getCurrentUser = () => UserActions.GET_USER()
+export const getUserBalance = () => UserActions.GET_USER_BALANCE()

@@ -28,6 +28,7 @@ const authReducer = reducerWithInitialState(userInitialState)
 	.case(UserActions.REGISTER, state => ({ ...state, loading: true }))
 	.case(UserActions.LOGOUT, state => ({ ...state, loading: true }))
 	.case(UserActions.GET_USER, state => ({ ...state, loading: true }))
+	.case(UserActions.GET_USER_BALANCE, state => ({ ...state }))
 	// SUCCESS CASES
 	.case(UserActions.LOAD_CURRENT_ACCOUNT_SUCCESS, (state, user) => ({
 		...state,
@@ -39,6 +40,10 @@ const authReducer = reducerWithInitialState(userInitialState)
 		...state,
 		...user,
 		loading: false,
+	}))
+	.case(UserActions.GET_USER_BALANCE_SUCCESS, (state, user) => ({
+		...state,
+		...user,
 	}))
 	.case(UserActions.REGISTER_SUCCESS, (state, user) => ({ ...state, ...user, loading: false }))
 	.case(UserActions.LOGOUT_SUCCESS, () => ({
@@ -54,6 +59,7 @@ const authReducer = reducerWithInitialState(userInitialState)
 	}))
 	.case(UserActions.REGISTER_FAILED, state => ({ ...state, loading: false }))
 	.case(UserActions.GET_USER_FAILED, state => ({ ...state, loading: false }))
+	.case(UserActions.GET_USER_BALANCE_FAILED, state => ({ ...state }))
 
 	// DEFAULT CASE - Return current state
 	.default((state, action) => state)

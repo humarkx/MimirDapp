@@ -1,9 +1,9 @@
 import { all, call, put, takeEvery, select, takeLatest } from 'redux-saga/effects'
 import { login, register, getUser } from '../../services/auth'
 import * as firebase from '../../services/firebase'
-import { UserActions, UserActionsTypes, UserLoginPayload, UserPayload, UserRegisterPayload } from './types'
 import { SUBSCRIBE_TO_ALL_GAMES } from '../games/sagas'
 import { GameActions } from '../games/types'
+import { UserActions, UserActionsTypes, UserLoginPayload, UserPayload, UserRegisterPayload } from './types'
 
 function* LOGIN(action: UserActionsTypes) {
 	const { email, password } = action.payload as UserLoginPayload
@@ -106,10 +106,26 @@ function* GET_USER() {
 	}
 }
 
+function* GET_USER_BALANCE() {
+	try {
+		const userData = yield call(getUser)
+		yield put({
+			type: UserActions.GET_USER_BALANCE_SUCCESS.toString(),
+			payload: userData,
+		})
+	} catch (error) {
+		yield put({
+			type: UserActions.GET_USER_BALANCE_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
 export default function* rootSaga() {
 	yield all([
 		takeEvery(UserActions.LOGIN, LOGIN),
 		takeEvery(UserActions.GET_USER, GET_USER),
+		takeEvery(UserActions.GET_USER_BALANCE, GET_USER_BALANCE),
 		takeEvery(UserActions.REGISTER, REGISTER),
 		takeEvery(UserActions.LOAD_CURRENT_ACCOUNT, LOAD_CURRENT_ACCOUNT),
 		takeLatest(UserActions.LOAD_CURRENT_ACCOUNT_SUCCESS, LOAD_CURRENT_ACCOUNT_SUCCESS),

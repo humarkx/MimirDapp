@@ -46,6 +46,9 @@ export enum ActionsTypes {
 	LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
 	REGISTER_SUCCESS = 'REGISTER_SUCCESS',
 	REGISTER_FAILED = 'REGISTER_FAILED',
+	GET_USER_BALANCE = 'GET_USER_BALANCE',
+	GET_USER_BALANCE_SUCCESS = 'GET_USER_BALANCE_SUCCESS',
+	GET_USER_BALANCE_FAILED = 'GET_USER_BALANCE_FAILED',
 }
 export const UserActions = {
 	SET_STATE: actionCreator<ErrorPayload>(ActionsTypes.SET_STATE),
@@ -59,6 +62,9 @@ export const UserActions = {
 	LOGOUT: actionCreator<UserLoginPayload>(ActionsTypes.LOGOUT),
 	LOGOUT_SUCCESS: actionCreator(ActionsTypes.LOGOUT_SUCCESS),
 
+	GET_USER_BALANCE: actionCreator(ActionsTypes.GET_USER_BALANCE),
+	GET_USER_BALANCE_SUCCESS: actionCreator<UserPayload>(ActionsTypes.GET_USER_BALANCE_SUCCESS),
+	GET_USER_BALANCE_FAILED: actionCreator(ActionsTypes.GET_USER_BALANCE_FAILED),
 	GET_USER: actionCreator(ActionsTypes.GET_USER),
 	GET_USER_SUCCESS: actionCreator<UserPayload>(ActionsTypes.GET_USER_SUCCESS),
 	GET_USER_FAILED: actionCreator<ErrorPayload>(ActionsTypes.GET_USER_FAILED),
@@ -77,3 +83,6 @@ export type UserActionsTypes =
 	| ReturnType<typeof UserActions.GET_USER>
 	| ReturnType<typeof UserActions.GET_USER_SUCCESS>
 	| ReturnType<typeof UserActions.GET_USER_FAILED>
+	| ReturnType<typeof UserActions.GET_USER_BALANCE>
+	| ReturnType<typeof UserActions.GET_USER_BALANCE_SUCCESS>
+	| ReturnType<typeof UserActions.GET_USER_BALANCE_FAILED>

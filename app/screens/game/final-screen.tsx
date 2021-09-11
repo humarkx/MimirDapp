@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import { Button, Text, Screen, Wallpaper, Image as Image, Header } from '../../components'
-import socket from '../../services/sockets'
-import { colors, spacing } from '../../theme'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
-import { getCurrentUser } from '../../store/user/actions'
+import { Button, Text, Screen, Wallpaper, Image, Header } from '../../components'
+import { getUserBalance } from '../../store/user/actions'
+import { colors, spacing } from '../../theme'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir2 = require('../../../assets/images/mimir.png')
@@ -114,50 +112,22 @@ const AMOUNT: TextStyle = {
 }
 
 export const FinalScreen = () => {
-	const [prize, setPrize] = useState('')
+	const [prize, setPrize] = useState('999')
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		dispatch(getCurrentUser())
-		setPrize(Math.floor(Math.random() * 10000).toString())
+		dispatch(getUserBalance())
 	}, [])
 
-	socket.on('connect', () => {
-		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
-	})
-
-	socket.on('RoomEnter', a => {
-		console.log('::::::::::::::::::::: RoomEnter :::::::::::::::: ', a)
-	})
-
-	socket.on('question', q => {
-		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
-	})
-	console.log('connect')
-
-	const click = () => {
-		console.log('CLICK')
-		socket.emit('join', { id: 'b9e64f45-ba15-40b0-abdf-17e526be5a0b' })
-	}
-
-	const updateWalletBallance = async () => {
-		try {
-			const currentBalance = await AsyncStorage.getItem('balance')
-			const newWalletBallance = Number(currentBalance) + Number(prize)
-			await AsyncStorage.setItem('balance', newWalletBallance.toString())
-		} catch (e) {
-			console.log(e)
-		}
-	}
-	const navigateToDashboard = async () => {
-		await updateWalletBallance()
+	const navigateToDashboard = () => {
+		console.log('NAVIGATE:::::::::::')
 		navigation.navigate('Dashboard')
 	}
 
 	return (
-		<View testID="GameScreen" style={FULL}>
+		<View testID="FinalScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Image source={logoMimir} style={MIMIR} />

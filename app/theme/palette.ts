@@ -9,6 +9,7 @@ export interface Palette {
 	yellow: string
 	black: string
 	gray: string
+	green: string
 	white: string
 	interface: {
 		success: string
@@ -35,7 +36,8 @@ export const palette: Palette = {
 	secondary: '#0EF3C5',
 	light: '#F4F6FA',
 	darkGreen: '#172347',
-	lightGreen: '#90C7C2',
+	green: '#015268',
+	lightGreen: '#038298',
 	lightPurple: '#E1DDF5',
 	trueBlack: '#2D3142',
 	yellow: '#FFD390',

@@ -4,14 +4,14 @@ import { GameActions } from './types'
 
 export interface GameState {
 	currentGame: GameModel | null
-	freeGames: GameModel[]
+	games: GameModel[]
 	loading: boolean
 	error: unknown | null
 }
 
 const matchesInitialState: GameState = {
 	currentGame: null,
-	freeGames: [],
+	games: [],
 	loading: false,
 	error: null,
 }
@@ -19,16 +19,22 @@ const matchesInitialState: GameState = {
 const GamesReducer = reducerWithInitialState(matchesInitialState)
 	// LOADING CASES
 	.case(GameActions.GET_FREE_GAMES, state => ({ ...state, loading: true }))
+	.case(GameActions.GET_PAID_GAMES, state => ({ ...state, loading: true }))
 
 	// SUCCESS CASES
-	.case(GameActions.GET_FREE_GAMES_SUCCESS, (state, freeGames) => ({
+	.case(GameActions.GET_FREE_GAMES_SUCCESS, (state, games) => ({
 		...state,
-		freeGames,
+		games,
 		loading: false,
 	}))
-
+	.case(GameActions.GET_PAID_GAMES_SUCCESS, (state, games) => ({
+		...state,
+		games,
+		loading: false,
+	}))
 	// FAILED CASES
 	.case(GameActions.GET_FREE_GAMES_FAILED, (state, error) => ({ ...state, error, loading: false }))
+	.case(GameActions.GET_PAID_GAMES_FAILED, (state, error) => ({ ...state, error, loading: false }))
 
 	// DEFAULT CASE - Return current state
 	.default((state, action) => state)

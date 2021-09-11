@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { GameType } from '../../@types/games'
 import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
 import { RootState } from '../../store'
@@ -39,7 +40,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 						variant={'primary'}
 						text={'FREE TO PLAY'}
 						typography={'h1'}
-						onPress={() => navigation.navigate('GameMode')}
+						onPress={() => navigation.navigate('GameMode', { gameType: GameType.FREE })}
 					/>
 					<Spacer space={'small'} />
 					<Button
@@ -47,7 +48,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 						size={'huge'}
 						text={'PLAY TO WIN'}
 						typography={'h1'}
-						onPress={() => navigation.navigate('GameMode')}
+						onPress={() => navigation.navigate('GameMode', { gameType: GameType.BET })}
 					/>
 				<Spacer space={'medium'} />
 					<View style={{ flexDirection: 'row'}}>
@@ -68,7 +69,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 							}}>
 							<Icon color={'black'} name={'mimir_wallet'} />
 							<Spacer />
-							<Text variant={'primary'} text={walletBalance} typography={'h6'} />
+							<Text variant={'black'}  text={walletBalance} typography={'h6'} />
 						</Card>
 						<Spacer  />
 
@@ -89,7 +90,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 							}}>
 							<Icon color={'black'} name={'mimir_leaderboards'} />
 							<Spacer  />
-							<Text variant={'primary'} text={'Leaderboards'} typography={'h6'} />
+							<Text variant={'black'} text={'Leaderboards'} typography={'h6'} />
 						</Card>
 					</View>
 

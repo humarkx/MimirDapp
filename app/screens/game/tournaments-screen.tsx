@@ -1,26 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ImageBackground, TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { DashboardScreenProps } from '../../@types/navigation'
+import { TournamentsScreenProps } from '../../@types'
+import { GameModel, GameType } from '../../@types/games'
 import { Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
 import { RootState } from '../../store'
-import { getFreeGames } from '../../store/games/actions'
+import { getFreeGames, getPaidGames } from '../../store/games/actions'
 
-export const TournamentsScreen = ({ navigation }: DashboardScreenProps) => {
+export const TournamentsScreen = ({ route, navigation }: TournamentsScreenProps) => {
+	const { gameType } = route.params
 	const dispatch = useDispatch()
-	const { freeGames } = useSelector((state: RootState) => state.games)
+	const { games } = useSelector((state: RootState) => state.games)
 
 	useEffect(() => {
-		dispatch(getFreeGames())
+		if(gameType === GameType.BET) {
+			dispatch(getPaidGames())
+		} else if(gameType === GameType.FREE) {
+			dispatch(getFreeGames())
+		}
 	}, [])
 
+
+
 	return (
-		<ScreenWrapper testID="GameModeScreen" safeAreaView>
+		<ScreenWrapper testID="TournamentsScreen" safeAreaView>
 			<Wallpaper />
 			<Header leftIcon={'arrow-left2'} onLeftPress={navigation.goBack} headerText={'Tournaments'} />
 			<Screen unsafe>
 				<Container centerVertical>
-					{freeGames.map(game => (
+					{games.map(game => (
 						<TouchableOpacity
 							key={game._id}
 							style={{ flex: 1, maxHeight: 220, marginBottom: 20 }}

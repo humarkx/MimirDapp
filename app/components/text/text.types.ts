@@ -11,5 +11,6 @@ const Text = [
 	'success',
 	'warning',
 	'white',
+	'black',
 ] as const
 export type TextColorVariants = typeof Text[number]

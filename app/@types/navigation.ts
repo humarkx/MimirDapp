@@ -22,3 +22,5 @@ export type RootParamList = {
 
 export type WelcomeScreenProps = StackScreenProps<MainParamList, 'welcome'>
 export type DashboardScreenProps = StackScreenProps<MainParamList, 'Dashboard'>
+export type GameModeScreenProps = StackScreenProps<MainParamList, 'GameMode'>
+export type TournamentsScreenProps = StackScreenProps<MainParamList, 'Tournaments'>

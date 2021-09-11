@@ -27,6 +27,8 @@ const handleColorVariant = (theme: ThemeType, variant: TextColorVariants) => {
 			return theme.colors.transparent.ghost
 		case 'white':
 			return theme.colors.palette.white
+		case 'black':
+			return theme.colors.palette.black
 		case 'default':
 		default:
 			return theme.colors.text

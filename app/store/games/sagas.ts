@@ -2,7 +2,7 @@ import { eventChannel } from 'redux-saga'
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 import { SocketEvents } from '../../@types'
 import { GameModel } from '../../@types/games'
-import { getFreeGames } from '../../services/games'
+import { getFreeGames, getPaidGames } from '../../services/games'
 import socket from '../../services/sockets'
 import { GameActions } from './types'
 
@@ -15,13 +15,20 @@ function createSocketChannel() {
 			emit(new Error(errorEvent.reason))
 		}
 		socket.on('connect', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
+
+		// When someone joins a ROOM:
+		// Size: number of players in the room
+		socket.on('RoomEnter', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
+
+		// Starting Game
+
+
 		socket.on('endGame', () => console.log('WE ARE CONNECTED ON SAGAS:::::endGame'))
 		socket.on('results', () => console.log('WE ARE CONNECTED ON SAGAS:::::results'))
 		socket.on('result', () => console.log('WE ARE CONNECTED ON SAGAS:::::result'))
 		socket.on('question', () => console.log('WE ARE CONNECTED ON SAGAS:::::question'))
 
-		socket.on(SocketEvents.MESSAGE_GET, socketEventHandler)
-		socket.on(SocketEvents.IS_TYPING, socketEventHandler)
+		socket.on(SocketEvents.END_GAME, socketEventHandler)
 		socket.on(SocketEvents.ERROR, errorHandler)
 
 		return () => {
@@ -37,7 +44,7 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 			// An error from socketChannel will cause the saga jump to the catch block
 			const socketEvent = yield take(socketChannel)
 			switch (socketEvent.type) {
-				// case SocketEvents.MESSAGE_GET:
+				// case SocketEvents.END_GAME:
 				// 	yield put({
 				// 		type: GameActions.NEW_SUBSCRIBED_CHAT_MESSAGE.toString(),
 				// 		payload: socketEvent,
@@ -81,9 +88,28 @@ function* GET_FREE_GAMES() {
 	}
 }
 
+
+function* GET_PAID_GAMES() {
+	try {
+		const paidGames: GameModel[] = yield call(getPaidGames)
+		console.log('PAID:::::', paidGames)
+		yield put({
+			type: GameActions.GET_PAID_GAMES_SUCCESS.toString(),
+			payload: paidGames,
+		})
+	} catch (error) {
+		console.log('Failing to get paid games', error.message)
+		yield put({
+			type: GameActions.GET_PAID_GAMES_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
 export default function* rootSaga() {
 	yield all([
 		takeLatest(GameActions.GET_FREE_GAMES, GET_FREE_GAMES),
+		takeLatest(GameActions.GET_PAID_GAMES, GET_PAID_GAMES),
 		takeLatest(GameActions.SUBSCRIBE_TO_ALL_GAMES, SUBSCRIBE_TO_ALL_GAMES),
 	])
 }

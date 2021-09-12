@@ -18,10 +18,16 @@ const matchesInitialState: GameState = {
 
 const GamesReducer = reducerWithInitialState(matchesInitialState)
 	// LOADING CASES
+	.case(GameActions.SET_CURRENT_GAME, state => ({ ...state, loading: true }))
 	.case(GameActions.GET_FREE_GAMES, state => ({ ...state, loading: true }))
 	.case(GameActions.GET_PAID_GAMES, state => ({ ...state, loading: true }))
 
 	// SUCCESS CASES
+	.case(GameActions.SET_CURRENT_GAME_SUCCESS, (state, currentGame) => ({
+		...state,
+		currentGame,
+		loading: false,
+	}))
 	.case(GameActions.GET_FREE_GAMES_SUCCESS, (state, games) => ({
 		...state,
 		games,
@@ -33,6 +39,7 @@ const GamesReducer = reducerWithInitialState(matchesInitialState)
 		loading: false,
 	}))
 	// FAILED CASES
+	.case(GameActions.SET_CURRENT_GAME_FAILED, (state, error) => ({ ...state, error, loading: false }))
 	.case(GameActions.GET_FREE_GAMES_FAILED, (state, error) => ({ ...state, error, loading: false }))
 	.case(GameActions.GET_PAID_GAMES_FAILED, (state, error) => ({ ...state, error, loading: false }))
 

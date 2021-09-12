@@ -4,7 +4,9 @@ import { SocketEvents } from '../../@types'
 import { GameModel } from '../../@types/games'
 import { getFreeGames, getPaidGames } from '../../services/games'
 import socket from '../../services/sockets'
-import { GameActions } from './types'
+import { GameActions, GameActionsTypes } from './types'
+import { UserLoginPayload } from '../user/types'
+import { GameState } from './reducers'
 
 function createSocketChannel() {
 	return eventChannel(emit => {
@@ -71,6 +73,24 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 	}
 }
 
+function* SET_CURRENT_GAME(action: GameActionsTypes) {
+	try {
+		console.log(action.payload)
+		const currentGame = action.payload as GameModel
+
+		yield put({
+			type: GameActions.SET_CURRENT_GAME_SUCCESS.toString(),
+			payload: currentGame,
+		})
+	} catch (error) {
+		console.log('Failed to set current game', error.message)
+		yield put({
+			type: GameActions.SET_CURRENT_GAME_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
 function* GET_FREE_GAMES() {
 	try {
 		const freeGames: GameModel[] = yield call(getFreeGames)
@@ -108,6 +128,7 @@ function* GET_PAID_GAMES() {
 
 export default function* rootSaga() {
 	yield all([
+		takeLatest(GameActions.SET_CURRENT_GAME, SET_CURRENT_GAME),
 		takeLatest(GameActions.GET_FREE_GAMES, GET_FREE_GAMES),
 		takeLatest(GameActions.GET_PAID_GAMES, GET_PAID_GAMES),
 		takeLatest(GameActions.SUBSCRIBE_TO_ALL_GAMES, SUBSCRIBE_TO_ALL_GAMES),

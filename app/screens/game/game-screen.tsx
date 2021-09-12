@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
-import { Button, Text, Screen, Wallpaper, Image as Image, Header, Spacer } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image, Header, Spacer } from '../../components'
 import { colors, spacing } from '../../theme'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir1 = require('../../../assets/images/mimir.png')
@@ -111,9 +113,9 @@ const BALANCE_TEXT: TextStyle = {
 }
 
 export const GameScreen = ({ route }) => {
-	const { gameId } = route.params
 	const navigation = useNavigation()
 	const goBack = () => navigation.goBack()
+	const { games } = useSelector((state: RootState) => state.games)
 
 	return (
 		<View testID="GameScreen" style={FULL}>

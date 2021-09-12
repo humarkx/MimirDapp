@@ -5,7 +5,7 @@ import { TournamentsScreenProps } from '../../@types'
 import { GameModel, GameType } from '../../@types/games'
 import { Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
 import { RootState } from '../../store'
-import { getFreeGames, getPaidGames } from '../../store/games/actions'
+import { getFreeGames, getPaidGames, setCurrentGame } from '../../store/games/actions'
 
 export const TournamentsScreen = ({ route, navigation }: TournamentsScreenProps) => {
 	const { gameType } = route.params
@@ -20,6 +20,10 @@ export const TournamentsScreen = ({ route, navigation }: TournamentsScreenProps)
 		}
 	}, [])
 
+	const navigateToGameDetails = (game: GameModel) => {
+		dispatch(setCurrentGame(game))
+		navigation.navigate('game')
+	}
 
 
 	return (
@@ -32,7 +36,7 @@ export const TournamentsScreen = ({ route, navigation }: TournamentsScreenProps)
 						<TouchableOpacity
 							key={game._id}
 							style={{ flex: 1, maxHeight: 220, marginBottom: 20 }}
-							onPress={() => navigation.navigate('game', { gameId: game.refId })}>
+							onPress={() => navigateToGameDetails(game)}>
 							<Card
 								style={{
 									flex: 1,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { ImageStyle, TextStyle, View, ViewStyle } from 'react-native'
+import { ImageStyle, TextStyle, View, ViewStyle, Animated } from 'react-native'
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { useSelector } from 'react-redux'
 import { GameLobbyScreenProps } from '../../@types'
 import { GameType } from '../../@types/games'
@@ -104,7 +105,7 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 	const goBack = () => navigation.goBack()
 	const { currentGame } = useSelector((state: RootState) => state.games)
 	const [isPaid, setIsPaid] = useState<boolean>(false)
-	const [isStarting, setIsStarting] = useState<boolean>(true)
+	const [isStarting, setIsStarting] = useState<boolean>(false)
 	const [seconds, setSeconds] = useState(60)
 	if (!currentGame) return <ActivityIndicator />
 
@@ -115,7 +116,11 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 			socket.emit('leave', { id: currentGame.refId })
 			console.log('LEFT:::', currentGame.refId)
 		}
-	})
+	}, [])
+
+	useEffect(() => {
+		console.log('RE-RENDERING......')
+	}, [])
 	useEffect(() => {
 		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
 	}, [currentGame._id])
@@ -158,8 +163,22 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 
 				<Spacer space={'medium'} />
 				{isStarting && (
-					<Container centerVertical>
-						<Text style={PLAYERS} preset="header" text="Game starting..." />
+					<Container centerVertical centerHorizontal>
+						<Text style={PLAYERS} preset="header" text="Game starting in" />
+						<Spacer space={'medium'} />
+						<CountdownCircleTimer
+							size={120}
+							isPlaying
+							duration={60}
+							colors={[
+								['#038298', 0.4],
+								['#039875', 0.4],
+								['#0EF3C5', 0.2],
+							]}>
+							{({ remainingTime, animatedColor }) => (
+								<Animated.Text style={{ color: animatedColor }}>{remainingTime}</Animated.Text>
+							)}
+						</CountdownCircleTimer>
 					</Container>
 				)}
 			</Screen>

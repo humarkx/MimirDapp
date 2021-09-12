@@ -6,6 +6,8 @@ import * as Progress from 'react-native-progress'
 import { Button, Text, Screen, Wallpaper, Image, Header, Question } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const questionBackground = require('../../../assets/images/question_background.jpeg')
@@ -101,17 +103,13 @@ const MIMIR: ImageStyle = {
 	height: 100,
 }
 
-export const QuestionScreen = () => {
+export const QuestionScreen = ({ navigation }) => {
 	const windowWidth = Dimensions.get('window').width
-	const route = useRoute()
 	const [timer, setTimer] = useState(5)
 	const [question_number, setQuestionNumber] = useState(1)
 	const [question, setQuestion] = useState(null)
-	// const [question, setQuestion] = useState(5)
-	const [answer, setAnswer] = useState(5)
 	const [answerResult, setAnswerResult] = useState(false)
-	const navigation = useNavigation()
-	const goBack = () => navigation.goBack()
+	const { currentGame } = useSelector((state: RootState) => state.games)
 
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
@@ -140,10 +138,33 @@ export const QuestionScreen = () => {
 	// 25 seconds to respond
 	// 5 seconds before next question
 
+	useEffect(() => {
+		if (question) runTimer()
+	}, [question._id])
+
+	const runTimer = () => {
+		setTimeout(() => {
+			if (timer > 0) {
+				setTimer(timer - 1)
+			}
+		}, 1000)
+	}
+
+	// useEffect(() => {
+	// 	if (timer > 0) {
+	// 		setTimeout(() => {
+	// 			setTimer(timer - 0.1)
+	// 		}, 100)
+	// 	} else {
+	// 		setTimeout(() => {
+	// 			setTimer(5)
+	// 		}, 3000)
+	// 	}
+	// }, [timer])
+
 	const selectAnswer = i => {
-		const gameId = route.params['gameId']
 		const answerId = question.options[i]._id
-		const payload = { gameId, answerId: answerId, questionId: question._id, time: 0 }
+		const payload = { gameId: currentGame.refId, answerId: answerId, questionId: question._id, time: 0 }
 		socket.emit('answer', payload)
 	}
 

@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import { Button, Text, Screen, Wallpaper, Image as Image, Header, ActivityIndicator } from '../../components'
+import {
+	Button,
+	Text,
+	Screen,
+	Wallpaper,
+	Image as Image,
+	Header,
+	ActivityIndicator,
+	Spacer,
+	Container,
+} from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 import { GameLobbyScreenProps } from '../../@types'
@@ -47,7 +57,6 @@ const TITLE: TextStyle = {
 	fontSize: 34,
 	lineHeight: 38,
 	textAlign: 'center',
-	marginBottom: spacing.large,
 }
 const TAGLINE: TextStyle = {
 	color: '#BAB6C8',
@@ -107,9 +116,15 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 	const { currentGame } = useSelector((state: RootState) => state.games)
 	const [isPaid, setIsPaid] = useState<boolean>(false)
 	const [isStarting, setIsStarting] = useState<boolean>(false)
-
+	const [seconds, setSeconds] = useState(60)
 	if (!currentGame) return <ActivityIndicator />
 
+	useEffect(() => {
+		socket.emit('join', { id: currentGame.refId })
+		return () => {
+			socket.emit('leave', { id: currentGame.refId })
+		}
+	})
 	useEffect(() => {
 		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
 	}, [currentGame._id])
@@ -128,7 +143,7 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 	})
 
 	socket.on('startGame', a => {
-		navigation.navigate('question', { gameId: route.params['gameId'] })
+		navigation.navigate('question')
 		console.log('::::::::::::::::::::: startGame :::::::::::::::: ', a)
 	})
 
@@ -138,32 +153,44 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 
 	console.log('connect', socket.connected)
 
-	const click = () => {
-		setLoading(true)
-		console.log('CLICK', currentGame.refId)
-
-		socket.emit('join', { id: currentGame.refId })
-	}
-
+	useEffect(() => {
+		if (isStarting) {
+			if (seconds > 0) {
+				setTimeout(() => setSeconds(seconds - 1), 1000)
+			} else {
+				setSeconds('GOOD LUCK!!!')
+			}
+		}
+	})
 	return (
 		<View testID="GameLobbyScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
+				{/*<Text style={PLAYERS} preset="header" text="Players" />*/}
+
 				{isPaid && <Text style={TITLE} preset="header" text="Bet Placed" />}
 
-				<Image source={checked} style={CHECKED} />
+				<Spacer space={'medium'} />
 
-				{loading && <Text style={ROUND} preset="header" text="Joining round..." />}
-				<Text style={PLAYERS} preset="header" text="Players" />
-				<Text style={AMOUNT} preset="header" text="50.2K" />
-				{loading && <ActivityIndicator />}
-				<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-					<View>
-						<Button style={JOIN} textStyle={DEMO_TEXT} text="JOIN NOW" onPress={() => click()} disabled={loading} />
-					</View>
-				</View>
+				<Image source={checked} style={CHECKED} />
+				<Spacer space={'medium'} />
+				{!isStarting && (
+					<Container>
+						<Text style={ROUND} preset="header" text="Awaiting new players..." />
+						<Spacer space={'medium'} />
+						<ActivityIndicator />
+					</Container>
+				)}
+
+				<Spacer space={'medium'} />
+				{isStarting && (
+					<Container centerVertical>
+						<Text style={PLAYERS} preset="header" text="Game starting in:" />
+						<Text style={PLAYERS} preset="header" text={seconds} />
+					</Container>
+				)}
 			</Screen>
 		</View>
 	)

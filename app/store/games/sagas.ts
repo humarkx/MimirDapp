@@ -20,14 +20,14 @@ function createSocketChannel() {
 
 		// When someone joins a ROOM:
 		// Size: number of players in the room
-		socket.on('RoomEnter', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
+		socket.on('RoomEnter', RoomEnter => console.log('WE ARE CONNECTED ON SAGAS:::::', RoomEnter))
 
 		// Starting Game
 
-		socket.on('endGame', () => console.log('WE ARE CONNECTED ON SAGAS:::::endGame'))
-		socket.on('results', r => console.log('WE ARE CONNECTED ON SAGAS:::::results', r))
-		socket.on('result', () => console.log('WE ARE CONNECTED ON SAGAS:::::result'))
-		socket.on('question', () => console.log('WE ARE CONNECTED ON SAGAS:::::question'))
+		socket.on('endGame', endGame => console.log('WE ARE CONNECTED ON SAGAS:::::endGame', endGame))
+		socket.on('results', results => console.log('WE ARE CONNECTED ON SAGAS:::::results', results))
+		socket.on('result', result => console.log('WE ARE CONNECTED ON SAGAS:::::result', result))
+		socket.on('question', question => console.log('WE ARE CONNECTED ON SAGAS:::::question', question))
 
 		socket.on(SocketEvents.END_GAME, socketEventHandler)
 		socket.on(SocketEvents.ERROR, errorHandler)

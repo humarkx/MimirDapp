@@ -24,9 +24,8 @@ function createSocketChannel() {
 
 		// Starting Game
 
-
 		socket.on('endGame', () => console.log('WE ARE CONNECTED ON SAGAS:::::endGame'))
-		socket.on('results', () => console.log('WE ARE CONNECTED ON SAGAS:::::results'))
+		socket.on('results', r => console.log('WE ARE CONNECTED ON SAGAS:::::results', r))
 		socket.on('result', () => console.log('WE ARE CONNECTED ON SAGAS:::::result'))
 		socket.on('question', () => console.log('WE ARE CONNECTED ON SAGAS:::::question'))
 
@@ -46,11 +45,12 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 			// An error from socketChannel will cause the saga jump to the catch block
 			const socketEvent = yield take(socketChannel)
 			switch (socketEvent.type) {
-				// case SocketEvents.END_GAME:
-				// 	yield put({
-				// 		type: GameActions.NEW_SUBSCRIBED_CHAT_MESSAGE.toString(),
-				// 		payload: socketEvent,
-				// 	})
+				// case SocketEvents.RESULTS:
+				// 	console.log('socketEvent', socketEvent)
+				// 	// yield put({
+				// 	// 	type: GameActions.NEW_SUBSCRIBED_CHAT_MESSAGE.toString(),
+				// 	// 	payload: socketEvent,
+				// 	// })
 				// 	break
 				// case SocketEvents.IS_TYPING:
 				// 	yield put({
@@ -107,7 +107,6 @@ function* GET_FREE_GAMES() {
 		})
 	}
 }
-
 
 function* GET_PAID_GAMES() {
 	try {

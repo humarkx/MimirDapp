@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { Button, Text, Screen, Wallpaper, Image as Image, Header, ActivityIndicator } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 import { GameLobbyScreenProps } from '../../@types'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { GameType } from '../../@types/games'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const checked = require('../../../assets/images/tick_gif.png')
@@ -101,6 +104,23 @@ const AMOUNT: TextStyle = {
 export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 	const route = useRoute()
 	const goBack = () => navigation.goBack()
+	const { currentGame } = useSelector((state: RootState) => state.games)
+	const [isPaid, setIsPaid] = useState<boolean>(false)
+	const [isStarting, setIsStarting] = useState<boolean>(false)
+
+	if (!currentGame) return <ActivityIndicator />
+
+	useEffect(() => {
+		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
+	}, [currentGame._id])
+
+	useEffect(() => {
+		if (currentGame) {
+			console.log('CURRENT GAME:::::', currentGame)
+			// currentGame.players
+			setIsStarting(true)
+		}
+	}, [currentGame.status])
 
 	const [loading, setLoading] = useState(false)
 	socket.on('connect', () => {
@@ -120,9 +140,9 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 
 	const click = () => {
 		setLoading(true)
-		console.log('CLICK', route.params['gameId'])
+		console.log('CLICK', currentGame.refId)
 
-		socket.emit('join', { id: route.params['gameId'] })
+		socket.emit('join', { id: currentGame.refId })
 	}
 
 	return (
@@ -131,7 +151,7 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} preset="header" text="Bet Placed" />
+				{isPaid && <Text style={TITLE} preset="header" text="Bet Placed" />}
 
 				<Image source={checked} style={CHECKED} />
 

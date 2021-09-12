@@ -185,7 +185,7 @@ export const GameScreen = ({ navigation }: GameScreenProps) => {
 					<Button
 						style={FREE}
 						textStyle={DEMO_TEXT}
-						text="FREE PLAY"
+						text={isPaid ? 'PLAY TO WIN' : 'FREE PLAY'}
 						onPress={() => navigation.navigate('GameLobby')}
 					/>
 				</Container>

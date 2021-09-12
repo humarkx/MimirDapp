@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert, Dimensions } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import * as Progress from 'react-native-progress'
-import { Button, Text, Screen, Wallpaper, Image, Header, Question } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image, Header, Question, ActivityIndicator, Spacer } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 import { useSelector } from 'react-redux'
@@ -176,8 +176,13 @@ export const QuestionScreen = ({ navigation }) => {
 
 	if (!question)
 		return (
-			<View>
-				<Text>Loading</Text>
+			<View testID="GameScreen" style={FULL}>
+				<Wallpaper />
+				<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
+					<Text style={TITLE} text={'GET READY!!!'} />
+					<Spacer space={'huge'} />
+					<ActivityIndicator />
+				</Screen>
 			</View>
 		)
 	return (

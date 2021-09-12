@@ -22,6 +22,15 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	return (
 		<ScreenWrapper testID="DashboardScreen" safeAreaView>
 			<Wallpaper />
+
+			{/*TODO REMOVE THIS BUTTON*/}
+			{/*<Button*/}
+			{/*	variant={'secondary'}*/}
+			{/*	size={'huge'}*/}
+			{/*	text={'PLAY TO WIN'}*/}
+			{/*	typography={'h1'}*/}
+			{/*	onPress={() => navigation.navigate('final')}*/}
+			{/*/>*/}
 			<Header
 				leftIcon={'switch'}
 				rightIcon={'cog'}
@@ -50,8 +59,8 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 						typography={'h1'}
 						onPress={() => navigation.navigate('GameMode', { gameType: GameType.BET })}
 					/>
-				<Spacer space={'medium'} />
-					<View style={{ flexDirection: 'row'}}>
+					<Spacer space={'medium'} />
+					<View style={{ flexDirection: 'row' }}>
 						<Card
 							style={{
 								flexDirection: 'row',
@@ -69,9 +78,9 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 							}}>
 							<Icon color={'black'} name={'mimir_wallet'} />
 							<Spacer />
-							<Text variant={'black'}  text={walletBalance} typography={'h6'} />
+							<Text variant={'black'} text={walletBalance} typography={'h6'} />
 						</Card>
-						<Spacer  />
+						<Spacer />
 
 						<Card
 							style={{
@@ -89,11 +98,10 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 								elevation: 8,
 							}}>
 							<Icon color={'black'} name={'mimir_leaderboards'} />
-							<Spacer  />
+							<Spacer />
 							<Text variant={'black'} text={'Leaderboards'} typography={'h6'} />
 						</Card>
 					</View>
-
 				</Container>
 				<Spacer space={'huge'} />
 			</Screen>

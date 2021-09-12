@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { Button, Text, Screen, Wallpaper, Image, Header } from '../../components'
+import { Button, Text, Screen, Wallpaper, Image, Header, Container, Spacer } from '../../components'
 import { getUserBalance } from '../../store/user/actions'
 import { colors, spacing } from '../../theme'
 
@@ -17,11 +17,7 @@ const CONTAINER: ViewStyle = {
 	paddingHorizontal: spacing.medium,
 }
 const JOIN: ViewStyle = {
-	marginTop: 20,
 	borderRadius: 50,
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
-	marginHorizontal: 30,
 	backgroundColor: '#FFFFFF',
 }
 const BOLD: TextStyle = { fontWeight: 'bold' }
@@ -107,6 +103,7 @@ const CONGRATZ: TextStyle = {
 const AMOUNT: TextStyle = {
 	...BOLD,
 	fontSize: 34,
+	lineHeight: 36,
 	textAlign: 'center',
 	marginLeft: 10,
 }
@@ -136,17 +133,18 @@ export const FinalScreen = () => {
 
 				<Text style={CONGRATZ} preset="header" text="CONGRATULATIONS!" />
 				<Text style={CONGRATZ} preset="header" text="YOU HAVE WON:" />
-
-				<View
-					style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 30 }}>
+				<Spacer space={'medium'} />
+				<Container dir={'row'} centerHorizontal centerVertical>
 					<Image source={stack} style={STACK} />
-					<View style={{ flexDirection: 'row' }}>
-						<Image source={logoMimir2} style={TOKEN} />
-						<Text style={AMOUNT} preset="header" text={prize} />
-					</View>
-				</View>
+					<Spacer space={'medium'} />
 
-				<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={navigateToDashboard} />
+					<Image source={logoMimir2} style={TOKEN} />
+					<Text style={AMOUNT} preset="header" text={prize} />
+				</Container>
+				<Spacer space={'larger'} />
+				<Container>
+					<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={navigateToDashboard} />
+				</Container>
 			</Screen>
 		</View>
 	)

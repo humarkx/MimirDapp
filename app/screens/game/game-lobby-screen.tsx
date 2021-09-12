@@ -129,29 +129,13 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
 	}, [currentGame._id])
 
-	useEffect(() => {
-		if (currentGame) {
-			console.log('CURRENT GAME:::::', currentGame)
-			// currentGame.players
-			setIsStarting(true)
-		}
-	}, [currentGame.status])
-
-	const [loading, setLoading] = useState(false)
-	socket.on('connect', () => {
-		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
+	socket.on('starting', () => {
+		setIsStarting(true)
 	})
 
 	socket.on('startGame', a => {
 		navigation.navigate('question')
-		console.log('::::::::::::::::::::: startGame :::::::::::::::: ', a)
 	})
-
-	socket.on('question', q => {
-		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
-	})
-
-	console.log('connect', socket.connected)
 
 	useEffect(() => {
 		if (isStarting) {

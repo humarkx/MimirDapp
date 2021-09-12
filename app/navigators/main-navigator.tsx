@@ -10,7 +10,7 @@ import { MainParamList } from '../@types/navigation'
 import {
 	WelcomeScreen,
 	GameScreen,
-	BetScreen,
+	GameLobbyScreen,
 	QuestionScreen,
 	FinalScreen,
 	GameModeScreen,
@@ -46,8 +46,8 @@ export function MainNavigator() {
 			<Stack.Screen name="Dashboard" component={DashboardScreen} />
 			<Stack.Screen name="GameMode" component={GameModeScreen} />
 			<Stack.Screen name="Tournaments" component={TournamentsScreen} />
-			<Stack.Screen name="game" component={GameScreen} />
-			<Stack.Screen name="bet" component={BetScreen} />
+			<Stack.Screen name="Game" component={GameScreen} />
+			<Stack.Screen name="GameLobby" component={GameLobbyScreen} />
 			<Stack.Screen name="question" component={QuestionScreen} />
 			<Stack.Screen name="final" component={FinalScreen} />
 		</Stack.Navigator>

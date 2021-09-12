@@ -4,6 +4,7 @@ import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native
 import { Button, Text, Screen, Wallpaper, Image as Image, Header, ActivityIndicator } from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
+import { GameLobbyScreenProps } from '../../@types'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const checked = require('../../../assets/images/tick_gif.png')
@@ -97,9 +98,10 @@ const AMOUNT: TextStyle = {
 	marginBottom: spacing.large,
 }
 
-export const BetScreen = () => {
-	const navigation = useNavigation()
+export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 	const route = useRoute()
+	const goBack = () => navigation.goBack()
+
 	const [loading, setLoading] = useState(false)
 	socket.on('connect', () => {
 		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
@@ -124,9 +126,10 @@ export const BetScreen = () => {
 	}
 
 	return (
-		<View testID="GameScreen" style={FULL}>
+		<View testID="GameLobbyScreen" style={FULL}>
 			<Wallpaper />
 			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
+				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} preset="header" text="Bet Placed" />
 

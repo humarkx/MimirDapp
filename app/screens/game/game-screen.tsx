@@ -1,20 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
-import { Button, Text, Screen, Wallpaper, Image, Header, Spacer } from '../../components'
-import { colors, spacing } from '../../theme'
-import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { useSelector } from 'react-redux'
+import { GameScreenProps } from '../../@types'
+import { GameType } from '../../@types/games'
+import {
+	ActivityIndicator,
+	Button,
+	Container,
+	Header,
+	Icon,
+	Image,
+	Screen,
+	Spacer,
+	Text,
+	Wallpaper,
+} from '../../components'
 import { RootState } from '../../store'
+import { colors, spacing } from '../../theme'
 
-const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir1 = require('../../../assets/images/mimir.png')
 const logoMimir2 = require('../../../assets/images/mimir_3.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
+const logoMimir = require('../../../assets/images/mimir_white.png')
 
-const FULL: ViewStyle = { flex: 1 }
+const FULL: ViewStyle = { flex: 1, backgroundColor: colors.backgroundOpacity }
 const CONTAINER: ViewStyle = {
-	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
 
@@ -112,56 +123,107 @@ const BALANCE_TEXT: TextStyle = {
 	letterSpacing: 2,
 }
 
-export const GameScreen = ({ route }) => {
-	const navigation = useNavigation()
+export const GameScreen = ({ navigation }: GameScreenProps) => {
 	const goBack = () => navigation.goBack()
-	const { games } = useSelector((state: RootState) => state.games)
+	const { currentGame } = useSelector((state: RootState) => state.games)
+	const [isPaid, setIsPaid] = useState<boolean>(false)
 
+	if (!currentGame) return <ActivityIndicator />
+
+	useEffect(() => {
+		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
+	}, [currentGame._id])
 	return (
 		<View testID="GameScreen" style={FULL}>
-			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
+			<Wallpaper
+				style={{ opacity: 0.5 }}
+				backgroundImage={{
+					uri: 'http://qqpublic.qpic.cn/qq_public/0/0-2382486706-3DA4DFAAE33D3163D5EAED99A3A29C05/900?fmt=jpg&size=273&h=1950&w=900&ppv=1',
+				}}
+			/>
+			<Screen style={CONTAINER} preset="scroll">
 				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={NEXT} text="Next game starts at:" />
+				<Spacer space={'medium'} />
+				<Container>
+					<Text
+						typography={'h3'}
+						text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
+					/>
+				</Container>
+				{isPaid && (
+					<Container>
+						<Spacer space={'medium'} />
+						<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+							<View>
+								<Text typography={'h2'} variant={'secondary'} text={'START TIME'} />
+								<Text typography={'h1'} variant={'white'} text={dayjs(currentGame.startDate).format('HH:mm')} />
+							</View>
+							<View style={{ justifyContent: 'flex-start' }}>
+								<Text typography={'h2'} variant={'secondary'} text={'MIN. ENTRY FEE'} />
+								<View style={{ flexDirection: 'row' }}>
+									<Icon name={'mimir_currency'} color={'white'} />
+									<Spacer />
+									<Text typography={'h1'} variant={'white'} text={currentGame.fee} />
+								</View>
+							</View>
+						</View>
+						<Spacer />
+						<View>
+							<Text typography={'h2'} variant={'secondary'} text={'QUIZ POT'} />
+							<Text typography={'h1'} variant={'white'} text={dayjs(currentGame.startDate).format('HH:mm')} />
+						</View>
+						<Spacer space={'medium'} />
+						<Button testID="next-screen-button" style={[POT, { marginBottom: 20 }]}>
+							<Image source={logoMimir2} style={TOKEN} />
+							<Text style={POT_BALANCE} text="1,000" />
+						</Button>
+					</Container>
+				)}
+				<Container centerVertical>
+					{!isPaid && <Spacer space={'huge'} />}
+					<Button
+						style={FREE}
+						textStyle={DEMO_TEXT}
+						text="FREE PLAY"
+						onPress={() => navigation.navigate('GameLobby')}
+					/>
+				</Container>
+				{/*<View style={{ justifyContent: 'center', flexDirection: 'row', paddingBottom: 20 }}>*/}
+				{/*	<AnimatedCircularProgress*/}
+				{/*		size={150}*/}
+				{/*		width={10}*/}
+				{/*		rotation={360}*/}
+				{/*		backgroundWidth={10}*/}
+				{/*		fill={75}*/}
+				{/*		tintColor="#0EF3C5"*/}
+				{/*		backgroundColor="#fff">*/}
+				{/*		{fill => <Text style={styles.points}>21:00</Text>}*/}
+				{/*	</AnimatedCircularProgress>*/}
+				{/*</View>*/}
+				{/*<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20, marginBottom: 20 }}>*/}
+				{/*	<Text style={POT_TEXT} text="Today’s pot:" />*/}
+				{/*	<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>*/}
+				{/*		<Image source={logoMimir1} style={TOKEN_SMALL} />*/}
+				{/*		<Text style={POT_TEXT} text="59 327" />*/}
+				{/*	</View>*/}
+				{/*</View>*/}
 
-				<View style={{ justifyContent: 'center', flexDirection: 'row', paddingBottom: 20 }}>
-					<AnimatedCircularProgress
-						size={150}
-						width={10}
-						rotation={360}
-						backgroundWidth={10}
-						fill={75}
-						tintColor="#0EF3C5"
-						backgroundColor="#fff">
-						{fill => <Text style={styles.points}>21:00</Text>}
-					</AnimatedCircularProgress>
-				</View>
-				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20, marginBottom: 20 }}>
-					<Text style={POT_TEXT} text="Today’s pot:" />
-					<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-						<Image source={logoMimir1} style={TOKEN_SMALL} />
-						<Text style={POT_TEXT} text="59 327" />
-					</View>
-				</View>
-
-				<Text style={TITLE} text="Play money" />
-				<Button testID="next-screen-button" style={[POT, { marginBottom: 20 }]} disabled={true}>
-					<Image source={logoMimir2} style={TOKEN} />
-					<Text style={POT_BALANCE} text="1,000" />
-				</Button>
-				<Button
-					style={FREE}
-					textStyle={DEMO_TEXT}
-					text="FREE PLAY"
-					onPress={() => navigation.navigate('bet', { gameId })}
-				/>
+				{/*<Text style={TITLE} text="Play money" />*/}
 			</Screen>
 		</View>
 	)
 }
 
 const styles = StyleSheet.create({
+	actionLabel: {
+		color: '#ffffff',
+		fontSize: 20,
+		fontWeight: '500',
+		marginBottom: 30,
+		marginTop: 30,
+		textAlign: 'center',
+	},
 	container: {
 		alignItems: 'center',
 		backgroundColor: '#152d44',
@@ -183,13 +245,5 @@ const styles = StyleSheet.create({
 	},
 	pointsDeltaActive: {
 		color: '#fff',
-	},
-	actionLabel: {
-		color: '#ffffff',
-		fontSize: 20,
-		fontWeight: '500',
-		marginBottom: 30,
-		marginTop: 30,
-		textAlign: 'center',
 	},
 })

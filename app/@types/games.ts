@@ -11,7 +11,6 @@ export enum GameStatus {
 export enum GameType {
 	FREE = 'FREE',
 	BET = 'BET',
-
 }
 export interface GameModel {
 	_id: string
@@ -19,6 +18,7 @@ export interface GameModel {
 	questions: Question[]
 	refId: string
 	minPlayers: number
+	fee: string
 	results: {
 		player: UserModel
 		alive: boolean

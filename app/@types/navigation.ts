@@ -4,9 +4,9 @@ import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 export type MainParamList = {
 	welcome: undefined
 	Dashboard: undefined
-	bet: { gameId: string }
+	GameLobby: undefined
 	question: undefined
-	game: { gameId: string }
+	Game: { gameId: string }
 	GameMode: { gameType: string }
 	Tournaments: { gameType: string }
 	demoList: undefined
@@ -24,3 +24,5 @@ export type WelcomeScreenProps = StackScreenProps<MainParamList, 'welcome'>
 export type DashboardScreenProps = StackScreenProps<MainParamList, 'Dashboard'>
 export type GameModeScreenProps = StackScreenProps<MainParamList, 'GameMode'>
 export type TournamentsScreenProps = StackScreenProps<MainParamList, 'Tournaments'>
+export type GameScreenProps = StackScreenProps<MainParamList, 'Game'>
+export type GameLobbyScreenProps = StackScreenProps<MainParamList, 'GameLobby'>

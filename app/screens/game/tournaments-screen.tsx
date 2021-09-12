@@ -13,18 +13,17 @@ export const TournamentsScreen = ({ route, navigation }: TournamentsScreenProps)
 	const { games } = useSelector((state: RootState) => state.games)
 
 	useEffect(() => {
-		if(gameType === GameType.BET) {
+		if (gameType === GameType.BET) {
 			dispatch(getPaidGames())
-		} else if(gameType === GameType.FREE) {
+		} else if (gameType === GameType.FREE) {
 			dispatch(getFreeGames())
 		}
 	}, [])
 
 	const navigateToGameDetails = (game: GameModel) => {
 		dispatch(setCurrentGame(game))
-		navigation.navigate('game')
+		navigation.navigate('Game')
 	}
-
 
 	return (
 		<ScreenWrapper testID="TournamentsScreen" safeAreaView>

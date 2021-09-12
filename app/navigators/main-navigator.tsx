@@ -40,7 +40,7 @@ export function MainNavigator() {
 			initialRouteName={'Dashboard'}
 			screenOptions={{
 				headerShown: false,
-				gestureEnabled: true,
+				gestureEnabled: false,
 			}}>
 			<Stack.Screen name="welcome" component={WelcomeScreen} />
 			<Stack.Screen name="Dashboard" component={DashboardScreen} />

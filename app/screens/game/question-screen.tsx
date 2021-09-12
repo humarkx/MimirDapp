@@ -117,7 +117,7 @@ export const QuestionScreen = ({ navigation }) => {
 
 	socket.on('endGame', a => {
 		console.log('::::::::::::::::::::: endGame :::::::::::::::: ', a)
-		navigation.navigate('final')
+		navigation.navigate('final', { prize: a.prize })
 	})
 
 	socket.on('results', a => {
@@ -131,24 +131,25 @@ export const QuestionScreen = ({ navigation }) => {
 	socket.on('question', q => {
 		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
 		setAnswerResult(false)
-		setQuestion(q)
+		setQuestion(q.question)
+		setQuestionNumber(q.index)
 	})
 
 	// TODO
 	// 25 seconds to respond
 	// 5 seconds before next question
 
-	useEffect(() => {
-		if (question) runTimer()
-	}, [question._id])
-
-	const runTimer = () => {
-		setTimeout(() => {
-			if (timer > 0) {
-				setTimer(timer - 1)
-			}
-		}, 1000)
-	}
+	// useEffect(() => {
+	// 	if (question) runTimer()
+	// }, [question._id])
+	//
+	// const runTimer = () => {
+	// 	setTimeout(() => {
+	// 		if (timer > 0) {
+	// 			setTimer(timer - 1)
+	// 		}
+	// 	}, 1000)
+	// }
 
 	// useEffect(() => {
 	// 	if (timer > 0) {
@@ -167,12 +168,6 @@ export const QuestionScreen = ({ navigation }) => {
 		const payload = { gameId: currentGame.refId, answerId: answerId, questionId: question._id, time: 0 }
 		socket.emit('answer', payload)
 	}
-
-	// 1 - Sai a Question
-	// 2 -user responde
-	// 3 - Acaba o tempo
-	// certo ou errado
-	// 4 nova pergunta
 
 	if (!question)
 		return (

@@ -108,10 +108,9 @@ const AMOUNT: TextStyle = {
 	marginLeft: 10,
 }
 
-export const FinalScreen = () => {
-	const [prize, setPrize] = useState('999')
-	const navigation = useNavigation()
-	const goBack = () => navigation.goBack()
+export const FinalScreen = ({ route, navigation }) => {
+	const { prize } = route.params
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -119,7 +118,6 @@ export const FinalScreen = () => {
 	}, [])
 
 	const navigateToDashboard = () => {
-		console.log('NAVIGATE:::::::::::')
 		navigation.navigate('Dashboard')
 	}
 

@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import {
-	Button,
-	Text,
-	Screen,
-	Wallpaper,
-	Image as Image,
-	Header,
-	ActivityIndicator,
-	Spacer,
-	Container,
-} from '../../components'
-import socket from '../../services/sockets'
-import { colors, spacing } from '../../theme'
-import { GameLobbyScreenProps } from '../../@types'
+import dayjs from 'dayjs'
+import { ImageStyle, TextStyle, View, ViewStyle } from 'react-native'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { GameLobbyScreenProps } from '../../@types'
 import { GameType } from '../../@types/games'
+import { Button, Text, Screen, Wallpaper, Image, Header, ActivityIndicator, Spacer, Container } from '../../components'
+import socket from '../../services/sockets'
+import { RootState } from '../../store'
+import { colors, spacing } from '../../theme'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const checked = require('../../../assets/images/tick_gif.png')
@@ -111,18 +101,19 @@ const AMOUNT: TextStyle = {
 }
 
 export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
-	const route = useRoute()
 	const goBack = () => navigation.goBack()
 	const { currentGame } = useSelector((state: RootState) => state.games)
 	const [isPaid, setIsPaid] = useState<boolean>(false)
-	const [isStarting, setIsStarting] = useState<boolean>(false)
+	const [isStarting, setIsStarting] = useState<boolean>(true)
 	const [seconds, setSeconds] = useState(60)
 	if (!currentGame) return <ActivityIndicator />
 
 	useEffect(() => {
 		socket.emit('join', { id: currentGame.refId })
+		console.log('JOINED:::', currentGame.refId)
 		return () => {
 			socket.emit('leave', { id: currentGame.refId })
+			console.log('LEFT:::', currentGame.refId)
 		}
 	})
 	useEffect(() => {
@@ -139,13 +130,10 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 
 	useEffect(() => {
 		if (isStarting) {
-			if (seconds > 0) {
-				setTimeout(() => setSeconds(seconds - 1), 1000)
-			} else {
-				setSeconds('GOOD LUCK!!!')
-			}
+			const date2 = dayjs('2018-06-05')
 		}
 	})
+
 	return (
 		<View testID="GameLobbyScreen" style={FULL}>
 			<Wallpaper />
@@ -162,7 +150,7 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 				<Spacer space={'medium'} />
 				{!isStarting && (
 					<Container>
-						<Text style={ROUND} preset="header" text="Awaiting new players..." />
+						<Text style={ROUND} preset="header" text="Waiting for players" />
 						<Spacer space={'medium'} />
 						<ActivityIndicator />
 					</Container>
@@ -171,8 +159,7 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 				<Spacer space={'medium'} />
 				{isStarting && (
 					<Container centerVertical>
-						<Text style={PLAYERS} preset="header" text="Game starting in:" />
-						<Text style={PLAYERS} preset="header" text={seconds} />
+						<Text style={PLAYERS} preset="header" text="Game starting..." />
 					</Container>
 				)}
 			</Screen>

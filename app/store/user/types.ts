@@ -13,6 +13,7 @@ export interface UserLoginPayload {
 }
 
 export interface UserPayload {
+	_id: string | null
 	refId: string | null
 	email: string | null
 	username: string | null

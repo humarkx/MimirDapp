@@ -155,7 +155,7 @@ export const SignUpScreen = () => {
 					secureTextEntry
 				/>
 			</Screen>
-			<SafeAreaView style={FOOTER}>
+			<SafeAreaView>
 				<View style={FOOTER_CONTENT}>
 					<Button
 						testID="next-screen-button"

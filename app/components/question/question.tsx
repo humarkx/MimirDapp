@@ -97,7 +97,6 @@ export function Question(props: QuestionProps) {
 	}, [data._id])
 
 	const selectAnswer = i => {
-		console.log('FIRST TIME', i)
 		if (answer || answer === 0) return
 		setAnswer(i)
 		onPress(i)
@@ -127,12 +126,12 @@ export function Question(props: QuestionProps) {
 						/>
 					)}
 					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.text} />
-					{showResult && (
-						<Text
-							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}
-							text={Math.floor(totalAnswers * option.answers * 0.01) + 'K'}
-						/>
-					)}
+					{/*{showResult && (*/}
+					{/*	<Text*/}
+					{/*		style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}*/}
+					{/*		text={Math.floor(totalAnswers * option.answers * 0.01) + 'K'}*/}
+					{/*	/>*/}
+					{/*)}*/}
 				</View>
 			</TouchableWithoutFeedback>
 		))

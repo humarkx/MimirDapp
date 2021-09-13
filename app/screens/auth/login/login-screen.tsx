@@ -82,7 +82,6 @@ const CONTINUE_TEXT: TextStyle = {
 	fontSize: 13,
 	letterSpacing: 2,
 }
-const FOOTER: ViewStyle = { backgroundColor: '#20162D' }
 const FOOTER_CONTENT: ViewStyle = {
 	paddingVertical: spacing.medium,
 	paddingHorizontal: spacing.medium,
@@ -152,7 +151,7 @@ export const LoginScreen = () => {
 					secureTextEntry
 				/>
 			</Screen>
-			<SafeAreaView style={FOOTER}>
+			<SafeAreaView>
 				<View style={FOOTER_CONTENT}>
 					<Button
 						disabled={!email || !password}

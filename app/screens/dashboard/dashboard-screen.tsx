@@ -6,6 +6,7 @@ import { DashboardScreenProps } from '../../@types/navigation'
 import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
 import { RootState } from '../../store'
 import { MimirLogo } from './dashboard-screen.styled'
+import { API_URL } from '@env'
 
 const logoMimir = require('../../../assets/images/mimir.png')
 
@@ -22,7 +23,6 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 	return (
 		<ScreenWrapper testID="DashboardScreen" safeAreaView>
 			<Wallpaper />
-
 			{/*TODO REMOVE THIS BUTTON*/}
 			{/*<Button*/}
 			{/*	variant={'secondary'}*/}
@@ -47,7 +47,7 @@ export const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
 					<Button
 						size={'huge'}
 						variant={'primary'}
-						text={'FREE TO PLAY'}
+						text={'FREE PLAY'}
 						typography={'h1'}
 						onPress={() => navigation.navigate('GameMode', { gameType: GameType.FREE })}
 					/>

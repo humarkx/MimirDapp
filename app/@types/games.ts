@@ -17,6 +17,7 @@ export interface GameModel {
 	players: UserModel[]
 	questions: Question[]
 	refId: string
+	prize: string
 	minPlayers: number
 	fee: string
 	results: {

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Button, Text, Screen, Wallpaper, Image, Header, Container, Spacer } from '../../components'
 import { getUserBalance } from '../../store/user/actions'
 import { colors, spacing } from '../../theme'
+import { FinalScreenProps } from '../../@types'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir2 = require('../../../assets/images/mimir.png')
@@ -108,7 +109,7 @@ const AMOUNT: TextStyle = {
 	marginLeft: 10,
 }
 
-export const FinalScreen = ({ route, navigation }) => {
+export const FinalScreen = ({ route, navigation }: FinalScreenProps) => {
 	const { prize } = route.params
 
 	const dispatch = useDispatch()

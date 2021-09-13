@@ -10,7 +10,7 @@ export type MainParamList = {
 	GameMode: { gameType: string }
 	Tournaments: { gameType: string }
 	demoList: undefined
-	final: undefined
+	Final: { prize: string }
 }
 
 export type RootParamList = {
@@ -26,3 +26,4 @@ export type GameModeScreenProps = StackScreenProps<MainParamList, 'GameMode'>
 export type TournamentsScreenProps = StackScreenProps<MainParamList, 'Tournaments'>
 export type GameScreenProps = StackScreenProps<MainParamList, 'Game'>
 export type GameLobbyScreenProps = StackScreenProps<MainParamList, 'GameLobby'>
+export type FinalScreenProps = StackScreenProps<MainParamList, 'Final'>

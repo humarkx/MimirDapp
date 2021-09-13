@@ -131,8 +131,8 @@ export const QuestionScreen = ({ navigation }) => {
 	socket.on('question', q => {
 		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
 		setAnswerResult(false)
-		setQuestion(q.question)
-		setQuestionNumber(q.index)
+		setQuestion(q.event.question)
+		setQuestionNumber(q.event.index)
 	})
 
 	// TODO
@@ -173,6 +173,7 @@ export const QuestionScreen = ({ navigation }) => {
 		return (
 			<View testID="GameScreen" style={FULL}>
 				<Wallpaper />
+				<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} />
 				<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 					<Text style={TITLE} text={'GET READY!!!'} />
 					<Spacer space={'huge'} />

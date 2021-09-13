@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { PartialState, NavigationState, NavigationAction, createNavigationContainerRef } from '@react-navigation/native'
 import { BackHandler } from 'react-native'
+import { RootParamList } from '../@types'
 
 /* eslint-disable */
 export const RootNavigation = {
@@ -14,7 +15,7 @@ export const RootNavigation = {
 }
 /* eslint-enable */
 
-export const navigationRef = createNavigationContainerRef()
+export const navigationRef = createNavigationContainerRef<RootParamList>()
 
 /**
  * Gets the current screen from any navigation state.

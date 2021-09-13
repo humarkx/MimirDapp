@@ -1,4 +1,4 @@
-import { Question } from './question'
+import { QuestionModel } from './question'
 import { UserModel } from './user'
 
 export enum GameStatus {
@@ -15,7 +15,7 @@ export enum GameType {
 export interface GameModel {
 	_id: string
 	players: UserModel[]
-	questions: Question[]
+	questions: QuestionModel[]
 	refId: string
 	prize: string
 	minPlayers: number

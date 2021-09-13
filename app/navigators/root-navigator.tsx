@@ -9,13 +9,13 @@ import auth from '@react-native-firebase/auth'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { View } from 'react-native'
-import { ActivityIndicator } from '../components'
-import { MainNavigator, AuthNavigator } from './index'
-import { useTheme } from 'styled-components'
-import { navigationRef } from './navigation-utilities'
-import { RootParamList } from '../@types/navigation'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTheme } from 'styled-components'
+import { RootParamList } from '../@types/navigation'
+import { ActivityIndicator } from '../components'
 import { RootState } from '../store'
+import { MainNavigator, AuthNavigator } from './index'
+import { navigationRef } from './navigation-utilities'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator

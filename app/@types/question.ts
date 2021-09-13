@@ -4,7 +4,7 @@ export interface Option {
 	text: string
 }
 
-export interface Question {
+export interface QuestionModel {
 	_id: string
 	categories: string[]
 	dificulty: number

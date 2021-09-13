@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import dayjs from 'dayjs'
-import { ImageStyle, TextStyle, View, ViewStyle, Animated } from 'react-native'
+import { Animated, ImageStyle, TextStyle, View, ViewStyle } from 'react-native'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { useSelector } from 'react-redux'
 import { GameLobbyScreenProps } from '../../@types'
-import { GameType } from '../../@types/games'
-import { Button, Text, Screen, Wallpaper, Image, Header, ActivityIndicator, Spacer, Container } from '../../components'
+import { GameStatus, GameType } from '../../@types/games'
+import { ActivityIndicator, Container, Header, Image, Screen, Spacer, Text, Wallpaper } from '../../components'
+import { getRemainingTimeUntilMsTimestamp } from '../../components/countdown-timer/countdown-timer-utils'
 import socket from '../../services/sockets'
 import { RootState } from '../../store'
 import { colors, spacing } from '../../theme'
@@ -18,24 +19,9 @@ const CONTAINER: ViewStyle = {
 	backgroundColor: colors.transparent.transparent,
 	paddingHorizontal: spacing.medium,
 }
-const JOIN: ViewStyle = {
-	marginTop: 20,
-	borderRadius: 50,
-	paddingVertical: spacing.medium,
-	paddingHorizontal: spacing.medium,
-	backgroundColor: '#78305F',
-}
+
 const BOLD: TextStyle = { fontWeight: 'bold' }
-const DEMO_TEXT: TextStyle = {
-	...BOLD,
-	fontSize: 13,
-	letterSpacing: 2,
-}
-const HEADER: TextStyle = {
-	paddingTop: spacing.medium,
-	paddingBottom: spacing.large,
-	paddingHorizontal: 0,
-}
+
 const HEADER_TITLE: TextStyle = {
 	...BOLD,
 	fontSize: 12,
@@ -49,12 +35,7 @@ const TITLE: TextStyle = {
 	lineHeight: 38,
 	textAlign: 'center',
 }
-const TAGLINE: TextStyle = {
-	color: '#BAB6C8',
-	fontSize: 15,
-	lineHeight: 22,
-	marginBottom: spacing.huge,
-}
+
 const MIMIR: ImageStyle = {
 	marginTop: spacing.massive,
 	marginVertical: 20,
@@ -66,16 +47,6 @@ const CHECKED: ImageStyle = {
 	alignSelf: 'center',
 	width: 100,
 	height: 100,
-}
-const LOVE_WRAPPER: ViewStyle = {
-	flexDirection: 'row',
-	alignItems: 'center',
-	alignSelf: 'center',
-}
-const LOVE: TextStyle = {
-	color: '#BAB6C8',
-	fontSize: 15,
-	lineHeight: 22,
 }
 
 const ROUND: TextStyle = {
@@ -93,51 +64,31 @@ const PLAYERS: TextStyle = {
 	lineHeight: 38,
 	textAlign: 'center',
 }
-const AMOUNT: TextStyle = {
-	...BOLD,
-	fontSize: 34,
-	lineHeight: 38,
-	textAlign: 'center',
-	marginBottom: spacing.large,
-}
 
 export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
-	const goBack = () => navigation.goBack()
 	const { currentGame } = useSelector((state: RootState) => state.games)
-	const [isPaid, setIsPaid] = useState<boolean>(false)
-	const [isStarting, setIsStarting] = useState<boolean>(false)
-	const [seconds, setSeconds] = useState(60)
 	if (!currentGame) return <ActivityIndicator />
 
 	useEffect(() => {
 		socket.emit('join', { id: currentGame.refId })
-		console.log('JOINED:::', currentGame.refId)
-		return () => {
-			socket.emit('leave', { id: currentGame.refId })
-			console.log('LEFT:::', currentGame.refId)
-		}
+		console.log('join game:::', currentGame.refId)
 	}, [])
+
+	const goBack = () => {
+		socket.emit('leave', { id: currentGame.refId })
+		console.log('left game:::', currentGame.refId)
+		navigation.goBack()
+	}
 
 	useEffect(() => {
 		console.log('RE-RENDERING......')
 	}, [])
-	useEffect(() => {
-		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
-	}, [currentGame._id])
-
-	socket.on('starting', () => {
-		setIsStarting(true)
-	})
-
-	socket.on('startGame', a => {
-		navigation.navigate('question')
-	})
 
 	useEffect(() => {
-		if (isStarting) {
-			const date2 = dayjs('2018-06-05')
+		if (currentGame.status === GameStatus.STARTING && dayjs(currentGame.startDate).diff(dayjs()) < -10) {
+			navigation.navigate('Dashboard')
 		}
-	})
+	}, [])
 
 	return (
 		<View testID="GameLobbyScreen" style={FULL}>
@@ -146,14 +97,11 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
 				<Image source={logoMimir} style={MIMIR} />
 				{/*<Text style={PLAYERS} preset="header" text="Players" />*/}
-
-				{isPaid && <Text style={TITLE} preset="header" text="Bet Placed" />}
-
+				{currentGame.type === GameType.BET && <Text style={TITLE} preset="header" text="Bet Placed" />}
 				<Spacer space={'medium'} />
-
 				<Image source={checked} style={CHECKED} />
 				<Spacer space={'medium'} />
-				{!isStarting && (
+				{currentGame.status !== GameStatus.STARTING && (
 					<Container>
 						<Text style={ROUND} preset="header" text="Waiting for players" />
 						<Spacer space={'medium'} />
@@ -162,14 +110,14 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 				)}
 
 				<Spacer space={'medium'} />
-				{isStarting && (
+				{currentGame.status === GameStatus.STARTING && (
 					<Container centerVertical centerHorizontal>
 						<Text style={PLAYERS} preset="header" text="Game starting in" />
 						<Spacer space={'medium'} />
 						<CountdownCircleTimer
 							size={120}
 							isPlaying
-							duration={60}
+							duration={getRemainingTimeUntilMsTimestamp(currentGame.startDate).totalSeconds}
 							colors={[
 								['#038298', 0.4],
 								['#039875', 0.4],

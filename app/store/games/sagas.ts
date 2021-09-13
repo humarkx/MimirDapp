@@ -1,12 +1,13 @@
 import { eventChannel } from 'redux-saga'
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
-import { SocketEvents } from '../../@types'
+import { MainParamList, SocketEvents } from '../../@types'
 import { GameModel } from '../../@types/games'
 import { getFreeGames, getPaidGames } from '../../services/games'
 import socket from '../../services/sockets'
-import { GameActions, GameActionsTypes } from './types'
 import { UserLoginPayload } from '../user/types'
 import { GameState } from './reducers'
+import { GameActions, GameActionsTypes } from './types'
+import { navigationRef } from '../../navigators'
 
 function createSocketChannel() {
 	return eventChannel(emit => {
@@ -16,20 +17,25 @@ function createSocketChannel() {
 		const errorHandler = (errorEvent: any) => {
 			emit(new Error(errorEvent.reason))
 		}
-		socket.on('connect', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
 
-		// When someone joins a ROOM:
-		// Size: number of players in the room
-		socket.on('RoomEnter', RoomEnter => console.log('WE ARE CONNECTED ON SAGAS:::::', RoomEnter))
-
-		// Starting Game
-
-		socket.on('endGame', endGame => console.log('WE ARE CONNECTED ON SAGAS:::::endGame', endGame))
-		socket.on('results', results => console.log('WE ARE CONNECTED ON SAGAS:::::results', results))
-		socket.on('result', result => console.log('WE ARE CONNECTED ON SAGAS:::::result', result))
-		socket.on('question', question => console.log('WE ARE CONNECTED ON SAGAS:::::question', question))
-
+		socket.on(SocketEvents.ROOM_ENTER, socketEventHandler)
+		socket.on(SocketEvents.START_GAME, socketEventHandler)
+		socket.on(SocketEvents.QUESTION, socketEventHandler)
 		socket.on(SocketEvents.END_GAME, socketEventHandler)
+		// socket.on('connect', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
+		//
+		// // When someone joins a ROOM:
+		// // Size: number of players in the room
+		// socket.on('RoomEnter', RoomEnter => console.log('WE ARE CONNECTED ON SAGAS:::::', RoomEnter))
+		//
+		// // Starting Game
+		//
+		// socket.on('endGame', endGame => console.log('WE ARE CONNECTED ON SAGAS:::::endGame', endGame))
+		// socket.on('results', results => console.log('WE ARE CONNECTED ON SAGAS:::::results', results))
+		// socket.on('result', result => console.log('WE ARE CONNECTED ON SAGAS:::::result', result))
+		// socket.on('question', question => console.log('WE ARE CONNECTED ON SAGAS:::::question', question))
+		//
+		// socket.on(SocketEvents.END_GAME, socketEventHandler)
 		socket.on(SocketEvents.ERROR, errorHandler)
 
 		return () => {
@@ -45,19 +51,39 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 			// An error from socketChannel will cause the saga jump to the catch block
 			const socketEvent = yield take(socketChannel)
 			switch (socketEvent.type) {
-				// case SocketEvents.RESULTS:
-				// 	console.log('socketEvent', socketEvent)
-				// 	// yield put({
-				// 	// 	type: GameActions.NEW_SUBSCRIBED_CHAT_MESSAGE.toString(),
-				// 	// 	payload: socketEvent,
-				// 	// })
-				// 	break
-				// case SocketEvents.IS_TYPING:
-				// 	yield put({
-				// 		type: GameActions.USER_IS_TYPING.toString(),
-				// 		payload: socketEvent,
-				// 	})
-				// 	break
+				case SocketEvents.ROOM_ENTER:
+					yield put({
+						type: GameActions.SET_CURRENT_GAME.toString(),
+						payload: socketEvent.event.game,
+					})
+					break
+				case SocketEvents.START_GAME:
+					navigationRef.navigate('MainStack', {
+						screen: 'question',
+					})
+					yield put({
+						type: GameActions.SET_CURRENT_GAME.toString(),
+						payload: socketEvent.event.game,
+					})
+					break
+				case SocketEvents.QUESTION:
+					yield put({
+						type: GameActions.SET_CURRENT_QUESTION_SUCCESS.toString(),
+						payload: {
+							question: socketEvent.event.question,
+							index: socketEvent.event.index,
+						},
+					})
+					break
+				case SocketEvents.END_GAME:
+					navigationRef.navigate('MainStack', {
+						screen: 'Final',
+						params: {
+							prize: socketEvent.event.prize,
+						},
+					})
+					// TODO if currentGame.refId === the game that ended, lets remove it
+					break
 				case 'connect':
 					console.log('SUBSCRIBED CONNECT')
 					break
@@ -75,7 +101,7 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 
 function* SET_CURRENT_GAME(action: GameActionsTypes) {
 	try {
-		console.log(action.payload)
+		console.log('SET_CURRENT_GAME', action.payload)
 		const currentGame = action.payload as GameModel
 
 		yield put({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { ImageStyle, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
+import { ImageStyle, TextStyle, View, ViewStyle } from 'react-native'
 import { useSelector } from 'react-redux'
 import { GameScreenProps } from '../../@types'
 import { GameType } from '../../@types/games'
@@ -19,9 +19,7 @@ import {
 import { RootState } from '../../store'
 import { colors, spacing } from '../../theme'
 
-const logoMimir1 = require('../../../assets/images/mimir.png')
 const logoMimir2 = require('../../../assets/images/mimir_3.png')
-const wallet = require('../../../assets/images/mimir_wallet.png')
 const logoMimir = require('../../../assets/images/mimir_white.png')
 
 const FULL: ViewStyle = { flex: 1, backgroundColor: colors.backgroundOpacity }
@@ -42,11 +40,7 @@ const DEMO_TEXT: TextStyle = {
 	fontSize: 13,
 	letterSpacing: 2,
 }
-const HEADER: TextStyle = {
-	paddingTop: spacing.medium,
-	paddingBottom: spacing.large,
-	paddingHorizontal: 0,
-}
+
 const HEADER_TITLE: TextStyle = {
 	...BOLD,
 	fontSize: 12,
@@ -54,39 +48,12 @@ const HEADER_TITLE: TextStyle = {
 	textAlign: 'center',
 	letterSpacing: 1.5,
 }
-const TITLE: TextStyle = {
-	fontSize: 24,
-	lineHeight: 38,
-	textAlign: 'center',
-	marginBottom: spacing.medium,
-}
-
-const NEXT: TextStyle = {
-	fontSize: 22,
-	lineHeight: 38,
-	textTransform: 'uppercase',
-	textAlign: 'center',
-	marginVertical: spacing.large,
-}
-
-const WALLET: ImageStyle = {
-	alignSelf: 'center',
-	width: 30,
-	height: 30,
-	marginVertical: 0,
-}
 
 const TOKEN: ImageStyle = {
 	alignSelf: 'center',
 	width: 18,
 	height: 26,
 	marginRight: 10,
-}
-
-const TOKEN_SMALL: ImageStyle = {
-	...TOKEN,
-	width: 16,
-	height: 22,
 }
 
 const MIMIR: ImageStyle = {
@@ -108,18 +75,6 @@ const POT_BALANCE: TextStyle = {
 	...TEXT,
 	color: colors.palette.trueBlack,
 	fontSize: 30,
-	letterSpacing: 2,
-}
-const POT_TEXT: TextStyle = {
-	...TEXT,
-	fontSize: 24,
-	textTransform: 'uppercase',
-}
-const BALANCE_TEXT: TextStyle = {
-	...TEXT,
-	...BOLD,
-	color: colors.palette.deepPurple,
-	fontSize: 20,
 	letterSpacing: 2,
 }
 
@@ -189,61 +144,7 @@ export const GameScreen = ({ navigation }: GameScreenProps) => {
 						onPress={() => navigation.navigate('GameLobby')}
 					/>
 				</Container>
-				{/*<View style={{ justifyContent: 'center', flexDirection: 'row', paddingBottom: 20 }}>*/}
-				{/*	<AnimatedCircularProgress*/}
-				{/*		size={150}*/}
-				{/*		width={10}*/}
-				{/*		rotation={360}*/}
-				{/*		backgroundWidth={10}*/}
-				{/*		fill={75}*/}
-				{/*		tintColor="#0EF3C5"*/}
-				{/*		backgroundColor="#fff">*/}
-				{/*		{fill => <Text style={styles.points}>21:00</Text>}*/}
-				{/*	</AnimatedCircularProgress>*/}
-				{/*</View>*/}
-				{/*<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20, marginBottom: 20 }}>*/}
-				{/*	<Text style={POT_TEXT} text="Today’s pot:" />*/}
-				{/*	<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>*/}
-				{/*		<Image source={logoMimir1} style={TOKEN_SMALL} />*/}
-				{/*		<Text style={POT_TEXT} text="59 327" />*/}
-				{/*	</View>*/}
-				{/*</View>*/}
-
-				{/*<Text style={TITLE} text="Play money" />*/}
 			</Screen>
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	actionLabel: {
-		color: '#ffffff',
-		fontSize: 20,
-		fontWeight: '500',
-		marginBottom: 30,
-		marginTop: 30,
-		textAlign: 'center',
-	},
-	container: {
-		alignItems: 'center',
-		backgroundColor: '#152d44',
-		flex: 1,
-		justifyContent: 'space-between',
-		padding: 50,
-	},
-	points: {
-		color: '#ffffff',
-		fontSize: 25,
-		fontWeight: '500',
-		letterSpacing: 1.5,
-		textAlign: 'center',
-	},
-	pointsDelta: {
-		color: '#4c6479',
-		fontSize: 50,
-		fontWeight: '100',
-	},
-	pointsDeltaActive: {
-		color: '#fff',
-	},
-})

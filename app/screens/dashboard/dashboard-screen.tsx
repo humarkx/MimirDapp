@@ -3,10 +3,21 @@ import { Alert, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { GameType } from '../../@types/games'
 import { DashboardScreenProps } from '../../@types/navigation'
-import { Button, Icon, Text, Screen, Wallpaper, Spacer, Container, ScreenWrapper, Header, Card } from '../../components'
+import {
+	Button,
+	Icon,
+	Text,
+	Screen,
+	Wallpaper,
+	Spacer,
+	Container,
+	ScreenWrapper,
+	Header,
+	Card,
+	CountdownTimer,
+} from '../../components'
 import { RootState } from '../../store'
 import { MimirLogo } from './dashboard-screen.styled'
-import { API_URL } from '@env'
 
 const logoMimir = require('../../../assets/images/mimir.png')
 

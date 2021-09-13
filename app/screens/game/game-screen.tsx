@@ -171,7 +171,7 @@ export const GameScreen = ({ navigation }: GameScreenProps) => {
 						<Spacer />
 						<View>
 							<Text typography={'h2'} variant={'secondary'} text={'QUIZ POT'} />
-							<Text typography={'h1'} variant={'white'} text={dayjs(currentGame.startDate).format('HH:mm')} />
+							<Text typography={'h1'} variant={'white'} text={currentGame.prize} />
 						</View>
 						<Spacer space={'medium'} />
 						<Button testID="next-screen-button" style={[POT, { marginBottom: 20 }]}>

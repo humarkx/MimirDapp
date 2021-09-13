@@ -5,11 +5,11 @@ import { ImageStyle } from 'react-native'
  * All wallpaper will start off looking like this.
  */
 const BASE: ImageStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
+	position: 'absolute',
+	top: 0,
+	left: 0,
+	bottom: 0,
+	right: 0,
 }
 
 /**
@@ -18,22 +18,21 @@ const BASE: ImageStyle = {
  * You want to customize these to whatever you need in your app.
  */
 export const presets = {
-  /**
-   * The default wallpaper styles.
-   */
-  stretch: {
-    ...BASE,
-    resizeMode: 'stretch',
-    width: null, // Have to set these to null because android ¯\_(ツ)_/¯
-    height: null,
-  } as ImageStyle,
-  cover: {
-    opacity: 0.2,
-    ...BASE,
-    resizeMode: 'cover',
-    width: null, // Have to set these to null because android ¯\_(ツ)_/¯
-    height: null,
-  } as ImageStyle,
+	/**
+	 * The default wallpaper styles.
+	 */
+	stretch: {
+		...BASE,
+		resizeMode: 'stretch',
+		width: null, // Have to set these to null because android ¯\_(ツ)_/¯
+		height: null,
+	} as ImageStyle,
+	cover: {
+		...BASE,
+		resizeMode: 'cover',
+		width: null, // Have to set these to null because android ¯\_(ツ)_/¯
+		height: null,
+	} as ImageStyle,
 }
 
 /**

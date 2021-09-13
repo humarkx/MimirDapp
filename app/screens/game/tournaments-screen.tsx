@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/core'
 import dayjs from 'dayjs'
 import { ImageBackground, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,7 +18,6 @@ import {
 } from '../../components'
 import { RootState } from '../../store'
 import { getFreeGames, getPaidGames, setCurrentGame } from '../../store/games/actions'
-import { useFocusEffect } from '@react-navigation/core'
 
 export const TournamentsScreen = ({ route, navigation }: TournamentsScreenProps) => {
 	const { gameType } = route.params

@@ -3,7 +3,7 @@ import { Image as Image } from '../image/image'
 import { presets } from './wallpaper.presets'
 import { WallpaperProps } from './wallpaper.props'
 
-const defaultImage = require('./bg.png')
+const defaultImage = require('./bg.jpeg')
 
 /**
  * For your text displaying needs.

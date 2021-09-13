@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { ImageStyle, TextStyle, View, ViewStyle, Animated } from 'react-native'
+import { Animated, ImageStyle, TextStyle, View, ViewStyle } from 'react-native'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { useSelector } from 'react-redux'
 import { GameLobbyScreenProps } from '../../@types'
-import { GameType } from '../../@types/games'
-import { Button, Text, Screen, Wallpaper, Image, Header, ActivityIndicator, Spacer, Container } from '../../components'
+import { GameStatus, GameType } from '../../@types/games'
+import { ActivityIndicator, Container, Header, Image, Screen, Spacer, Text, Wallpaper } from '../../components'
 import socket from '../../services/sockets'
 import { RootState } from '../../store'
 import { colors, spacing } from '../../theme'
@@ -102,8 +102,7 @@ const AMOUNT: TextStyle = {
 }
 
 export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
-	const goBack = () => navigation.goBack()
-	const { currentGame } = useSelector((state: RootState) => state.games)
+	const { currentGame, starting } = useSelector((state: RootState) => state.games)
 	const [isPaid, setIsPaid] = useState<boolean>(false)
 	const [isStarting, setIsStarting] = useState<boolean>(false)
 	const [seconds, setSeconds] = useState(60)
@@ -112,24 +111,26 @@ export const GameLobbyScreen = ({ navigation }: GameLobbyScreenProps) => {
 	useEffect(() => {
 		socket.emit('join', { id: currentGame.refId })
 		console.log('JOINED:::', currentGame.refId)
-		return () => {
-			socket.emit('leave', { id: currentGame.refId })
-			console.log('LEFT:::', currentGame.refId)
-		}
 	}, [])
+	const goBack = () => {
+		socket.emit('leave', { id: currentGame.refId })
+		navigation.goBack()
+	}
+	useEffect(() => {
+		setIsStarting(starting)
+	}, [starting])
 
 	useEffect(() => {
-		console.log('RE-RENDERING......')
+		if (currentGame.status === GameStatus.STARTING) {
+			setIsStarting(true)
+		}
 	}, [])
 	useEffect(() => {
 		if (currentGame) setIsPaid(currentGame.type === GameType.BET)
 	}, [currentGame._id])
 
-	socket.on('starting', () => {
-		setIsStarting(true)
-	})
-
-	socket.on('startGame', a => {
+	socket.once('startGame', a => {
+		socket.off('startGame')
 		navigation.navigate('question')
 	})
 

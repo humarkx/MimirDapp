@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Text, Screen, Wallpaper, Image, Header, Container, Spacer } from '../../components'
 import { getUserBalance } from '../../store/user/actions'
 import { colors, spacing } from '../../theme'
+import { RootState } from '../../store'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir2 = require('../../../assets/images/mimir.png')
@@ -109,14 +110,24 @@ const AMOUNT: TextStyle = {
 }
 
 export const FinalScreen = ({ route, navigation }) => {
-	const { prize } = route.params
-
+	console.log('ENDGAME:::::::::::::::::::::::::::', route.params)
+	const { refId } = useSelector((state: RootState) => state.user)
 	const dispatch = useDispatch()
+	const [didWin, setDidWin] = useState<boolean>(false)
+
+	// useEffect(() => {
+	// 	if (endGame?.results) {
+	// 		const isWinner = endGame.results.some(r => r.player.refId === refId)
+	// 		console.log('IS WINNER', isWinner)
+	// 		setDidWin(isWinner)
+	// 	}
+	// }, [])
 
 	useEffect(() => {
 		dispatch(getUserBalance())
 	}, [])
 
+	useEffect(() => {}, [])
 	const navigateToDashboard = () => {
 		navigation.navigate('Dashboard')
 	}
@@ -129,6 +140,7 @@ export const FinalScreen = ({ route, navigation }) => {
 
 				<Image source={wallet} style={WALLET} />
 
+				<Text style={CONGRATZ} preset="header" text={didWin ? 'WIN' : 'LOST'} />
 				<Text style={CONGRATZ} preset="header" text="CONGRATULATIONS!" />
 				<Text style={CONGRATZ} preset="header" text="YOU HAVE WON:" />
 				<Spacer space={'medium'} />
@@ -137,7 +149,7 @@ export const FinalScreen = ({ route, navigation }) => {
 					<Spacer space={'medium'} />
 
 					<Image source={logoMimir2} style={TOKEN} />
-					<Text style={AMOUNT} preset="header" text={prize} />
+					{/*<Text style={AMOUNT} preset="header" text={endGame?.prize} />*/}
 				</Container>
 				<Spacer space={'larger'} />
 				<Container>

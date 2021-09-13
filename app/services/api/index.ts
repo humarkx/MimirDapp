@@ -41,6 +41,7 @@ apiClient.interceptors.request.use(
 		request.headers = {
 			Authorization: token,
 		}
+
 		return request
 	},
 	error => {

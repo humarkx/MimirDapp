@@ -7,6 +7,7 @@ export interface AuthState extends UserPayload {
 	error: string | null
 }
 const userInitialState: AuthState = {
+	_id: null,
 	refId: null,
 	email: null,
 	username: null,

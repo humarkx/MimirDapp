@@ -10,7 +10,7 @@ export type MainParamList = {
 	GameMode: { gameType: string }
 	Tournaments: { gameType: string }
 	demoList: undefined
-	final: undefined
+	final: { endGame: unknown }
 }
 
 export type RootParamList = {

@@ -5,11 +5,13 @@ import { GameActions } from './types'
 export interface GameState {
 	currentGame: GameModel | null
 	games: GameModel[]
+	starting: boolean
 	loading: boolean
 	error: unknown | null
 }
 
 const matchesInitialState: GameState = {
+	starting: false,
 	currentGame: null,
 	games: [],
 	loading: false,
@@ -23,6 +25,11 @@ const GamesReducer = reducerWithInitialState(matchesInitialState)
 	.case(GameActions.GET_PAID_GAMES, state => ({ ...state, loading: true }))
 
 	// SUCCESS CASES
+	.case(GameActions.STARTING_CURRENT_GAME, (state, starting) => ({
+		...state,
+		starting,
+		loading: false,
+	}))
 	.case(GameActions.SET_CURRENT_GAME_SUCCESS, (state, currentGame) => ({
 		...state,
 		currentGame,

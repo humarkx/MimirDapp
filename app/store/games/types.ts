@@ -9,6 +9,7 @@ export interface ErrorPayload {
 }
 
 export enum ActionsTypes {
+	STARTING_CURRENT_GAME = 'STARTING_CURRENT_GAME',
 	SUBSCRIBE_TO_ALL_GAMES = 'SUBSCRIBE_TO_ALL_GAMES',
 	SET_CURRENT_GAME = 'SET_CURRENT_GAME',
 	SET_CURRENT_GAME_SUCCESS = 'SET_CURRENT_GAME_SUCCESS',
@@ -21,6 +22,7 @@ export enum ActionsTypes {
 	GET_PAID_GAMES_FAILED = 'GET_PAID_GAMES_FAILED',
 }
 export const GameActions = {
+	STARTING_CURRENT_GAME: actionCreator<boolean>(ActionsTypes.STARTING_CURRENT_GAME),
 	SET_CURRENT_GAME: actionCreator<GameModel>(ActionsTypes.SET_CURRENT_GAME),
 	SET_CURRENT_GAME_SUCCESS: actionCreator<GameModel>(ActionsTypes.SET_CURRENT_GAME_SUCCESS),
 	SET_CURRENT_GAME_FAILED: actionCreator(ActionsTypes.SET_CURRENT_GAME_FAILED),
@@ -34,6 +36,7 @@ export const GameActions = {
 }
 
 export type GameActionsTypes =
+	| ReturnType<typeof GameActions.STARTING_CURRENT_GAME>
 	| ReturnType<typeof GameActions.GET_FREE_GAMES>
 	| ReturnType<typeof GameActions.GET_FREE_GAMES_SUCCESS>
 	| ReturnType<typeof GameActions.GET_FREE_GAMES_FAILED>

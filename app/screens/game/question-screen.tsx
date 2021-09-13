@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert, Dimensions } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { ImageStyle, TextStyle, View, ViewStyle, Dimensions } from 'react-native'
 import * as Progress from 'react-native-progress'
-import { Button, Text, Screen, Wallpaper, Image, Header, Question, ActivityIndicator, Spacer } from '../../components'
-import socket from '../../services/sockets'
-import { colors, spacing } from '../../theme'
 import { useSelector } from 'react-redux'
+import { Text, Screen, Wallpaper, Image, Header, Question, ActivityIndicator, Spacer } from '../../components'
+import socket from '../../services/sockets'
 import { RootState } from '../../store'
+import { colors, spacing } from '../../theme'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const questionBackground = require('../../../assets/images/question_background.jpeg')
@@ -104,6 +102,7 @@ const MIMIR: ImageStyle = {
 }
 
 export const QuestionScreen = ({ navigation }) => {
+	const goBack = navigation.goBack()
 	const windowWidth = Dimensions.get('window').width
 	const [timer, setTimer] = useState(5)
 	const [question_number, setQuestionNumber] = useState(1)
@@ -111,29 +110,40 @@ export const QuestionScreen = ({ navigation }) => {
 	const [answerResult, setAnswerResult] = useState(false)
 	const { currentGame } = useSelector((state: RootState) => state.games)
 
-	socket.on('connect', () => {
-		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
-	})
-
-	socket.on('endGame', a => {
+	// socket.on('question', q => {
+	// 	console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
+	// 	setAnswerResult(false)
+	// 	setQuestion(q.question)
+	// 	setQuestionNumber(q.index)
+	// })
+	socket.once('endGame', a => {
 		console.log('::::::::::::::::::::: endGame :::::::::::::::: ', a)
-		navigation.navigate('final', { prize: a.prize })
+		// navigation.navigate('final', { endGame: a })
+		socket.off('endGame')
 	})
+	// socket.on('connect', () => {
+	// 	console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
+	// })
 
-	socket.on('results', a => {
-		setAnswerResult(true)
-		console.log('::::::::::::::::::::: RESULTS :::::::::::::::: ', a)
-	})
+	// socket.on('endGame', a => {
+	// 	console.log('::::::::::::::::::::: endGame :::::::::::::::: ', a)
+	// 	navigation.navigate('final', { endGame: a })
+	// })
 
-	socket.on('result', a => {
-		console.log('::::::::::::::::::::: ANSWER RESULT :::::::::::::::: ', a)
-	})
-	socket.on('question', q => {
-		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
-		setAnswerResult(false)
-		setQuestion(q.question)
-		setQuestionNumber(q.index)
-	})
+	// socket.on('results', a => {
+	// 	setAnswerResult(true)
+	// 	console.log('::::::::::::::::::::: RESULTS :::::::::::::::: ', a)
+	// })
+
+	// socket.on('result', a => {
+	// 	console.log('::::::::::::::::::::: ANSWER RESULT :::::::::::::::: ', a)
+	// })
+	// socket.on('question', q => {
+	// 	console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
+	// 	setAnswerResult(false)
+	// 	setQuestion(q.question)
+	// 	setQuestionNumber(q.index)
+	// })
 
 	// TODO
 	// 25 seconds to respond
@@ -173,6 +183,8 @@ export const QuestionScreen = ({ navigation }) => {
 		return (
 			<View testID="GameScreen" style={FULL}>
 				<Wallpaper />
+				<Header leftIcon={'arrow-left2'} onLeftPress={goBack} titleStyle={HEADER_TITLE} />
+
 				<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 					<Text style={TITLE} text={'GET READY!!!'} />
 					<Spacer space={'huge'} />

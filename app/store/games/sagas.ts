@@ -16,21 +16,23 @@ function createSocketChannel() {
 		const errorHandler = (errorEvent: any) => {
 			emit(new Error(errorEvent.reason))
 		}
-		socket.on('connect', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
+		// socket.on('connect', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
+		//
+		// // When someone joins a ROOM:
+		// // Size: number of players in the room
+		// socket.on('RoomEnter', RoomEnter => console.log('WE ARE CONNECTED ON SAGAS:::::', RoomEnter))
+		//
+		// // Starting Game
+		socket.on(SocketEvents.STARTING, socketEventHandler)
 
-		// When someone joins a ROOM:
-		// Size: number of players in the room
-		socket.on('RoomEnter', RoomEnter => console.log('WE ARE CONNECTED ON SAGAS:::::', RoomEnter))
-
-		// Starting Game
-
-		socket.on('endGame', endGame => console.log('WE ARE CONNECTED ON SAGAS:::::endGame', endGame))
-		socket.on('results', results => console.log('WE ARE CONNECTED ON SAGAS:::::results', results))
-		socket.on('result', result => console.log('WE ARE CONNECTED ON SAGAS:::::result', result))
-		socket.on('question', question => console.log('WE ARE CONNECTED ON SAGAS:::::question', question))
-
-		socket.on(SocketEvents.END_GAME, socketEventHandler)
-		socket.on(SocketEvents.ERROR, errorHandler)
+		//
+		// socket.on('endGame', endGame => console.log('WE ARE CONNECTED ON SAGAS:::::endGame', endGame))
+		// socket.on('results', results => console.log('WE ARE CONNECTED ON SAGAS:::::results', results))
+		// socket.on('result', result => console.log('WE ARE CONNECTED ON SAGAS:::::result', result))
+		// socket.on('question', question => console.log('WE ARE CONNECTED ON SAGAS:::::question', question))
+		//
+		// // socket.on(SocketEvents.END_GAME, socketEventHandler)
+		// socket.on(SocketEvents.ERROR, errorHandler)
 
 		return () => {
 			socket.off(SocketEvents.MESSAGE_GET, socketEventHandler)
@@ -44,14 +46,14 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 		try {
 			// An error from socketChannel will cause the saga jump to the catch block
 			const socketEvent = yield take(socketChannel)
-			switch (socketEvent.type) {
-				// case SocketEvents.RESULTS:
-				// 	console.log('socketEvent', socketEvent)
-				// 	// yield put({
-				// 	// 	type: GameActions.NEW_SUBSCRIBED_CHAT_MESSAGE.toString(),
-				// 	// 	payload: socketEvent,
-				// 	// })
-				// 	break
+			console.log('SOCKET EVENT::::::', socketEvent)
+			switch (socketEvent.status) {
+				case SocketEvents.STARTING:
+					yield put({
+						type: GameActions.STARTING_CURRENT_GAME.toString(),
+						payload: true,
+					})
+					break
 				// case SocketEvents.IS_TYPING:
 				// 	yield put({
 				// 		type: GameActions.USER_IS_TYPING.toString(),

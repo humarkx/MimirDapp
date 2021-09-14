@@ -13,3 +13,6 @@ export const getPaidGames = () => {
 	return GameActions.GET_PAID_GAMES()
 }
 
+export const removeCurrentGame = () => {
+	return GameActions.REMOVE_CURRENT_GAME()
+}

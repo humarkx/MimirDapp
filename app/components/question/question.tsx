@@ -3,6 +3,7 @@ import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert } from 'react
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { translate } from '../../i18n'
 import { colors, spacing } from '../../theme'
+import { Container } from '../container/container'
 import { Text } from '../text/text'
 import { QuestionProps } from './question.props'
 
@@ -25,11 +26,7 @@ const RESULT: TextStyle = {
 	fontSize: 22,
 	lineHeight: 22,
 }
-const RESULT_VIEW: ViewStyle = {
-	height: 60,
-	justifyContent: 'center',
-	alignItems: 'center',
-}
+
 const QUESTION_VIEW: ViewStyle = {
 	backgroundColor: '#172347',
 	justifyContent: 'center',
@@ -64,24 +61,10 @@ const SELECTED_ANSWER_VIEW: ViewStyle = {
 	...ANSWER_VIEW,
 	backgroundColor: '#038298',
 }
-const PLAYERS: TextStyle = {
-	color: '#0EF3C5',
-	fontWeight: '500',
-	fontSize: 18,
-	lineHeight: 30,
-	textAlign: 'center',
-}
-const AMOUNT: TextStyle = {
-	fontSize: 18,
-	textAlign: 'center',
-	fontWeight: '400',
-}
 
-export function Question(props: QuestionProps) {
-	const totalAnswers = 50.2
+export function Question({ data, onPress, showResult, totalPlayers }: QuestionProps) {
 	const [answerResult, setAnswerResult] = useState(null)
 	const [answer, setAnswer] = useState(null)
-	const { data, onPress, showResult } = props
 
 	useEffect(() => {
 		if (showResult) {
@@ -90,11 +73,9 @@ export function Question(props: QuestionProps) {
 	}, [showResult, answer])
 
 	useEffect(() => {
-		console.log('>> >> >> ??? null null', data)
-
 		setAnswerResult(null)
 		setAnswer(null)
-	}, [data._id])
+	}, [data?._id])
 
 	const selectAnswer = i => {
 		if (answer || answer === 0) return
@@ -139,14 +120,17 @@ export function Question(props: QuestionProps) {
 
 	return (
 		<>
-			<View style={{ position: 'absolute', right: 30 }}>
-				<Text style={PLAYERS} preset="header" text="Players" />
-				<Text style={AMOUNT} preset="header" text={totalAnswers + 'K'} />
-			</View>
 			<View style={QUESTION_VIEW}>
 				<Text style={QUESTION} text={data.text} />
 			</View>
-			<View style={RESULT_VIEW} />
+			<Container hasFlex={false} centerHorizontal centerVertical style={{ minHeight: 60 }}>
+				{showResult && answerResult === 'Correct' && (
+					<Text variant={'secondary'} typography={'h1'} text={`${answerResult}!`} />
+				)}
+				{showResult && answerResult === 'Wrong' && (
+					<Text variant={'primary'} typography={'h1'} text={`${answerResult}!`} />
+				)}
+			</Container>
 			{renderOptions()}
 		</>
 	)

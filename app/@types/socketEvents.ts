@@ -14,6 +14,7 @@ export enum SocketEvents {
 	ANSWER = 'answer',
 	RESULT = 'result',
 	START_GAME = 'startGame',
+	STARTING = 'starting',
 	END_GAME = 'endGame',
 	RESULTS = 'results',
 	GET_GAMES = 'getGames',

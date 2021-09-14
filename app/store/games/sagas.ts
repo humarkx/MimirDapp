@@ -1,13 +1,11 @@
 import { eventChannel } from 'redux-saga'
-import { all, call, put, take, takeLatest } from 'redux-saga/effects'
-import { MainParamList, SocketEvents } from '../../@types'
+import { all, call, put, take, takeEvery, takeLatest } from 'redux-saga/effects'
+import { SocketEvents } from '../../@types'
 import { GameModel } from '../../@types/games'
+import { navigationRef } from '../../navigators'
 import { getFreeGames, getPaidGames } from '../../services/games'
 import socket from '../../services/sockets'
-import { UserLoginPayload } from '../user/types'
-import { GameState } from './reducers'
-import { GameActions, GameActionsTypes } from './types'
-import { navigationRef } from '../../navigators'
+import { CurrentQuestionModel, GameActions, GameActionsTypes } from './types'
 
 function createSocketChannel() {
 	return eventChannel(emit => {
@@ -18,9 +16,11 @@ function createSocketChannel() {
 			emit(new Error(errorEvent.reason))
 		}
 
+		socket.on(SocketEvents.STARTING, socketEventHandler)
 		socket.on(SocketEvents.ROOM_ENTER, socketEventHandler)
 		socket.on(SocketEvents.START_GAME, socketEventHandler)
 		socket.on(SocketEvents.QUESTION, socketEventHandler)
+		socket.on(SocketEvents.RESULTS, socketEventHandler)
 		socket.on(SocketEvents.END_GAME, socketEventHandler)
 		// socket.on('connect', () => console.log('WE ARE CONNECTED ON SAGAS:::::'))
 		//
@@ -51,6 +51,12 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 			// An error from socketChannel will cause the saga jump to the catch block
 			const socketEvent = yield take(socketChannel)
 			switch (socketEvent.type) {
+				case SocketEvents.STARTING:
+					yield put({
+						type: GameActions.SET_CURRENT_GAME.toString(),
+						payload: socketEvent.event.game,
+					})
+					break
 				case SocketEvents.ROOM_ENTER:
 					yield put({
 						type: GameActions.SET_CURRENT_GAME.toString(),
@@ -68,20 +74,44 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 					break
 				case SocketEvents.QUESTION:
 					yield put({
-						type: GameActions.SET_CURRENT_QUESTION_SUCCESS.toString(),
+						type: GameActions.SET_CURRENT_GAME.toString(),
+						payload: socketEvent.event.game,
+					})
+					yield put({
+						type: GameActions.SET_CURRENT_QUESTION.toString(),
 						payload: {
 							question: socketEvent.event.question,
 							index: socketEvent.event.index,
+							showResult: false,
+							totalPlayers: socketEvent.event.totalPlayers,
+							dead: socketEvent.event.dead,
+							alive: socketEvent.event.alive,
 						},
 					})
 					break
+				case SocketEvents.RESULTS:
+					yield put({
+						type: GameActions.SHOW_QUESTION_RESULT.toString(),
+						payload: true,
+					})
+					break
 				case SocketEvents.END_GAME:
+					yield put({
+						type: GameActions.SET_LATEST_PRIZE.toString(),
+						payload: socketEvent.event.prize,
+					})
+					console.log('NAVIGATING TO FINAL')
 					navigationRef.navigate('MainStack', {
 						screen: 'Final',
-						params: {
-							prize: socketEvent.event.prize,
-						},
 					})
+					// yield put({
+					// 	type: GameActions.SET_CURRENT_QUESTION.toString(),
+					// 	payload: null,
+					// })
+					// yield put({
+					// 	type: GameActions.SET_CURRENT_GAME.toString(),
+					// 	payload: null,
+					// })
 					// TODO if currentGame.refId === the game that ended, lets remove it
 					break
 				case 'connect':
@@ -112,6 +142,78 @@ function* SET_CURRENT_GAME(action: GameActionsTypes) {
 		console.log('Failed to set current game', error.message)
 		yield put({
 			type: GameActions.SET_CURRENT_GAME_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
+function* SET_CURRENT_QUESTION(action: GameActionsTypes) {
+	try {
+		console.log('SET_CURRENT_QUESTION', action.payload)
+		const currentQuestion = action.payload as CurrentQuestionModel
+
+		yield put({
+			type: GameActions.SET_CURRENT_QUESTION_SUCCESS.toString(),
+			payload: currentQuestion,
+		})
+	} catch (error) {
+		console.log('Failed to set current question', error.message)
+		yield put({
+			type: GameActions.SET_CURRENT_QUESTION_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
+function* SHOW_QUESTION_RESULT(action: GameActionsTypes) {
+	try {
+		console.log('SHOW_QUESTION_RESULT', action.payload)
+		yield put({
+			type: GameActions.SHOW_QUESTION_RESULT_SUCCESS.toString(),
+			payload: action.payload,
+		})
+	} catch (error) {
+		console.log('Failed to set showResult', error.message)
+		yield put({
+			type: GameActions.SHOW_QUESTION_RESULT_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
+function* SET_LATEST_PRIZE(action: GameActionsTypes) {
+	try {
+		console.log('SET_LATEST_PRIZE', action.payload)
+		yield put({
+			type: GameActions.SET_LATEST_PRIZE_SUCCESS.toString(),
+			payload: action.payload,
+		})
+		// yield put({
+		// 	type: GameActions.SET_CURRENT_QUESTION.toString(),
+		// 	payload: null,
+		// })
+		// yield put({
+		// 	type: GameActions.SET_CURRENT_GAME.toString(),
+		// 	payload: null,
+		// })
+	} catch (error) {
+		console.log('Failed to set showResult', error.message)
+		yield put({
+			type: GameActions.SET_LATEST_PRIZE_FAILED.toString(),
+			payload: error,
+		})
+	}
+}
+
+function* REMOVE_CURRENT_GAME() {
+	try {
+		yield put({
+			type: GameActions.REMOVE_CURRENT_GAME_SUCCESS.toString(),
+		})
+	} catch (error) {
+		console.log('Failed to remove current game', error.message)
+		yield put({
+			type: GameActions.REMOVE_CURRENT_GAME_FAILED.toString(),
 			payload: error,
 		})
 	}
@@ -153,9 +255,13 @@ function* GET_PAID_GAMES() {
 
 export default function* rootSaga() {
 	yield all([
-		takeLatest(GameActions.SET_CURRENT_GAME, SET_CURRENT_GAME),
+		takeEvery(GameActions.SET_CURRENT_GAME, SET_CURRENT_GAME),
+		takeEvery(GameActions.SET_CURRENT_QUESTION, SET_CURRENT_QUESTION),
+		takeEvery(GameActions.SHOW_QUESTION_RESULT, SHOW_QUESTION_RESULT),
+		takeEvery(GameActions.SET_LATEST_PRIZE, SET_LATEST_PRIZE),
 		takeLatest(GameActions.GET_FREE_GAMES, GET_FREE_GAMES),
 		takeLatest(GameActions.GET_PAID_GAMES, GET_PAID_GAMES),
 		takeLatest(GameActions.SUBSCRIBE_TO_ALL_GAMES, SUBSCRIBE_TO_ALL_GAMES),
+		takeLatest(GameActions.REMOVE_CURRENT_GAME, REMOVE_CURRENT_GAME),
 	])
 }

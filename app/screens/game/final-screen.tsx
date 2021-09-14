@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Text, Screen, Wallpaper, Image, Header, Container, Spacer } from '../../components'
 import { getUserBalance } from '../../store/user/actions'
 import { colors, spacing } from '../../theme'
 import { FinalScreenProps } from '../../@types'
+import { RootState } from '../../store'
+import { removeCurrentGame } from '../../store/games/actions'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const logoMimir2 = require('../../../assets/images/mimir.png')
 const wallet = require('../../../assets/images/mimir_wallet.png')
 const stack = require('../../../assets/images/mimir_stack.png')
+
+const thumbsUp = require('../../../assets/images/thumbs-up-icon.png')
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -109,37 +113,44 @@ const AMOUNT: TextStyle = {
 	marginLeft: 10,
 }
 
-export const FinalScreen = ({ route, navigation }: FinalScreenProps) => {
-	const { prize } = route.params
-
+export const FinalScreen = ({ navigation }: FinalScreenProps) => {
 	const dispatch = useDispatch()
+	const { latestPrizeWon } = useSelector((state: RootState) => state.games)
 
 	useEffect(() => {
 		dispatch(getUserBalance())
 	}, [])
 
 	const navigateToDashboard = () => {
+		dispatch(removeCurrentGame())
 		navigation.navigate('Dashboard')
 	}
 
 	return (
 		<View testID="FinalScreen" style={FULL}>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
+			<Screen style={CONTAINER} backgroundColor={colors.transparent.transparent}>
 				<Image source={logoMimir} style={MIMIR} />
+				{latestPrizeWon ? (
+					<Container>
+						<Image source={wallet} style={WALLET} />
+						<Text style={CONGRATZ} preset="header" text="CONGRATULATIONS!" />
+						<Text style={CONGRATZ} preset="header" text="YOU HAVE WON:" />
+						<Spacer space={'medium'} />
+						<Container dir={'row'} centerHorizontal centerVertical>
+							<Image source={stack} style={STACK} />
+							<Spacer space={'medium'} />
+							<Image source={logoMimir2} style={TOKEN} />
+							<Text style={AMOUNT} preset="header" text={latestPrizeWon} />
+						</Container>
+					</Container>
+				) : (
+					<Container>
+						<Text style={CONGRATZ} typography={'h1'} text={'BETTER LUCK \n NEXT TIME!'} />
+						<Image source={thumbsUp} style={WALLET} />
+					</Container>
+				)}
 
-				<Image source={wallet} style={WALLET} />
-
-				<Text style={CONGRATZ} preset="header" text="CONGRATULATIONS!" />
-				<Text style={CONGRATZ} preset="header" text="YOU HAVE WON:" />
-				<Spacer space={'medium'} />
-				<Container dir={'row'} centerHorizontal centerVertical>
-					<Image source={stack} style={STACK} />
-					<Spacer space={'medium'} />
-
-					<Image source={logoMimir2} style={TOKEN} />
-					<Text style={AMOUNT} preset="header" text={prize} />
-				</Container>
 				<Spacer space={'larger'} />
 				<Container>
 					<Button style={JOIN} textStyle={DEMO_TEXT} text="CONTINUE" onPress={navigateToDashboard} />

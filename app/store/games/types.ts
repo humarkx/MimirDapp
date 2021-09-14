@@ -1,6 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa'
 import { GameModel } from '../../@types/games'
 import { QuestionModel } from '../../@types/question'
+import { GameState } from './reducers'
 
 const actionCreator = actionCreatorFactory()
 
@@ -12,6 +13,10 @@ export interface ErrorPayload {
 export interface CurrentQuestionModel {
 	question: QuestionModel
 	index: number
+	showResult: boolean
+	totalPlayers: number
+	dead: number
+	alive: number
 }
 
 export enum ActionsTypes {
@@ -28,6 +33,15 @@ export enum ActionsTypes {
 	SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION',
 	SET_CURRENT_QUESTION_SUCCESS = 'SET_CURRENT_QUESTION_SUCCESS',
 	SET_CURRENT_QUESTION_FAILED = 'SET_CURRENT_QUESTION_FAILED',
+	SHOW_QUESTION_RESULT = 'SHOW_QUESTION_RESULT',
+	SHOW_QUESTION_RESULT_SUCCESS = 'SHOW_QUESTION_RESULT_SUCCESS',
+	SHOW_QUESTION_RESULT_FAILED = 'SHOW_QUESTION_RESULT_FAILED',
+	SET_LATEST_PRIZE = 'SET_LATEST_PRIZE',
+	SET_LATEST_PRIZE_SUCCESS = 'SET_LATEST_PRIZE_SUCCESS',
+	SET_LATEST_PRIZE_FAILED = 'SET_LATEST_PRIZE_FAILED',
+	REMOVE_CURRENT_GAME = 'REMOVE_CURRENT_GAME',
+	REMOVE_CURRENT_GAME_SUCCESS = 'REMOVE_CURRENT_GAME_SUCCESS',
+	REMOVE_CURRENT_GAME_FAILED = 'REMOVE_CURRENT_GAME_FAILED',
 }
 
 export const GameActions = {
@@ -44,6 +58,15 @@ export const GameActions = {
 	SET_CURRENT_QUESTION: actionCreator<CurrentQuestionModel>(ActionsTypes.SET_CURRENT_QUESTION),
 	SET_CURRENT_QUESTION_SUCCESS: actionCreator<CurrentQuestionModel>(ActionsTypes.SET_CURRENT_QUESTION_SUCCESS),
 	SET_CURRENT_QUESTION_FAILED: actionCreator<ErrorPayload>(ActionsTypes.SET_CURRENT_QUESTION_FAILED),
+	SHOW_QUESTION_RESULT: actionCreator<boolean>(ActionsTypes.SHOW_QUESTION_RESULT),
+	SHOW_QUESTION_RESULT_SUCCESS: actionCreator<boolean>(ActionsTypes.SHOW_QUESTION_RESULT_SUCCESS),
+	SHOW_QUESTION_RESULT_FAILED: actionCreator<ErrorPayload>(ActionsTypes.SHOW_QUESTION_RESULT_FAILED),
+	SET_LATEST_PRIZE: actionCreator<number>(ActionsTypes.SET_LATEST_PRIZE),
+	SET_LATEST_PRIZE_SUCCESS: actionCreator<number>(ActionsTypes.SET_LATEST_PRIZE_SUCCESS),
+	SET_LATEST_PRIZE_FAILED: actionCreator<ErrorPayload>(ActionsTypes.SET_LATEST_PRIZE_FAILED),
+	REMOVE_CURRENT_GAME: actionCreator(ActionsTypes.REMOVE_CURRENT_GAME),
+	REMOVE_CURRENT_GAME_SUCCESS: actionCreator<GameState>(ActionsTypes.REMOVE_CURRENT_GAME_SUCCESS),
+	REMOVE_CURRENT_GAME_FAILED: actionCreator<ErrorPayload>(ActionsTypes.REMOVE_CURRENT_GAME_FAILED),
 }
 
 export type GameActionsTypes =
@@ -60,3 +83,12 @@ export type GameActionsTypes =
 	| ReturnType<typeof GameActions.SET_CURRENT_QUESTION>
 	| ReturnType<typeof GameActions.SET_CURRENT_QUESTION_SUCCESS>
 	| ReturnType<typeof GameActions.SET_CURRENT_QUESTION_FAILED>
+	| ReturnType<typeof GameActions.SHOW_QUESTION_RESULT>
+	| ReturnType<typeof GameActions.SHOW_QUESTION_RESULT_SUCCESS>
+	| ReturnType<typeof GameActions.SHOW_QUESTION_RESULT_FAILED>
+	| ReturnType<typeof GameActions.SET_LATEST_PRIZE>
+	| ReturnType<typeof GameActions.SET_LATEST_PRIZE_SUCCESS>
+	| ReturnType<typeof GameActions.SET_LATEST_PRIZE_FAILED>
+	| ReturnType<typeof GameActions.REMOVE_CURRENT_GAME>
+	| ReturnType<typeof GameActions.REMOVE_CURRENT_GAME_SUCCESS>
+	| ReturnType<typeof GameActions.REMOVE_CURRENT_GAME_FAILED>

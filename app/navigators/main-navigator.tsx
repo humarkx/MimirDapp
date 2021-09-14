@@ -49,7 +49,7 @@ export function MainNavigator() {
 			<Stack.Screen name="Game" component={GameScreen} />
 			<Stack.Screen name="GameLobby" component={GameLobbyScreen} />
 			<Stack.Screen name="question" component={QuestionScreen} />
-			<Stack.Screen name="final" component={FinalScreen} />
+			<Stack.Screen name="Final" component={FinalScreen} />
 		</Stack.Navigator>
 	)
 }

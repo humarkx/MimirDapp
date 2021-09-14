@@ -3,11 +3,23 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { ImageStyle, TextStyle, View, ViewStyle, StyleSheet, Alert, Dimensions } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import * as Progress from 'react-native-progress'
-import { Button, Text, Screen, Wallpaper, Image, Header, Question, ActivityIndicator, Spacer } from '../../components'
+import {
+	Button,
+	Text,
+	Screen,
+	Wallpaper,
+	Image,
+	Header,
+	Question,
+	ActivityIndicator,
+	Spacer,
+	ScreenWrapper,
+} from '../../components'
 import socket from '../../services/sockets'
 import { colors, spacing } from '../../theme'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
+import dayjs from 'dayjs'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const questionBackground = require('../../../assets/images/question_background.jpeg')
@@ -102,78 +114,34 @@ const MIMIR: ImageStyle = {
 	width: 120,
 	height: 100,
 }
-
+const PLAYERS: TextStyle = {
+	color: '#0EF3C5',
+	fontWeight: '500',
+	fontSize: 18,
+	lineHeight: 30,
+	textAlign: 'center',
+}
+const AMOUNT: TextStyle = {
+	fontSize: 18,
+	textAlign: 'center',
+	fontWeight: '400',
+}
 export const QuestionScreen = ({ navigation }) => {
 	const windowWidth = Dimensions.get('window').width
 	const [timer, setTimer] = useState(5)
-	const [question_number, setQuestionNumber] = useState(1)
-	const [question, setQuestion] = useState(null)
-	const [answerResult, setAnswerResult] = useState(false)
-	const { currentGame } = useSelector((state: RootState) => state.games)
-
-	socket.on('connect', () => {
-		console.log('::::::::::::::::::::: SOCKET CONNECTED :::::::::::::::: ')
-	})
-
-	socket.on('endGame', a => {
-		console.log('::::::::::::::::::::: endGame :::::::::::::::: ', a)
-		navigation.navigate('final', { prize: a.prize })
-	})
-
-	socket.on('results', a => {
-		setAnswerResult(true)
-		console.log('::::::::::::::::::::: RESULTS :::::::::::::::: ', a)
-	})
-
-	socket.on('result', a => {
-		console.log('::::::::::::::::::::: ANSWER RESULT :::::::::::::::: ', a)
-	})
-	socket.on('question', q => {
-		console.log('::::::::::::::::::::: question :::::::::::::::: ', q)
-		setAnswerResult(false)
-		setQuestion(q.event.question)
-		setQuestionNumber(q.event.index)
-	})
-
-	// TODO
-	// 25 seconds to respond
-	// 5 seconds before next question
-
-	// useEffect(() => {
-	// 	if (question) runTimer()
-	// }, [question._id])
-	//
-	// const runTimer = () => {
-	// 	setTimeout(() => {
-	// 		if (timer > 0) {
-	// 			setTimer(timer - 1)
-	// 		}
-	// 	}, 1000)
-	// }
-
-	// useEffect(() => {
-	// 	if (timer > 0) {
-	// 		setTimeout(() => {
-	// 			setTimer(timer - 0.1)
-	// 		}, 100)
-	// 	} else {
-	// 		setTimeout(() => {
-	// 			setTimer(5)
-	// 		}, 3000)
-	// 	}
-	// }, [timer])
+	const { currentGame, currentQuestion } = useSelector((state: RootState) => state.games)
 
 	const selectAnswer = i => {
-		const answerId = question.options[i]._id
-		const payload = { gameId: currentGame.refId, answerId: answerId, questionId: question._id, time: 0 }
+		const answerId = currentQuestion.question.options[i]._id
+		const payload = { gameId: currentGame.refId, answerId: answerId, questionId: currentQuestion.question._id, time: 0 }
 		socket.emit('answer', payload)
 	}
 
-	if (!question)
+	if (!currentQuestion.question)
 		return (
 			<View testID="GameScreen" style={FULL}>
 				<Wallpaper />
-				<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} />
+				{/*<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} />*/}
 				<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
 					<Text style={TITLE} text={'GET READY!!!'} />
 					<Spacer space={'huge'} />
@@ -182,16 +150,21 @@ export const QuestionScreen = ({ navigation }) => {
 			</View>
 		)
 	return (
-		<View testID="GameScreen" style={FULL}>
+		<ScreenWrapper testID="GameScreen" style={FULL} safeAreaView>
 			<Wallpaper backgroundImage={questionBackground} preset="cover" />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
+			<Screen style={CONTAINER} backgroundColor={colors.transparent.transparent} unsafe>
+				<View style={{ position: 'absolute', right: 30 }}>
+					<Text style={PLAYERS} preset="header" text="Players" />
+					<Text style={AMOUNT} preset="header" text={currentQuestion.totalPlayers} />
+				</View>
+				{/*<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} />*/}
 				<Image source={logoMimir} style={MIMIR} />
-				<Text style={TITLE} text={`Question ${question_number} of 20`} />
+				<Text style={TITLE} text={`Question ${currentQuestion.index} of 20`} />
 				<View style={{ flexDirection: 'row' }}>
 					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
 				</View>
-				<Question data={question} onPress={selectAnswer} showResult={answerResult} />
+				<Question data={currentQuestion.question} onPress={selectAnswer} showResult={currentQuestion.showResult} />
 			</Screen>
-		</View>
+		</ScreenWrapper>
 	)
 }

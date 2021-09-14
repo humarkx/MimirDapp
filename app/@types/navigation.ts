@@ -6,11 +6,11 @@ export type MainParamList = {
 	Dashboard: undefined
 	GameLobby: undefined
 	question: undefined
-	Game: { gameId: string }
+	Game: undefined
 	GameMode: { gameType: string }
 	Tournaments: { gameType: string }
 	demoList: undefined
-	Final: { prize: string }
+	Final: undefined
 }
 
 export type RootParamList = {

@@ -3,10 +3,11 @@ import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView, Alert } from 'react-native'
 import { Input } from 'react-native-elements'
-import { Button, Header, Screen, Text, Wallpaper, Image as Image, Spacer } from '../../../components'
+import { Button, Header, Screen, Text, Wallpaper, Image as Image, Spacer, ScreenWrapper } from '../../../components'
 import { colors, spacing, typography } from '../../../theme'
 import { useDispatch } from 'react-redux'
 import { login } from '../../../store/user/actions'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const mimirLogo = require('../../../..//assets/images/mimir_white.png')
 
@@ -121,35 +122,39 @@ export const LoginScreen = () => {
 	}
 
 	return (
-		<View testID="LoginScreen" style={FULL}>
+		<ScreenWrapper testID="LoginScreen" style={FULL} safeAreaView>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
-				<Header style={HEADER} titleStyle={HEADER_TITLE} />
-				<Image source={mimirLogo} style={BOWSER} />
-				<Text style={TITLE_WRAPPER}>
-					<Text style={TITLE} text="THE LIVESTREAMED, " />
-					<Text style={ALMOST} text="CRYPTO QUIZ APP" />
-					<Text style={TITLE} text="!" />
-				</Text>
-				<Input
-					autoCapitalize={'none'}
-					value={email}
-					onChangeText={setEmail}
-					textAlign={'center'}
-					style={{ color: '#F5F5F5' }}
-					placeholder="Username"
-					leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}
-				/>
-				<Input
-					autoCapitalize={'none'}
-					value={password}
-					onChangeText={setPassword}
-					textAlign={'center'}
-					style={{ color: '#F5F5F5' }}
-					placeholder="Password"
-					leftIcon={{ type: 'font-awesome', name: 'lock', color: '#F5F5F5' }}
-					secureTextEntry
-				/>
+			<Screen style={CONTAINER} preset="stroll" backgroundColor={colors.transparent.transparent} unsafe>
+				<KeyboardAwareScrollView>
+					<Header style={HEADER} titleStyle={HEADER_TITLE} />
+
+					<Image source={mimirLogo} style={BOWSER} />
+
+					<Text style={TITLE_WRAPPER}>
+						<Text style={TITLE} text="THE LIVESTREAMED, " />
+						<Text style={ALMOST} text="CRYPTO QUIZ APP" />
+						<Text style={TITLE} text="!" />
+					</Text>
+					<Input
+						autoCapitalize={'none'}
+						value={email}
+						onChangeText={setEmail}
+						textAlign={'center'}
+						style={{ color: '#F5F5F5' }}
+						placeholder="Username"
+						leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}
+					/>
+					<Input
+						autoCapitalize={'none'}
+						value={password}
+						onChangeText={setPassword}
+						textAlign={'center'}
+						style={{ color: '#F5F5F5' }}
+						placeholder="Password"
+						leftIcon={{ type: 'font-awesome', name: 'lock', color: '#F5F5F5' }}
+						secureTextEntry
+					/>
+				</KeyboardAwareScrollView>
 			</Screen>
 			<SafeAreaView>
 				<View style={FOOTER_CONTENT}>
@@ -173,6 +178,6 @@ export const LoginScreen = () => {
 					/>
 				</View>
 			</SafeAreaView>
-		</View>
+		</ScreenWrapper>
 	)
 }

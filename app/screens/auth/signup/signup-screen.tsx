@@ -4,9 +4,10 @@ import { useNavigation } from '@react-navigation/native'
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView, Alert } from 'react-native'
 import { Input } from 'react-native-elements'
 import { useDispatch } from 'react-redux'
-import { Button, Header, Screen, Text, Wallpaper, Image as Image, Spacer } from '../../../components'
+import { Button, Header, Screen, Text, Wallpaper, Image as Image, Spacer, ScreenWrapper } from '../../../components'
 import { register } from '../../../store/user/actions'
 import { colors, spacing, typography } from '../../../theme'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const mimirLogo = require('../../../..//assets/images/mimir_white.png')
 
@@ -107,53 +108,54 @@ export const SignUpScreen = () => {
 	}
 
 	return (
-		<View testID="SignUpScreen" style={FULL}>
+		<ScreenWrapper testID="SignUpScreen" style={FULL} safeAreaView>
 			<Wallpaper />
-			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent}>
+			<Screen style={CONTAINER} preset="scroll" backgroundColor={colors.transparent.transparent} unsafe>
 				<Header style={HEADER} titleStyle={HEADER_TITLE} />
-
-				<Image source={mimirLogo} style={BOWSER} />
-				<Text style={TITLE_WRAPPER}>
-					<Text style={TITLE} text="THE LIVESTREAMED, " />
-					<Text style={ALMOST} text="CRYPTO QUIZ APP" />
-					<Text style={TITLE} text="!" />
-				</Text>
-				{/*<Input*/}
-				{/*	value={username}*/}
-				{/*	onChangeText={setUsername}*/}
-				{/*	textAlign={'center'}*/}
-				{/*	style={{ color: '#F5F5F5' }}*/}
-				{/*	placeholder="Username"*/}
-				{/*	leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}*/}
-				{/*/>*/}
-				<Input
-					autoCapitalize={'none'}
-					value={username}
-					onChangeText={setUsername}
-					textAlign={'center'}
-					style={{ color: '#F5F5F5' }}
-					placeholder="Username"
-					leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}
-				/>
-				<Input
-					autoCapitalize={'none'}
-					value={email}
-					onChangeText={setEmail}
-					textAlign={'center'}
-					style={{ color: '#F5F5F5' }}
-					placeholder="Email"
-					leftIcon={{ type: 'font-awesome', name: 'envelope', color: '#F5F5F5' }}
-				/>
-				<Input
-					autoCapitalize={'none'}
-					value={password}
-					onChangeText={setPassword}
-					textAlign={'center'}
-					style={{ color: '#F5F5F5' }}
-					placeholder="Password"
-					leftIcon={{ type: 'font-awesome', name: 'lock', color: '#F5F5F5' }}
-					secureTextEntry
-				/>
+				<KeyboardAwareScrollView>
+					<Image source={mimirLogo} style={BOWSER} />
+					<Text style={TITLE_WRAPPER}>
+						<Text style={TITLE} text="THE LIVESTREAMED, " />
+						<Text style={ALMOST} text="CRYPTO QUIZ APP" />
+						<Text style={TITLE} text="!" />
+					</Text>
+					{/*<Input*/}
+					{/*	value={username}*/}
+					{/*	onChangeText={setUsername}*/}
+					{/*	textAlign={'center'}*/}
+					{/*	style={{ color: '#F5F5F5' }}*/}
+					{/*	placeholder="Username"*/}
+					{/*	leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}*/}
+					{/*/>*/}
+					<Input
+						autoCapitalize={'none'}
+						value={username}
+						onChangeText={setUsername}
+						textAlign={'center'}
+						style={{ color: '#F5F5F5' }}
+						placeholder="Username"
+						leftIcon={{ type: 'font-awesome', name: 'user', color: '#F5F5F5' }}
+					/>
+					<Input
+						autoCapitalize={'none'}
+						value={email}
+						onChangeText={setEmail}
+						textAlign={'center'}
+						style={{ color: '#F5F5F5' }}
+						placeholder="Email"
+						leftIcon={{ type: 'font-awesome', name: 'envelope', color: '#F5F5F5' }}
+					/>
+					<Input
+						autoCapitalize={'none'}
+						value={password}
+						onChangeText={setPassword}
+						textAlign={'center'}
+						style={{ color: '#F5F5F5' }}
+						placeholder="Password"
+						leftIcon={{ type: 'font-awesome', name: 'lock', color: '#F5F5F5' }}
+						secureTextEntry
+					/>
+				</KeyboardAwareScrollView>
 			</Screen>
 			<SafeAreaView>
 				<View style={FOOTER_CONTENT}>
@@ -170,6 +172,6 @@ export const SignUpScreen = () => {
 					<Button testID="next-screen-button" style={SIGNUP} textStyle={SIGNUP_TEXT} text={'LOGIN'} onPress={login} />
 				</View>
 			</SafeAreaView>
-		</View>
+		</ScreenWrapper>
 	)
 }

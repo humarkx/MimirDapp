@@ -62,7 +62,7 @@ const SELECTED_ANSWER_VIEW: ViewStyle = {
 	backgroundColor: '#038298',
 }
 
-export function Question({ data, onPress, showResult, totalPlayers }: QuestionProps) {
+export function Question({ data, onPress, showResult, answers }: QuestionProps) {
 	const [answerResult, setAnswerResult] = useState(null)
 	const [answer, setAnswer] = useState(null)
 
@@ -84,38 +84,41 @@ export function Question({ data, onPress, showResult, totalPlayers }: QuestionPr
 	}
 
 	const renderOptions = () => {
-		return data.options.map((option, i) => (
-			<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)} disabled={showResult || answer}>
-				<View
-					style={
-						answer === i
-							? !showResult
-								? SELECTED_ANSWER_VIEW
+		return data.options.map((option, i) => {
+			console.log('ANSWERS:::::', answers ? answers[i] : 'no', answers)
+			return (
+				<TouchableWithoutFeedback key={i} onPress={() => selectAnswer(i)} disabled={showResult || answer}>
+					<View
+						style={
+							answer === i
+								? !showResult
+									? SELECTED_ANSWER_VIEW
+									: option.correct
+									? CORRECT_ANSWER
+									: WRONG_ANSWER
+								: !showResult
+								? ANSWER_VIEW
 								: option.correct
 								? CORRECT_ANSWER
-								: WRONG_ANSWER
-							: !showResult
-							? ANSWER_VIEW
-							: option.correct
-							? CORRECT_ANSWER
-							: ANSWER_VIEW
-					}>
-					{answer === i && (
-						<Text
-							style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', left: 30, fontSize: 12 }]}
-							text={'Your answer'}
-						/>
-					)}
-					<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.text} />
-					{/*{showResult && (*/}
-					{/*	<Text*/}
-					{/*		style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}*/}
-					{/*		text={Math.floor(totalAnswers * option.answers * 0.01) + 'K'}*/}
-					{/*	/>*/}
-					{/*)}*/}
-				</View>
-			</TouchableWithoutFeedback>
-		))
+								: ANSWER_VIEW
+						}>
+						{answer === i && (
+							<Text
+								style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', left: 30, fontSize: 12 }]}
+								text={'Your answer'}
+							/>
+						)}
+						<Text style={answer === i ? SELECTED_ANSWER : ANSWER} text={option.text} />
+						{showResult && (
+							<Text
+								style={[answer === i ? SELECTED_ANSWER : ANSWER, { position: 'absolute', right: 30 }]}
+								text={answers[i] ?? '0'}
+							/>
+						)}
+					</View>
+				</TouchableWithoutFeedback>
+			)
+		})
 	}
 
 	return (

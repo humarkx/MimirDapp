@@ -20,6 +20,7 @@ import { colors, spacing } from '../../theme'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import dayjs from 'dayjs'
+import { getRemainingTimeUntilMsTimestamp } from '../../components/countdown-timer/countdown-timer-utils'
 
 const logoMimir = require('../../../assets/images/mimir_white.png')
 const questionBackground = require('../../../assets/images/question_background.jpeg')
@@ -126,16 +127,36 @@ const AMOUNT: TextStyle = {
 	textAlign: 'center',
 	fontWeight: '400',
 }
+
 export const QuestionScreen = ({ navigation }) => {
 	const windowWidth = Dimensions.get('window').width
-	const [timer, setTimer] = useState(5)
 	const { currentGame, currentQuestion } = useSelector((state: RootState) => state.games)
-
+	const [timer, setTimer] = useState(100)
 	const selectAnswer = i => {
 		const answerId = currentQuestion.question.options[i]._id
 		const payload = { gameId: currentGame.refId, answerId: answerId, questionId: currentQuestion.question._id, time: 0 }
 		socket.emit('answer', payload)
 	}
+
+	useEffect(() => {
+		console.log('RE-RENDERING:::::')
+		const timer1 = setTimeout(() => {
+			setTimer(timer - 1.3)
+		}, 100)
+
+		// this will clear Timeout
+		// when component unmount like in willComponentUnmount
+		// and show will not change to true
+		return () => {
+			clearTimeout(timer1)
+		}
+	}, [timer])
+
+	useEffect(() => {
+		if (currentQuestion.question) {
+			setTimer(100)
+		}
+	}, [currentQuestion?.question?._id])
 
 	if (!currentQuestion.question)
 		return (
@@ -157,13 +178,20 @@ export const QuestionScreen = ({ navigation }) => {
 					<Text style={PLAYERS} preset="header" text="Players" />
 					<Text style={AMOUNT} preset="header" text={currentQuestion.totalPlayers} />
 				</View>
-				{/*<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} />*/}
+				<Header leftIcon={'arrow-left'} onLeftPress={navigation.goBack} />
 				<Image source={logoMimir} style={MIMIR} />
 				<Text style={TITLE} text={`Question ${currentQuestion.index} of 20`} />
-				<View style={{ flexDirection: 'row' }}>
-					<Progress.Bar progress={timer / 5} width={windowWidth - 30} color={'#0EF3C5'} />
+				<View style={{ flexDirection: 'row', minHeight: 8 }}>
+					{!currentQuestion.showResult && (
+						<Progress.Bar progress={timer / 100} width={windowWidth - 30} color={'#0EF3C5'} />
+					)}
 				</View>
-				<Question data={currentQuestion.question} onPress={selectAnswer} showResult={currentQuestion.showResult} />
+				<Question
+					data={currentQuestion.question}
+					answers={currentQuestion.answers}
+					onPress={selectAnswer}
+					showResult={currentQuestion.showResult}
+				/>
 			</Screen>
 		</ScreenWrapper>
 	)

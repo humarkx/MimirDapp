@@ -45,11 +45,12 @@ const GamesReducer = reducerWithInitialState(matchesInitialState)
 		...state,
 		latestPrizeWon,
 	}))
-	.case(GameActions.SHOW_QUESTION_RESULT_SUCCESS, (state, showResult) => ({
+	.case(GameActions.SHOW_QUESTION_RESULT_SUCCESS, (state, result) => ({
 		...state,
 		currentQuestion: {
 			...state.currentQuestion,
-			showResult,
+			showResult: result.showResult,
+			answers: result.answers,
 		},
 		loadingQuestion: false,
 	}))

@@ -24,12 +24,5 @@ export const CountdownTimer = ({ countdownTimestampMs }) => {
 		setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown))
 	}
 
-	return (
-		<View style={{ flexDirection: 'row' }}>
-			<Text>{remainingTime.hours}:</Text>
-			<Text>{remainingTime.minutes}:</Text>
-
-			<Text>{remainingTime.seconds}</Text>
-		</View>
-	)
+	return remainingTime.seconds
 }

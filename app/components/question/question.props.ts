@@ -17,10 +17,14 @@ export interface QuestionProps extends ViewProps {
 	onPress: (number) => void
 
 	/**
-	 * Answer result.
+	 * Show answer result.
 	 */
 	showResult: boolean
 
+	/**
+	 * Answers.
+	 */
+	answers: number[]
 	/**
 	 * An optional style override useful for padding & margin.
 	 */

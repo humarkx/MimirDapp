@@ -14,6 +14,7 @@ export interface CurrentQuestionModel {
 	question: QuestionModel
 	index: number
 	showResult: boolean
+	answers: number[]
 	totalPlayers: number
 	dead: number
 	alive: number
@@ -59,7 +60,9 @@ export const GameActions = {
 	SET_CURRENT_QUESTION_SUCCESS: actionCreator<CurrentQuestionModel>(ActionsTypes.SET_CURRENT_QUESTION_SUCCESS),
 	SET_CURRENT_QUESTION_FAILED: actionCreator<ErrorPayload>(ActionsTypes.SET_CURRENT_QUESTION_FAILED),
 	SHOW_QUESTION_RESULT: actionCreator<boolean>(ActionsTypes.SHOW_QUESTION_RESULT),
-	SHOW_QUESTION_RESULT_SUCCESS: actionCreator<boolean>(ActionsTypes.SHOW_QUESTION_RESULT_SUCCESS),
+	SHOW_QUESTION_RESULT_SUCCESS: actionCreator<{ showResult: boolean; answers: number[] }>(
+		ActionsTypes.SHOW_QUESTION_RESULT_SUCCESS,
+	),
 	SHOW_QUESTION_RESULT_FAILED: actionCreator<ErrorPayload>(ActionsTypes.SHOW_QUESTION_RESULT_FAILED),
 	SET_LATEST_PRIZE: actionCreator<number>(ActionsTypes.SET_LATEST_PRIZE),
 	SET_LATEST_PRIZE_SUCCESS: actionCreator<number>(ActionsTypes.SET_LATEST_PRIZE_SUCCESS),

@@ -92,7 +92,10 @@ export function* SUBSCRIBE_TO_ALL_GAMES() {
 				case SocketEvents.RESULTS:
 					yield put({
 						type: GameActions.SHOW_QUESTION_RESULT.toString(),
-						payload: true,
+						payload: {
+							showResult: true,
+							answers: socketEvent.event.options,
+						},
 					})
 					break
 				case SocketEvents.END_GAME:
